@@ -7,12 +7,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import LoginSchreema, { LoginSchreemaType } from './LoginSchreema';
 // import Input from '../../components/Input/Input';
 import { AxiosError } from 'axios';
-import Api from '../../api/api';
 import { toast } from 'react-toastify';
 import { Button } from 'components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
 import { Input } from 'components/ui/input';
+import ApiService from 'api/ApiService';
 
+var Api = new ApiService();
 const Login: React.FC = () => {
   const nav = useNavigate();
   const [load, setLoad] = useState<boolean>(false);
@@ -30,21 +31,34 @@ const Login: React.FC = () => {
   async function LoginEntrar(data: LoginSchreemaType) {
     setLoad(true);
 
-    try {
-      var e = await Api.post<LoginDTO_Res>("/api/usuario/login", data);
-      if (e.status === 200 || e.status === 204) {
-        window.localStorage.setItem("token", e.data.token);
-        window.localStorage.setItem("funcao", e.data.funcao);
-        window.localStorage.setItem("exp", e.data.expiracao.toString());
+    // try {
+    //   var e = await Api.post<LoginDTO_Res>("/api/usuario/login", data);
+    //   if (e.status === 200 || e.status === 204) {
+    //     window.localStorage.setItem("token", e.data.token);
+    //     window.localStorage.setItem("funcao", e.data.funcao);
+    //     window.localStorage.setItem("exp", e.data.expiracao.toString());
+    //     setLoad(false);
+    //     nav("/a/")
+    //   }
+    // } catch (error) {
+    //   setLoad(false);
+    //   var errorData = error as AxiosError<{ mensagem: string }>;
+    //   toast.error(errorData.response?.data.mensagem);
+    // }
+    await Api.Post<LoginDTO_Res>({
+      errorTitle: "Falha no login!!",
+      data: data,
+      path: "/api/usuario/login",
+      thenCallback: (d) => {
+        window.localStorage.setItem("token", d.token);
+        window.localStorage.setItem("funcao", d.funcao);
+        window.localStorage.setItem("exp", d.exp.toString());
         setLoad(false);
         nav("/a/")
       }
-    } catch (error) {
-      setLoad(false);
-      var errorData = error as AxiosError<{ mensagem: string }>;
-      toast.error(errorData.response?.data.mensagem);
-    }
+    })
   }
+
 
   return (
     <div className='relative w-full h-screen'>

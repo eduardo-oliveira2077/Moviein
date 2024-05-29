@@ -19,12 +19,12 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     });
 
     if (user === null)
-      return res.status(400).send({ mensagem: "Usuário com esse email não encontrado." });
+      return res.badRequest("Usuário com esse email não encontrado.")
 
     var senhaEncr = MD5(senha).toString();
     if (senhaEncr !== user.senha)
-      return res.status(400).send({ mensagem: "Senha inválida." });
-
+      // return res.status(400).send({ mensagem: "Senha inválida." });
+    return res.badRequest("Senha inválida.");
     var token = TokenService.encript(user.email, user.funcao);
 
     return res.status(200).send({

@@ -5,6 +5,7 @@ import { PrismaPg } from '@prisma/adapter-pg'
 import cors from '@fastify/cors';
 import UserController from "./controllers/UserController";
 import UserAuthorizationModel from "./models/UserAuthorizationModel";
+import { badRequestMiddleware, okMiddleware } from "./middlewares/RequestExceptions";
 
 declare module 'fastify' {
     interface FastifyRequest {
@@ -20,9 +21,13 @@ export const prismaClient = new PrismaClient({ adapter })
 const app = fastify();
 app.register(cors, {origin: true});
 
+app.addHook('onRequest', okMiddleware);
+app.addHook('onRequest', badRequestMiddleware);
+
 //controllers
 app.register(UserController, { prefix: "/api/usuario/"})
 //
+
 
 app.listen({
     port: process.env.PORT ? Number(process.env.PORT) : 3001,
