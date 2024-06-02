@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     ApiService.toast = toast;
-  }, [])
+  }, [toast])
   
 
   return (
