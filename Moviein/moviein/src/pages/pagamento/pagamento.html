@@ -18,15 +18,15 @@
             </div>
             <div class="form-group">
                 <label for="cartao">Número do Cartão:</label>
-                <input type="text" id="cartao" name="cartao" placeholder="1234567891234567" required>
+                <input type="number" id="cartao" name="cartao" placeholder="1234567891234567" required>
             </div>
             <div class="form-group">
                 <label for="validade">Data de Validade:</label>
-                <input type="text" id="validade" name="validade" placeholder="MM/AA" required>
+                <input type="date" id="validade" name="validade" placeholder="MM/AA" required>
             </div>
             <div class="form-group">
                 <label for="cvv">CVV:</label>
-                <input type="number" id="cvv" name="cvv" maxlength="3" placeholder="000" required>
+                <input type="number" id="cvv" name="cvv" placeholder="000" required>
             </div>
             <input type="submit" id="pagar"  value="Pagar">
             <button type="button" class="voltar" onclick="goBack()">Voltar</button>
@@ -39,6 +39,19 @@
         function goBack() {
             window.history.back();
         }
+        document.getElementById('cvv').addEventListener('input', function (e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    document.getElementById('cvv').addEventListener('input', function (e) {
+        if (this.value.length > 3) {
+            this.value = this.value.slice(0, 3); // Limita o tamanho máximo para 3 caracteres
+        }
+    });
+    document.getElementById('cartao').addEventListener('input', function (e) {
+        if (this.value.length > 16) {
+            this.value = this.value.slice(0, 16); // Limita o tamanho máximo para 3 caracteres
+        }
+    });
     </script>
 </body>
 </html>

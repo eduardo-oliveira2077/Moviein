@@ -37,7 +37,7 @@ label {
     margin-bottom: 5px;
     color: #fff;
 }
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="number"], input[type="date"]  {
     width: 100%;
     padding: 8px;
     border-radius: 4px;
