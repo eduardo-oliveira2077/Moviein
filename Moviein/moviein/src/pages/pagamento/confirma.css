@@ -59,3 +59,7 @@ button[type="button"] {
     content: '\21B6'; 
     margin-left: 5px;
 }
+.data-container {
+    font-size: 18px;
+    margin-top: 20px;
+}

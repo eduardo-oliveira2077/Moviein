@@ -9,3 +9,14 @@ function handleNewPayment() {
 function goBack() {
     window.history.back();
 }
+// Função para atualizar a data atual
+function atualizarData() {
+    var dataAtual = new Date();
+    var dataFormatada = dataAtual.toLocaleString();
+    document.getElementById('data-container').textContent = "Data:" + dataFormatada;
+}
+
+// Chamar a função para atualizar a data assim que a página for carregada
+window.onload = function() {
+    atualizarData();
+};
