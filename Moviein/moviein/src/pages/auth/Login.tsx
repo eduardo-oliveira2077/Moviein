@@ -35,9 +35,12 @@ const Login: React.FC = () => {
       thenCallback: (d) => {
         window.localStorage.setItem("token", d.token);
         window.localStorage.setItem("funcao", d.funcao);
-        window.localStorage.setItem("exp", d.exp.toString());
+        window.localStorage.setItem("exp", d.expiracao.toString());
         setLoad(false);
         nav("/a/")
+      },
+      catchCallback: () =>{
+        setLoad(false);
       }
     })
   }

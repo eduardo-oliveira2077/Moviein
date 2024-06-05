@@ -27,17 +27,17 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     return res.badRequest("Senha inválida.");
     var token = TokenService.encript(user.email, user.funcao);
 
-    return res.status(200).send({
+    return res.ok({
       token: token.token,
       funcao: token.funcao,
-      expiracao: token.expiracao
-    });
+      expiracao: token.expiracao   
+    })
 
   });
 
   instance.get("listar", async (req, res) => {
     const users = await prismaClient.usuario.findMany();
-    return res.code(200).send(users);
+    return res.ok(users);
   });
 
 
@@ -70,7 +70,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
           }
         }
       })
-      return res.status(200).send()
+      return res.ok(null);
 
     } catch (error) {
 
@@ -112,7 +112,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     });
     console.log(usuario, thumb);
     if (usuario == undefined)
-      return res.status(400).send("Usuário não encontrado.");
+      return res.badRequest("Usuário não encontrado.");
 
     await prismaClient.usuario.update({
       where: { email: req.user.email },
@@ -134,9 +134,9 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       titulo: "Moviein: Código de redefinição de senha."
     });
 
-    return res.code(200).send({
+    return res.ok({
       code: randomNumber.toString()
-    });
+    })
   })
 
   instance.post("resetPassword", async (req, res) => {
@@ -147,7 +147,8 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       }
     });
     if (usuario === null)
-      return res.code(400).send("Usuário não encontrado.");
+      // return res.code(400).send("Usuário não encontrado.");
+    return res.badRequest("Usuário não encontrado.");
 
     var novaSenha = MD5(senha).toString();
 
@@ -160,9 +161,10 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
           senha: novaSenha
         }
       });
-      return res.code(200).send("Senha redefinida com sucesso!");
+      return res.ok(null, "Senha redefinida com sucesso!")
     } catch (error) {
-      return res.code(400).send(error);
+      var errormessage = error as string;
+      return res.badRequest(errormessage);
     }
   })
 
@@ -183,7 +185,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         }
       })
 
-      return res.code(200).send();
+      return res.ok(null);
     }
   })
 

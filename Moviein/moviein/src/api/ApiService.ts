@@ -33,8 +33,8 @@ class ApiService {
 
 
     public async Get<T>(data: ResponseGetType<T>) {
-        var res = await Api.get<ResponseAxiosType<T>>(data.path)
         try {
+            var res = await Api.get<ResponseAxiosType<T>>(data.path)
             if (res.status === 200 || res.status === 201) {
                 if (data.thenCallback) data.thenCallback(res.data.data);
                 return res.data.data
@@ -58,9 +58,10 @@ class ApiService {
     }
 
     public async Post<T>(data: ResponsePostType<T>) {
-        var res = await Api.post<ResponseAxiosType<T>>(data.path, data.data)
         try {
-            if (res.status === 200 || res.status === 201) {
+            var res = await Api.post<ResponseAxiosType<T>>(data.path, data.data)
+            if (res.status === 200 || res.status === 201 || res.status === 204) {
+                // console.log(res.data)
                 if (data.thenCallback) data.thenCallback(res.data.data);
                 return res.data.data
             } else {
@@ -79,6 +80,8 @@ class ApiService {
                 duration: 3000,
                 className: "bg-red"
             })
+            alert("!")
+            if (data.catchCallback != null) data.catchCallback();
         }
     }
 
