@@ -20,3 +20,6 @@ document.getElementById('cartao').addEventListener('input', function (e) {
 document.getElementById('cartao').addEventListener('input', function (e) {
   this.value = this.value.replace(/[^0-9- --]/g, '');
 });
+document.getElementById('nome').addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+});
