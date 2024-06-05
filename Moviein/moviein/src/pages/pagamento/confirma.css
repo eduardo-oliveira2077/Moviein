@@ -5,6 +5,8 @@ body{
     background: linear-gradient(180deg, #865DFF 0%, rgb(0, 0, 0) 100%);
     font-family: poppins, sans-serif;
     padding-top: 40px;
+    font-size: 16px;
+    font-weight: bolder;
 }
 .confirmation-container {
     max-width: 600px;
@@ -37,11 +39,6 @@ button:hover {
 h1 {
     color: #4CAF50;
 }
-
-p {
-    font-size: 16px;
-}
-
 .details p {
     margin: 5px 0;
 }
@@ -58,4 +55,8 @@ button[type="button"] {
 .voltar::after {
     content: '\21B6'; 
     margin-left: 5px;
+}
+.data-container {
+    font-size: 18px;
+    margin-top: 20px;
 }
