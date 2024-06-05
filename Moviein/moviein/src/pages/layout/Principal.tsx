@@ -46,6 +46,82 @@ const Principal: React.FC = () => {
                             
                             </div>
                         </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                    </CarouselContent>
+
+                    <CarouselContent>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                    </CarouselContent>
+
+                    <CarouselContent>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem className='basis-1/5'>
+                            <div className='p-8 border-primary relative border-[1px] h-[200px] rounded-xl'>
+                            
+                            </div>
+                        </CarouselItem>
                     </CarouselContent>
                 </Carousel>
             </section>
