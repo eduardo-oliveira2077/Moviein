@@ -61,7 +61,6 @@ class ApiService {
         try {
             var res = await Api.post<ResponseAxiosType<T>>(data.path, data.data)
             if (res.status === 200 || res.status === 201 || res.status === 204) {
-                // console.log(res.data)
                 if (data.thenCallback) data.thenCallback(res.data.data);
                 return res.data.data
             } else {
@@ -80,7 +79,6 @@ class ApiService {
                 duration: 3000,
                 className: "bg-red"
             })
-            alert("!")
             if (data.catchCallback != null) data.catchCallback();
         }
     }

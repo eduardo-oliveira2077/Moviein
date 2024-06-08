@@ -29,7 +29,7 @@ const Login: React.FC = () => {
   async function LoginEntrar(data: LoginSchreemaType) {
     setLoad(true);
     await Api.Post<LoginDTO_Res>({
-      errorTitle: "Falha no login!!",
+      errorTitle: "Falha no login!",
       data: data,
       path: "/api/usuario/login",
       thenCallback: (d) => {

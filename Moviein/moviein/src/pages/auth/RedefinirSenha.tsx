@@ -1,24 +1,26 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import Api from 'api/api';
+import ApiService from 'api/ApiService';
+// import Api from 'api/api';
 import { Button } from 'components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
 import { Input } from 'components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from 'components/ui/input-otp';
+import { useToast } from 'components/ui/use-toast';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import * as yup from 'yup';
 type redefine = { code: string, email: string };
 
+const Api = new ApiService();
 const RedefinirSenhaSchreema = yup.object({
     senha: yup.string().required("Preenche a senha"),
     code: yup.string().required("Preenche o código de redefinição")
         .min(5, "código necessita de 5 números")
         .max(5, "código necessita de 5 números"),
     confirmarSenha: yup.string()
-    .oneOf([yup.ref("senha")], "As senhas não coincidem.")
-    .required("Preenche a confirmação de senha")
+        .oneOf([yup.ref("senha")], "As senhas não coincidem.")
+        .required("Preenche a confirmação de senha")
 })
 
 type RedefinirSenhaType = yup.InferType<typeof RedefinirSenhaSchreema>;
@@ -27,6 +29,7 @@ const RedefinirSenha: React.FC = () => {
     const { state } = useLocation();
     const [load, setLoad] = useState<boolean>(false);
     const { code, email } = state as redefine;
+    const { toast } = useToast();
     const nav = useNavigate();
     const form = useForm({
         resolver: yupResolver(RedefinirSenhaSchreema)
@@ -42,16 +45,20 @@ const RedefinirSenha: React.FC = () => {
                 senha: data.senha,
                 email: email
             }
-            try {
-                const res = await Api.post("api/usuario/resetPassword", req);
-                if (res.status === 200) {
-                    toast.success("Senha redefinida com sucesso!");
+
+            await Api.Post<null>({
+                data: req,
+                path: "api/usuario/resetPassword",
+                errorTitle: "Falha ao redefinir senha",
+                thenCallback(s) {
+                    toast({
+                        title: "Senha redefinida com sucesso!",
+                        duration: 2000,
+                        className: "bg-success text-background"
+                    });
                     nav("/login");
                 }
-            } catch (error) {
-                console.log(error);
-            }
-            setLoad(false);
+            })
         }
     }
 

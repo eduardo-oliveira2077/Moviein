@@ -12,6 +12,8 @@
     --card: 291 54% 97%;
     --background: 0 0% 100%;    
     --radius: 0.5rem;
+
+    --status-success: 144 74% 48%;
   } 
 
   .dark {
@@ -23,6 +25,8 @@
     --card: 245 21% 12%;
     --background:245 21% 12%;
     --radius: 0.5rem;
+
+    --status-success: 144 74% 48%;
   }
 }
 

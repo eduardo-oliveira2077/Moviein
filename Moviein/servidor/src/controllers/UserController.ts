@@ -126,6 +126,15 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
   instance.post("resetPasswordCode", async (req, res) => {
     const { email } = req.body as { email: string }
 
+    const usuario = await prismaClient.usuario.findFirst({
+      where: {
+        email: email
+      }
+    });
+
+    if(usuario == null)
+      return res.badRequest("Usuário com esse email não existe.");
+
     const randomNumber = Math.floor(10000 + Math.random() * 90000);
 
     await SendEMailService.Enviar({
