@@ -31,14 +31,14 @@ const PageValidate: React.FC = () => {
   }, [navigate]);
 
   async function loadPerfil() {
-    // setLoad(true);
     try {
       var user = await Api.get<UseContextType>("api/usuario/get");
+      console.log(user.data);
       setValue("nome", user.data.nome)
       setValue("email", user.data.email)
       setValue("thumb", user.data.thumb);
       setValue("auth2", user.data.auth2);
-      // setLoad(false);
+      setValue("funcao", user.data.funcao);
     } catch (err) {
 
     }
@@ -49,10 +49,12 @@ const PageValidate: React.FC = () => {
       try {
         var user = await Api.get<UseContextType>("api/usuario/get");
         if (user.status === 200 || user.status === 204) {
+      console.log(user.data);
           setValue("nome", user.data.nome)
           setValue("email", user.data.email)
           setValue("thumb", user.data.thumb)
           setValue("auth2", user.data.auth2)
+          setValue("funcao", user.data.funcao);
         }
       } catch (err) {
 
@@ -69,6 +71,7 @@ const PageValidate: React.FC = () => {
         nome: watch("nome"),
         thumb: watch("thumb"),
         auth2: watch("auth2"),
+        funcao: watch("funcao"),
         setValueUser: setValue,
         watchUser: watch,
         errorUser: errors,

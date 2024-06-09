@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import film from '../../assets/filme.png';
 import { Outlet, useNavigate } from "react-router-dom";
+import UserContext from "context/UserContext";
 
 type MenuItemPerfilType = {
     path: string
@@ -9,7 +10,7 @@ type MenuItemPerfilType = {
 
 const SidebarPerfil: React.FC = () => {
     const nav = useNavigate();
-
+    const { funcao } = useContext(UserContext);
     const MenuItemPerfil: React.FC<MenuItemPerfilType> = (i) => {
         const active = window.location.pathname === i.path;
         const activeBg = active ? "bg-primary/20 text-primary" : "text-text";
@@ -19,7 +20,6 @@ const SidebarPerfil: React.FC = () => {
             </div>
         )
     }
-
     return (
         <>
             <img src={film} alt="filmes" className="w-screen h-[60px] object-cover" />
@@ -29,9 +29,15 @@ const SidebarPerfil: React.FC = () => {
                         path="/a/perfil/dadosPrincipais"
                         titulo="Dados principais" />
 
-                    <MenuItemPerfil
-                        path="/a/perfil/meusVideos"
-                        titulo="Meus vídeos" />
+                    {
+                        funcao === "criador" && (
+                            <MenuItemPerfil
+                                path="/a/perfil/meusVideos"
+                                titulo="Meus vídeos" />
+                        )
+                    }
+
+
 
                 </div>
                 <div className="w-[70%] relative h[calc(100vh-60px)]">

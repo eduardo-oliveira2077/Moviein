@@ -17,6 +17,7 @@ type ResponseGetType<T> = {
 
 type ResponsePostType<T> = {
     path: string
+    formData?: boolean
     errorTitle: string
     data: any
     thenCallback?: (data: T) => any
@@ -59,7 +60,13 @@ class ApiService {
 
     public async Post<T>(data: ResponsePostType<T>) {
         try {
-            var res = await Api.post<ResponseAxiosType<T>>(data.path, data.data)
+            var res = await Api.post<ResponseAxiosType<T>>(data.path, data.data, {
+                headers: {
+                    "Content-Type": data.formData ? "multipart/form-data" : "application/json",
+                    "Accept": "application/json",
+                    "type": "formData"
+                }
+            })
             if (res.status === 200 || res.status === 201 || res.status === 204) {
                 if (data.thenCallback) data.thenCallback(res.data.data);
                 return res.data.data

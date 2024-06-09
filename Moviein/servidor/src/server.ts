@@ -3,15 +3,17 @@ import { PrismaClient } from "@prisma/client";
 import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
 import cors from '@fastify/cors';
+import fastifyMultipart from '@fastify/multipart';
 import UserController from "./controllers/UserController";
 import UserAuthorizationModel from "./models/UserAuthorizationModel";
 import { badRequestMiddleware, okMiddleware } from "./middlewares/RequestExceptions";
+import FilmeController from "./controllers/FilmeController";
 
 declare module 'fastify' {
-    interface FastifyRequest {
-      user: UserAuthorizationModel
-    }
+  interface FastifyRequest {
+    user: UserAuthorizationModel
   }
+}
 
 const connectionString = "postgres://dvlvctun:u1gQQ6T2PxiVXJAl1hA1GcjkWA-81PZv@kesavan.db.elephantsql.com/dvlvctun"
 const pool = new Pool({ connectionString })
@@ -19,19 +21,20 @@ const adapter = new PrismaPg(pool)
 export const prismaClient = new PrismaClient({ adapter })
 
 const app = fastify();
-app.register(cors, {origin: true});
-
+app.register(cors, { origin: true });
+app.register(fastifyMultipart);
 app.addHook('onRequest', okMiddleware);
 app.addHook('onRequest', badRequestMiddleware);
 
 //controllers
-app.register(UserController, { prefix: "/api/usuario/"})
+app.register(UserController, { prefix: "/api/usuario/" })
+app.register(FilmeController, { prefix: "/api/filme/" })
 //
 
 
 app.listen({
-    port: process.env.PORT ? Number(process.env.PORT) : 3001,
-    host: "0.0.0.0"
+  port: process.env.PORT ? Number(process.env.PORT) : 3001,
+  host: "0.0.0.0"
 }).then(() => {
-    console.log("Servidor rodando em porta:", `http://localhost:${process.env.PORT ? Number(process.env.PORT) : 3001}`);
+  console.log("Servidor rodando em porta:", `http://localhost:${process.env.PORT ? Number(process.env.PORT) : 3001}`);
 });

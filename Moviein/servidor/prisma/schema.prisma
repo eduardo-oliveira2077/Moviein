@@ -18,6 +18,7 @@ model Usuario {
   thumb             String?
   Auth2             Boolean?
   usuarioInformacao UsuarioInformacao?
+  Filme             Filme?
 }
 
 model UsuarioInformacao {
@@ -36,4 +37,24 @@ model UsuarioInformacao {
   cidade         String
   numero         String
   usuario        Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model Filme {
+  id              Int              @id @default(autoincrement())
+  autorId         Int              @unique
+  nome            String
+  categoria       String
+  referencia      String
+  imagemThumb     String
+  autor           Usuario          @relation(fields: [autorId], references: [id])
+  InformacaoFilme InformacaoFilme?
+}
+
+model InformacaoFilme {
+  id            Int    @id @default(autoincrement())
+  descricao     String @db.VarChar(180)
+  imagemCaminho String
+
+  filmeId       Int    @unique
+  filme Filme @relation(fields: [filmeId], references: [id])
 }

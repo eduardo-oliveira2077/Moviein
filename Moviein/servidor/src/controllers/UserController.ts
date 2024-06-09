@@ -98,6 +98,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         nome: usuario.nome,
         email: usuario.email,
         thumb: usuario.thumb,
+        funcao: usuario.funcao,
         auth2: usuario.Auth2
       })
     }
