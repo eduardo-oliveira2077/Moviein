@@ -46,6 +46,7 @@ model Filme {
   categoria       String
   referencia      String
   imagemThumb     String
+  classificacao   String
   autor           Usuario          @relation(fields: [autorId], references: [id])
   InformacaoFilme InformacaoFilme?
 }

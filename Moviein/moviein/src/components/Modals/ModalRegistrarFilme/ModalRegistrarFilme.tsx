@@ -11,6 +11,8 @@ import { Input } from 'components/ui/input';
 import { Textarea } from 'components/ui/textarea';
 import { MdClose, MdImage } from 'react-icons/md';
 import convertToBase64 from 'helpers/convertToBase64';
+import RegistrarFilmeDTO_res from 'models/RegistrarFilmeDTO_res';
+import { useToast } from 'components/ui/use-toast';
 
 type ModalRegistrarFilmeType = {
     children: React.ReactNode;
@@ -20,7 +22,7 @@ const Api = new ApiService();
 const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
     const [file, setFile] = useState<File | null>(null);
     const [etapa, setEtapa] = useState<number>(0);
-
+    const { toast } = useToast();
     const ImgDetailRef = useRef<HTMLInputElement>(null);
     const [imgDetail_select, setImgDetail_select] = useState<string | null>(null);
 
@@ -34,8 +36,25 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
         }
     });
 
-    async function change(data: RegistroFilmeSchemaType) {
-
+    async function registrar(data: RegistroFilmeSchemaType) {
+        //Cadastrar filme pelo banco
+        await Api.Post<RegistrarFilmeDTO_res>({
+            data: {
+                nome: data.nome,
+                descricao: data.descricao,
+                classificacao: data.classificacao,
+                thumbnail: thumb_select,
+                imageDetail: imgDetail_select
+            },
+            errorTitle: "Falha ao registrar informações filme",
+            path: "api/Filme/RegistroConteudo",
+            thenCallback(r) {
+                toast({
+                    title: "vídeo salvo com sucesso!",
+                    className: "bg-success text-dark"
+                })
+            }
+        })
     }
 
     return (
@@ -49,7 +68,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                     <DialogTitle>Upload do vídeo</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(change)}>
+                    <form onSubmit={form.handleSubmit(registrar)}>
                         {
                             etapa === 0 && <Etapa1_InserirVideo onchange={setFile} />
                         }
