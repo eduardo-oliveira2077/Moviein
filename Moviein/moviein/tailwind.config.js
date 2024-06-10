@@ -28,8 +28,12 @@ module.exports = {
         primary: "hsl(var(--primary))",
         redPalid: "hsl(var(--redPalid))",
         red: "hsl(var(--red))",
+        dark: "hsl(var(--dark))",
 
-        success: "hsl(var(--status-success))"
+        success: "hsl(var(--status-success))",
+        info: "hsl(var(--status-info))",
+        warning: "hsl(var(--status-warning))",
+        orange: "hsl(var(--status-orange))"
       },
       borderRadius: {
         lg: "var(--radius)",

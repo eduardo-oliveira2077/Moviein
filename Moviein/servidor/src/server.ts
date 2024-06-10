@@ -4,9 +4,9 @@ import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
 import cors from '@fastify/cors';
 import fastifyMultipart from '@fastify/multipart';
-import UserController from "./controllers/UserController";
 import UserAuthorizationModel from "./models/UserAuthorizationModel";
 import { badRequestMiddleware, okMiddleware } from "./middlewares/RequestExceptions";
+import UserController from "./controllers/UserController";
 import FilmeController from "./controllers/FilmeController";
 
 declare module 'fastify' {
