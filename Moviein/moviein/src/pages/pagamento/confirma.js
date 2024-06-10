@@ -2,9 +2,9 @@ function handlePrint() {
     window.print();
 }
 
-function handleNewPayment() {
+/*function handleNewPayment() {
     window.location.href = 'pagina_de_novo_pagamento.html';
-}
+}*/
 function goBack() {
     window.history.back();
 }

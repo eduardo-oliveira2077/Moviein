@@ -24,6 +24,7 @@ body{
     color: #fff;
 }
 button{
+    margin-top: 5px;
     background-color: #b14bec;
     color: #fff;
     border: none;
@@ -31,7 +32,7 @@ button{
     border-radius: 8px;
     cursor: pointer;
     font-family: poppins, sans-serif;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 button:hover {
     background-color: #5f2f80;
