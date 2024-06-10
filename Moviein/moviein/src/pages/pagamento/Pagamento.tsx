@@ -1,5 +1,6 @@
 import React from 'react';
-
+import ''
+import 'pages/pagamento/Pagamento.js'
 const Pagamento: React.FC = () => {
   const goBack = () => {
     // Implemente a lógica para voltar à página anterior
@@ -42,7 +43,6 @@ const Pagamento: React.FC = () => {
             </button>
           </form>
         </div>
-        <script src="pagamento.js"></script>
       </body>
     </html>
   );
