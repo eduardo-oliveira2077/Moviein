@@ -7,7 +7,6 @@ import LandingPage from "./pages/landingPage/Index";
 import DadosPrincipais from "./pages/layout/perfil/DadosPrincipais";
 import SidebarPerfil from "./components/SidebarPerfil/SidebarPerfil";
 import MeusVideos from "./pages/layout/perfil/MeusVideos";
-import Pagamento from "./pages/pagamento/Pagamento";
 import RedefinirSenha from "pages/auth/RedefinirSenha";
 import EnviarCodigo from "pages/auth/EnviarCodigo";
 import VisualFilme from "pages/layout/VisualFilme";
@@ -15,7 +14,7 @@ import { Toaster } from "components/ui/toaster";
 import { useToast } from "components/ui/use-toast";
 import { useEffect } from "react";
 import ApiService from "api/ApiService";
-import Doisfatores from "pages/doisfatores/Doisfatores";
+
 
 function App() {
   const { toast } = useToast();
@@ -35,7 +34,6 @@ function App() {
         <Route path="/enviarCodigo" element={<EnviarCodigo />} />
         <Route path="/redefinirSenha" element={<RedefinirSenha />} />
         {/* <Route path="/doisFatores" element={<Doisfatores />} /> */}
-        <Route path="/pagamento" element={<Pagamento />} />
 
 
         <Route path="/a/" element={<PageValidate />}>

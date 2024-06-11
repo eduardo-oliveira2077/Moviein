@@ -58,6 +58,7 @@ const Principal: React.FC = () => {
                 <div className='w-full absolute z-[10] h-[60px] bottom-0 left-0 bg-gradient-to-b from-transparent to-background'></div>
             </div>
             <section className='container mt-8'>
+                
             <Carousel>
                 <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>Novos Lançamentos</h3>
                     <CarouselContent>
@@ -83,7 +84,9 @@ const Principal: React.FC = () => {
                             </div>
                         </CarouselItem>
                     </CarouselContent>
+            </Carousel>
 
+            <Carousel>
                 <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>Animações</h3>
                     <CarouselContent>
                         <CarouselItem className='basis-1/5'>
@@ -122,7 +125,10 @@ const Principal: React.FC = () => {
                             </div>
                         </CarouselItem>
                     </CarouselContent>
+            </Carousel>
 
+
+            <Carousel>
                 <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>Drama</h3>
                     <CarouselContent>
                         <CarouselItem className='basis-1/5'>
