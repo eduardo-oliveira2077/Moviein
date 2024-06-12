@@ -21,13 +21,13 @@ const Sidebar: React.FC = () => {
                                 setOpen(false);
                                 nav("/a/perfil/dadosPrincipais");
                             }}>
-                                <img alt="avatar" src={thumb} className="w-[60px] h-[60px] rounded-full bg-dark flex items-center ml-10 mt-8" />
-                                <p className="ml-0 mt-10 p-0 text-text text-[23px]">
+                                <img alt="avatar" src={thumb} className="w-[60px] h-[60px] rounded-full bg-dark flex items-center ml-15 mt-5" />
+                                <p className="ml-0 mt-5 p-0 text-text text-[23px]">
                                     {nome}
                                 </p>
                             </div>
 
-                            <div className="flex flex-col justify-between mt-10">
+                            <div className="flex flex-col justify-between mt-8">
                             <ModalDesconectar/>
                             </div>
 
