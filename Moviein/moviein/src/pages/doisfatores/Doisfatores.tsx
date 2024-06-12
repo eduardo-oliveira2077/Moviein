@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import escudo from "assets/protect.png";
 const VerificacaoDoisFatores: React.FC = () => {
   const [digitos, setDigitos] = useState<number[]>(Array(4).fill(0));
   const digitoInputRef: React.RefObject<HTMLInputElement>[] = Array(4).fill(0).map(() => React.createRef());
@@ -24,11 +24,11 @@ const VerificacaoDoisFatores: React.FC = () => {
     <div className="bg-purple-600 min-h-screen flex justify-center items-center">
       <div className="container bg-white p-8 rounded-lg text-center">
         <div className="icone w-24 h-24 flex justify-center items-center bg-purple-600 rounded-full mx-auto mb-3">
-          <img src="assets/protect.png" alt="" className="w-16 h-16" />
+          <img src={escudo} alt="" className="w-16 h-16" />
         </div>
-        <h4 className="text-lg font-semibold mb-6">Código de verificação</h4>
+        <h4 className="text-lg font-semibold mb-6 text-gray-600">Código de Verificação</h4>
         <form>
-          <div className="grupoInputs flex justify-center mb-6">
+          <div className="grupoInputs flex justify-center mb-6 text-gray-800">
             {digitos.map((_, index) => (
               <input
                 key={index}
@@ -42,7 +42,7 @@ const VerificacaoDoisFatores: React.FC = () => {
               />
             ))}
           </div>
-          <button className={`w-full py-3 text-lg font-medium rounded-lg bg-purple-700 text-white ${digitos.every(d => d !== 0) ? 'opacity-100 cursor-pointer hover:bg-purple-600' : 'opacity-50 cursor-not-allowed'}`} disabled={!digitos.every(d => d !== 0)}>
+          <button className={`w-3/4 py-3 text-lg font-medium rounded-lg bg-purple-700 text-white ${digitos.every(d => d !== 0) ? 'opacity-100 cursor-pointer hover:bg-purple-600' : 'opacity-50 cursor-not-allowed'}`} disabled={!digitos.every(d => d !== 0)}>
             Verificar
           </button>
         </form>
