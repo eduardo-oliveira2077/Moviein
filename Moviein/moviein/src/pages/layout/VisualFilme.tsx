@@ -8,7 +8,7 @@ import pipoca from '../../assets/pipoca.png';
 
 const VisualFilme: React.FC = () => {
         return (
-          <div className="absolute mx-auto h-full w-full top-0 left-0 m-0 p-0 border-0 bg-cover" style={{ backgroundImage: `url(${fundo})` }}>
+    <div className="absolute mx-auto h-full w-full top-0 left-0 m-0 p-0 border-0 bg-cover" style={{ backgroundImage: `url(${fundo})`, backdropFilter: 'blur(5px)' }}>
           <div className="container ml-12">
             <img className="w-20 h-20 mt-16 ml-10" src={livre} alt="Ícone de Indicação" />
             <h1 className="text-white text-7xl font-semibold ml-10 mt-12">Kung Fu Panda 4</h1>
@@ -45,7 +45,7 @@ const VisualFilme: React.FC = () => {
                   <label>60%</label>
               </button>
           </div>
-        </div>
+      </div>
           );
         }
         
