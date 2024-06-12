@@ -44,7 +44,7 @@ const Sidebar: React.FC = () => {
 
                         </div>
 
-                        <div className="h-screen cursor-pointer w-[32px] fixed left-[50vh] flex items-center z-50" 
+                        <div className="h-screen cursor-pointer w-[32px] fixed left-[40vh] flex items-center z-50" 
                         onMouseLeave={() => setOpen(false)}
                         onClick={() => setOpen(false)}>
                             <IoIosArrowBack className="text-white text-[22px]" />
