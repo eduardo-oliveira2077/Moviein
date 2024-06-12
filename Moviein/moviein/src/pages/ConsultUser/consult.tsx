@@ -131,7 +131,7 @@ const UserConsultation: React.FC = () => {
                         Editar
                       </button>
                       <button
-                        className="bg-red-600 py-1 px-4 rounded-lg"
+                        className="bg-purple-900 py-1 px-4 rounded-lg"
                         onClick={() => handleDelete(index)}
                       >
                         Excluir

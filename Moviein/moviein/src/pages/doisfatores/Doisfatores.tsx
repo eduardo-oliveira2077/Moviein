@@ -12,9 +12,9 @@ const Doisfatores = () => {
           <form>
             <div className="grupoInputs flex justify-center">
               <input type="number" id="digito1" className="inputdigito w-16 h-16 text-2xl bg-gray-200 mx-1" maxLength={1} />
-              <input type="number" id="digito2" className="inputdigito w-16 h-16 text-2xl bg-gray-200 mx-1" maxLength={1} disabled />
-              <input type="number" id="digito3" className="inputdigito w-16 h-16 text-2xl bg-gray-200 mx-1" maxLength={1} disabled />
-              <input type="number" id="digito4" className="inputdigito w-16 h-16 text-2xl bg-gray-200 mx-1" maxLength={1} disabled />
+              <input type="number" id="digito2" className="inputdigito w-16 h-16 text-2xl bg-gray-200 mx-1" maxLength={1} />
+              <input type="number" id="digito3" className="inputdigito w-16 h-16 text-2xl bg-gray-200 mx-1" maxLength={1} />
+              <input type="number" id="digito4" className="inputdigito w-16 h-16 text-2xl bg-gray-200 mx-1" maxLength={1} />
             </div>
             <button className="ativo bg-purple-800 text-white w-full py-3 rounded-md text-lg font-medium mt-5 disabled:opacity-50" disabled>Verificar</button>
           </form>
