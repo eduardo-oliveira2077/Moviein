@@ -2,15 +2,16 @@ import React from 'react';
 // import Button from 'components/Button';
 import livre from '../../assets/filmes/livre.png';
 import fundo from '../../assets/filmes/fundopanda7.jpg';
+import fundo2 from '../../assets/filmes/pandafundo2.jpg';
 import tomate from '../../assets/tomate.png';
 import pipoca from '../../assets/pipoca.png';
 
 
 const VisualFilme: React.FC = () => {
         return (
-          <div className="absolute mx-auto h-full w-full top-0 left-0 m-0 p-0 border-0 bg-cover" style={{ backgroundImage: `url(${fundo})` }}>
+    <div className="absolute mx-auto h-full w-full top-0 left-0 m-0 p-0 border-0 bg-cover backdrop-blur-md" style={{ backgroundImage: `url(${fundo2})`, backdropFilter: 'blur(5px)' }}>
           <div className="container ml-12">
-            <img className="w-20 h-20 mt-16 ml-10" src={livre} alt="Ícone de Indicação" />
+            <img className="backdrop-blur-md w-20 h-20 mt-16 ml-10" src={livre} alt="Ícone de Indicação" />
             <h1 className="text-white text-7xl font-semibold ml-10 mt-12">Kung Fu Panda 4</h1>
             <h5 className="text-2xl  text-white font-normal leading-9 ml-10 mt-4 mb-16 max-w-6xl text-left">
             <br />
@@ -45,7 +46,7 @@ const VisualFilme: React.FC = () => {
                   <label>60%</label>
               </button>
           </div>
-        </div>
+      </div>
           );
         }
         
