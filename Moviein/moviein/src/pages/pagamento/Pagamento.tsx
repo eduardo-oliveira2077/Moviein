@@ -1,97 +1,49 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
+import moviein from '../../assets/logo.png';
 
 const Pagamento: React.FC = () => {
       const nav=useNavigate()
-      const pagarButtonRef = useRef<HTMLButtonElement | null>(null);
-      const cvvInputRef = useRef<HTMLInputElement | null>(null);
-      const cartaoInputRef = useRef<HTMLInputElement | null>(null);
-      const nomeInputRef = useRef<HTMLInputElement | null>(null);
-      
       useEffect(() => {
-        const pagarButton = pagarButtonRef.current;
-        const cvvInput = cvvInputRef.current;
-        const cartaoInput = cartaoInputRef.current;
-        const nomeInput = nomeInputRef.current;
-      
-        console.log('pagarButton:', pagarButton);
-        console.log('cvvInput:', cvvInput);
-        console.log('cartaoInput:', cartaoInput);
-        console.log('nomeInput:', nomeInput);
-
-        const handlePagarClick = () => {
-          window.location.href = 'https://sandbox.asaas.com/c/0azwtxohcx6pi0cq';
-        };
-    
-        const handleCVVInput = (e: Event) => {
-          const input = e.target as HTMLInputElement;
-          input.value = input.value.replace(/[^0-9]/g, '');
-          if (input.value.length > 3) {
-            input.value = input.value.slice(0, 3);
+        const cvvInput = document.getElementById('cvv') as HTMLInputElement;
+        cvvInput.addEventListener('input', function (e: Event) {
+          this.value = this.value.replace(/[^0-9]/g, '');
+        });
+        cvvInput.addEventListener('input', function (e: Event) {
+          if (this.value.length > 3) {
+            this.value = this.value.slice(0, 3);
           }
-        };
+        });
     
-        const handleCartaoInput = (e: Event) => {
-          const input = e.target as HTMLInputElement;
-          input.value = input.value.replace(/[^0-9- --]/g, '');
-          if (input.value.length > 19) {
-            input.value = input.value.slice(0, 19);
+        const cartaoInput = document.getElementById('cartao') as HTMLInputElement;
+        cartaoInput.addEventListener('input', function (e: Event) {
+          if (this.value.length > 19) {
+            this.value = this.value.slice(0, 19);
           }
-        };
+        });
+        cartaoInput.addEventListener('input', function (e: Event) {
+          this.value = this.value.replace(/[^0-9- --]/g, '');
+        });
     
-        const handleNomeInput = (e: Event) => {
-          const input = e.target as HTMLInputElement;
-          input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
-        };
-    
-        if (pagarButton) {
-          pagarButton.addEventListener('click', handlePagarClick);
-        }
-    
-        if (cvvInput) {
-          cvvInput.addEventListener('input', handleCVVInput);
-        }
-    
-        if (cartaoInput) {
-          cartaoInput.addEventListener('input', handleCartaoInput);
-        }
-    
-        if (nomeInput) {
-          nomeInput.addEventListener('input', handleNomeInput);
-        }
-    
-        // Cleanup listeners on component unmount
-        return () => {
-          if (pagarButton) {
-            pagarButton.removeEventListener('click', handlePagarClick);
-          }
-          if (cvvInput) {
-            cvvInput.removeEventListener('input', handleCVVInput);
-          }
-          if (cartaoInput) {
-            cartaoInput.removeEventListener('input', handleCartaoInput);
-          }
-          if (nomeInput) {
-            nomeInput.removeEventListener('input', handleNomeInput);
-          }
-        };
+        const nomeInput = document.getElementById('nome') as HTMLInputElement;
+        nomeInput.addEventListener('input', function (e: Event) {
+          this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
       }, []);
 
       return (
         <html lang="en">
           <head>
-            <link rel="stylesheet" href="./pay.css" />
+            <link rel="stylesheet" href="" />
             <link rel="icon" href="../../../build/favicon.ico" />
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>Tela de Pagamento</title>
           </head>
-          <body className="bg-gradient-to-b from-purple-700 to-black h-screen font-poppins">
-            <div className="container mx-auto my-20 p-10 bg-gray-900 rounded-lg shadow-lg flex flex-col items-center justify-between">
-              <img src="../../assets/logo.png" alt="Logo" className="Logo w-24" />
-              <h2 className="text-white">Tela de Pagamento</h2>
+          <body className="bg-gradient-to-b from-purple-700 to-black h-screen absolute inset-0 font-poppins">
+            <div className="container mx-auto w-2/4 my-20 p-10 bg-gray-900 rounded-lg shadow-lg flex flex-col items-center justify-between">
+              <img src={moviein} alt="Logo" className="Logo w-24" />
+              <h2 className="text-white mb-4 text-2xl">Tela de Pagamento</h2>
               <form>
                 <div className="form-group mb-5 max-w-md">
                   <label htmlFor="nome" className="block font-bold mb-1 text-white">
@@ -103,7 +55,7 @@ const Pagamento: React.FC = () => {
                     name="nome"
                     placeholder="nome completo"
                     required
-                    className="input"
+                    className="input bg-gray-800 rounded-lg border px-4 py-2"
                   />
                 </div>
                 <div className="form-group mb-5 max-w-md">
@@ -116,7 +68,7 @@ const Pagamento: React.FC = () => {
                     name="cartao"
                     placeholder="**** **** **** ****"
                     required
-                    className="input"
+                    className="input bg-gray-800 rounded-lg border px-4 py-2"
                   />
                 </div>
                 <div className="form-group mb-5 max-w-md">
@@ -129,7 +81,7 @@ const Pagamento: React.FC = () => {
                     name="validade"
                     placeholder="MM/AA"
                     required
-                    className="input"
+                    className="input bg-gray-800 rounded-lg border px-12 py-2"
                   />
                 </div>
                 <div className="form-group mb-5 max-w-md">
@@ -142,13 +94,17 @@ const Pagamento: React.FC = () => {
                     name="cvv"
                     placeholder="***"
                     required
-                    className="input"
+                    className="input bg-gray-800 rounded-lg border px-4 py-2"
                   />
                 </div>
-                <input type="submit" id="pagar" value="Pagar" className="btn-submit" />
-                <button type="button" className="btn-voltar" onClick={()=>nav(-1)}>
+                <div className='flex justify-between'>
+                <button type="button" id="pagar" className="btn-submit rounded-lg border px-4 py-2 bg-purple-600">
+                  Pagar
+                </button>
+                <button type="button" className="btn-voltar rounded-lg border px-4 py-2 bg-black-600" onClick={()=>nav(-1)}>
                   Voltar
                 </button>
+                </div>
               </form>
             </div>
           </body>
