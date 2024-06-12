@@ -22,8 +22,6 @@ import haikyuu from '../../assets/filmes/haikyuu.jpg';
 import tudoemtodo from '../../assets/filmes/tudoemtodo.jpg';
 import pandafundo from '../../assets/filmes/pandafundo.jpg';
 
-
-
 const Principal: React.FC = () => {
     const nav = useNavigate();
     const { theme } = useTheme();
@@ -58,32 +56,35 @@ const Principal: React.FC = () => {
                 <div className='w-full absolute z-[10] h-[60px] bottom-0 left-0 bg-gradient-to-b from-transparent to-background'></div>
             </div>
             <section className='container mt-8'>
-            <Carousel>
-                <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>Novos Lançamentos</h3>
-                    <CarouselContent>
-                        <CarouselItem className='basis-1/5'>
-                            <div className='relative pt-[140%] border-primary border-[2px] rounded-xl hover:shadow-[0_6px_16px_0_rgba(134,93,255,0.5)]'>
-                                <Link to="#">
-                                <img className="absolute top-0 left-0 w-full h-full object-cover rounded-lg" src={kungfupandacover2} alt="" />
-                                </Link>
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className='basis-1/5'>
-                            <div className='relative pt-[140%] border-primary border-[2px] rounded-xl hover:shadow-[0_6px_16px_0_rgba(134,93,255,0.5)]'>
-                                <Link to="#">
-                                <img className="absolute top-0 left-0 w-full h-full object-cover rounded-lg" src={haikyuu} alt="" />
-                                </Link>
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem className='basis-1/5'>
-                            <div className='relative pt-[140%] border-primary border-[2px] rounded-xl hover:shadow-[0_6px_16px_0_rgba(134,93,255,0.5)]'>
-                                <Link to="#">
-                                <img className="absolute top-0 left-0 w-full h-full object-cover rounded-lg" src={vidaspassadas} alt="" />
-                                </Link>
-                            </div>
-                        </CarouselItem>
-                    </CarouselContent>
 
+        <Carousel>
+            <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>Novos Lançamentos</h3>
+                <CarouselContent>
+                    <CarouselItem className='basis-1/5'>
+                        <div className='relative pt-[140%] border-primary border-[2px] rounded-xl hover:shadow-[0_6px_16px_0_rgba(134,93,255,0.5)]'>
+                            <Link to="#">
+                            <img className="absolute top-0 left-0 w-full h-full object-cover rounded-lg" src={kungfupandacover2} alt="" />
+                            </Link>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem className='basis-1/5'>
+                        <div className='relative pt-[140%] border-primary border-[2px] rounded-xl hover:shadow-[0_6px_16px_0_rgba(134,93,255,0.5)]'>
+                            <Link to="#">
+                            <img className="absolute top-0 left-0 w-full h-full object-cover rounded-lg" src={haikyuu} alt="" />
+                            </Link>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem className='basis-1/5'>
+                        <div className='relative pt-[140%] border-primary border-[2px] rounded-xl hover:shadow-[0_6px_16px_0_rgba(134,93,255,0.5)]'>
+                            <Link to="#">
+                            <img className="absolute top-0 left-0 w-full h-full object-cover rounded-lg" src={vidaspassadas} alt="" />
+                            </Link>
+                        </div>
+                    </CarouselItem>
+                </CarouselContent>
+            </Carousel>
+
+            <Carousel>
                 <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>Animações</h3>
                     <CarouselContent>
                         <CarouselItem className='basis-1/5'>
@@ -122,7 +123,9 @@ const Principal: React.FC = () => {
                             </div>
                         </CarouselItem>
                     </CarouselContent>
+            </Carousel>
 
+            <Carousel>
                 <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>Drama</h3>
                     <CarouselContent>
                         <CarouselItem className='basis-1/5'>
@@ -179,7 +182,6 @@ const Principal: React.FC = () => {
                     }
                     </div>
             </footer>
-
         </main>
     );
 }
