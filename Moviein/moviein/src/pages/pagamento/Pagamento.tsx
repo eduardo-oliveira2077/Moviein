@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import "./pay.css"
 
     const Pagamento: React.FC = () => {
       const nav=useNavigate()
