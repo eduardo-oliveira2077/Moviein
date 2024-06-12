@@ -1,16 +1,4 @@
 import React, { useState } from 'react';
-
-import './App.css';
-import consult from './consult';
-
-function App() {
-  return (
-    <div className="App">
-      <UserConsultation />
-    </div>
-  );
-}
-
 interface Contact {
   nome: string;
   nascimento: string;
