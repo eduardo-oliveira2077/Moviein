@@ -4,7 +4,7 @@ import { Button } from 'components/ui/button';
 const Assinatura: React.FC = () => {
     return (
     <>
-      <section className='container mx-auto mb-[120px]'>
+      <section className='container mx-auto   mt-[50px]'>
         <div className='col-span-3 text-center'>
           <h2 className='font-bold text-3xl mb-4'>Planos de Assinatura</h2>
           <p></p>
