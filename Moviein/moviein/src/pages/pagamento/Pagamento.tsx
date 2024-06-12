@@ -2,13 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-    const Pagamento: React.FC = () => {
+
+const Pagamento: React.FC = () => {
       const nav=useNavigate()
       const pagarButtonRef = useRef<HTMLButtonElement | null>(null);
       const cvvInputRef = useRef<HTMLInputElement | null>(null);
       const cartaoInputRef = useRef<HTMLInputElement | null>(null);
       const nomeInputRef = useRef<HTMLInputElement | null>(null);
-    
+      
       useEffect(() => {
         const pagarButton = pagarButtonRef.current;
         const cvvInput = cvvInputRef.current;
@@ -78,46 +79,80 @@ import { useNavigate } from 'react-router-dom';
         };
       }, []);
 
-  return (
-    <html lang="en">
-      <head>
-        <link rel="stylesheet" href="pay.css" />
-        <link rel="icon" href="../../../build/favicon.ico" />
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Tela de Pagamento</title>
-      </head>
-      <body>
-        <div className="animated-background"></div>
-        <div className="container">
-          <img alt="" className="Logo" src="../../assets/logo.png" />
-          <h2>Tela de Pagamento</h2>
-          <form>
-            <div className="form-group">
-              <label htmlFor="nome">Nome do Titular:</label>
-              <input type="text" id="nome" name="nome" placeholder="nome completo" required />
+      return (
+        <html lang="en">
+          <head>
+            <link rel="stylesheet" href="./pay.css" />
+            <link rel="icon" href="../../../build/favicon.ico" />
+            <meta charSet="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Tela de Pagamento</title>
+          </head>
+          <body className="bg-gradient-to-b from-purple-700 to-black h-screen font-poppins">
+            <div className="container mx-auto my-20 p-10 bg-gray-900 rounded-lg shadow-lg flex flex-col items-center justify-between">
+              <img src="../../assets/logo.png" alt="Logo" className="Logo w-24" />
+              <h2 className="text-white">Tela de Pagamento</h2>
+              <form>
+                <div className="form-group mb-5 max-w-md">
+                  <label htmlFor="nome" className="block font-bold mb-1 text-white">
+                    Nome do Titular:
+                  </label>
+                  <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    placeholder="nome completo"
+                    required
+                    className="input"
+                  />
+                </div>
+                <div className="form-group mb-5 max-w-md">
+                  <label htmlFor="cartao" className="block font-bold mb-1 text-white">
+                    Número do Cartão:
+                  </label>
+                  <input
+                    type="text"
+                    id="cartao"
+                    name="cartao"
+                    placeholder="**** **** **** ****"
+                    required
+                    className="input"
+                  />
+                </div>
+                <div className="form-group mb-5 max-w-md">
+                  <label htmlFor="validade" className="block font-bold mb-1 text-white">
+                    Data de Validade:
+                  </label>
+                  <input
+                    type="date"
+                    id="validade"
+                    name="validade"
+                    placeholder="MM/AA"
+                    required
+                    className="input"
+                  />
+                </div>
+                <div className="form-group mb-5 max-w-md">
+                  <label htmlFor="cvv" className="block font-bold mb-1 text-white">
+                    CVV:
+                  </label>
+                  <input
+                    type="number"
+                    id="cvv"
+                    name="cvv"
+                    placeholder="***"
+                    required
+                    className="input"
+                  />
+                </div>
+                <input type="submit" id="pagar" value="Pagar" className="btn-submit" />
+                <button type="button" className="btn-voltar" onClick={()=>nav(-1)}>
+                  Voltar
+                </button>
+              </form>
             </div>
-            <div className="form-group">
-              <label htmlFor="cartao">Número do Cartão:</label>
-              <input type="text" id="cartao" name="cartao" placeholder="**** **** **** ****" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="validade">Data de Validade:</label>
-              <input type="date" id="validade" name="validade" placeholder="MM/AA" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="cvv">CVV:</label>
-              <input type="number" id="cvv" name="cvv" placeholder="***" required />
-            </div>
-            <input type="submit" id="pagar" value="Pagar" />
-            <button type="button" className="voltar" onClick={()=>nav(-1)}>
-              Voltar
-            </button>
-          </form>
-        </div>
-      </body>
-    </html>
-  );
-};
-
+          </body>
+        </html>
+      );
+    };
 export default Pagamento;
