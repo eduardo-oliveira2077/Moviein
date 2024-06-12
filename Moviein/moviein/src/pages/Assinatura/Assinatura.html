@@ -11,11 +11,11 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
-<script>
+  <script>
     function goBack() {
       window.history.back();
-  }
-</script>
+    }
+  </script>
 </head>
 
 <body>
@@ -31,9 +31,7 @@
           <p class="card_paragraph">
           </p>
         </div>
-        <!-- <hr class="line" /> -->
         <div style="display: flex;">
-
           <div>
             <div class="line-v"></div>
           </div>
@@ -71,10 +69,9 @@
               <span class="list_text">Anúncios.</span>
             </li>
             <p class="price">R$ 18,00/mês</p>
-            <label class="container">
-              <input checked="checked" type="checkbox">
-              <div class="checkmark"></div>
-            </label>
+            <button class="bt_payment" onclick="window.location.href='../../Moviein/moviein/src/pages/pagamento/pagamento.html'">
+              Escolher Plano Mensal
+            </button>
           </ul>
         </div>
       </div>
@@ -86,9 +83,7 @@
           <p class="card_paragraph">
           </p>
         </div>
-        <!-- <hr class="line" /> -->
         <div style="display: flex;">
-
           <div>
             <div class="line-v"></div>
           </div>
@@ -126,10 +121,9 @@
               <span class="list_text">Sem anúncios.</span>
             </li>
             <p class="price">R$ 113,40/semestral</p>
-            <label class="container">
-              <input checked="checked" type="checkbox">
-              <div class="checkmark"></div>
-            </label>
+            <button class="bt_payment" onclick="window.location.href='../../Moviein/moviein/src/pages/pagamento/pagamento.html'">
+              Escolher Plano Semestral
+            </button>
           </ul>
         </div>
       </div>
@@ -141,9 +135,7 @@
           <p class="card_paragraph">
           </p>
         </div>
-        <!-- <hr class="line" /> -->
         <div style="display: flex;">
-
           <div>
             <div class="line-v"></div>
           </div>
@@ -181,10 +173,9 @@
               <span class="list_text">Sem anúncios.</span>
             </li>
             <p class="price">R$ 226,80/ano</p>
-            <label class="container">
-              <input checked="checked" type="checkbox">
-              <div class="checkmark"></div>
-            </label>
+            <button class="bt_payment" onclick="window.location.href='../../Moviein/moviein/src/pages/pagamento/pagamento.html'">
+              Escolher Plano Anual
+            </button>
           </ul>
         </div>
       </div>
@@ -196,16 +187,15 @@
         </span>
       </button>
       <div class="payment">
-        <A href="../../Moviein/moviein/src/pages/pagamento/pagamento.html" class="bt_payment" type="button">
+        <a href="../../Moviein/moviein/src/pages/pagamento/pagamento.html" class="bt_payment" type="button">
           <span>
             Continuar para pagamento
           </span>
-        </A>
+        </a>
       </div>
     </div>
     </section>
     </main>
-
   </div>
 </body>
 
