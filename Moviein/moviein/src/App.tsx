@@ -16,6 +16,8 @@ import { useToast } from "components/ui/use-toast";
 import { useEffect } from "react";
 import ApiService from "api/ApiService";
 import Doisfatores from "pages/doisfatores/Doisfatores";
+import Assinatura from "pages/Assinatura/Assinatura";
+import UserConsultation from "pages/ConsultUser/consult";
 
 function App() {
   const { toast } = useToast();
@@ -34,8 +36,10 @@ function App() {
         <Route path="/registro" element={<Register />} />
         <Route path="/enviarCodigo" element={<EnviarCodigo />} />
         <Route path="/redefinirSenha" element={<RedefinirSenha />} />
-        {/* <Route path="/doisFatores" element={<Doisfatores />} /> */}
+        <Route path="/doisFatores" element={<Doisfatores />} />
         <Route path="/pagamento" element={<Pagamento />} />
+        <Route path="/assinatura" element={<Assinatura />} />
+        <Route path="/consulta" element={<UserConsultation />} />
 
 
         <Route path="/a/" element={<PageValidate />}>

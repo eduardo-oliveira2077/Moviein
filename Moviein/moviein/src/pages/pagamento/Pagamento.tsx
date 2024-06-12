@@ -1,10 +1,82 @@
-import React from 'react';
-import ''
-import 'pages/pagamento/Pagamento.js'
-const Pagamento: React.FC = () => {
-  const goBack = () => {
-    // Implemente a lógica para voltar à página anterior
-  };
+import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
+    const Pagamento: React.FC = () => {
+      const nav=useNavigate()
+      const pagarButtonRef = useRef<HTMLButtonElement | null>(null);
+      const cvvInputRef = useRef<HTMLInputElement | null>(null);
+      const cartaoInputRef = useRef<HTMLInputElement | null>(null);
+      const nomeInputRef = useRef<HTMLInputElement | null>(null);
+    
+      useEffect(() => {
+        const pagarButton = pagarButtonRef.current;
+        const cvvInput = cvvInputRef.current;
+        const cartaoInput = cartaoInputRef.current;
+        const nomeInput = nomeInputRef.current;
+      
+        console.log('pagarButton:', pagarButton);
+        console.log('cvvInput:', cvvInput);
+        console.log('cartaoInput:', cartaoInput);
+        console.log('nomeInput:', nomeInput);
+
+        const handlePagarClick = () => {
+          window.location.href = 'https://sandbox.asaas.com/c/0azwtxohcx6pi0cq';
+        };
+    
+        const handleCVVInput = (e: Event) => {
+          const input = e.target as HTMLInputElement;
+          input.value = input.value.replace(/[^0-9]/g, '');
+          if (input.value.length > 3) {
+            input.value = input.value.slice(0, 3);
+          }
+        };
+    
+        const handleCartaoInput = (e: Event) => {
+          const input = e.target as HTMLInputElement;
+          input.value = input.value.replace(/[^0-9- --]/g, '');
+          if (input.value.length > 19) {
+            input.value = input.value.slice(0, 19);
+          }
+        };
+    
+        const handleNomeInput = (e: Event) => {
+          const input = e.target as HTMLInputElement;
+          input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+        };
+    
+        if (pagarButton) {
+          pagarButton.addEventListener('click', handlePagarClick);
+        }
+    
+        if (cvvInput) {
+          cvvInput.addEventListener('input', handleCVVInput);
+        }
+    
+        if (cartaoInput) {
+          cartaoInput.addEventListener('input', handleCartaoInput);
+        }
+    
+        if (nomeInput) {
+          nomeInput.addEventListener('input', handleNomeInput);
+        }
+    
+        // Cleanup listeners on component unmount
+        return () => {
+          if (pagarButton) {
+            pagarButton.removeEventListener('click', handlePagarClick);
+          }
+          if (cvvInput) {
+            cvvInput.removeEventListener('input', handleCVVInput);
+          }
+          if (cartaoInput) {
+            cartaoInput.removeEventListener('input', handleCartaoInput);
+          }
+          if (nomeInput) {
+            nomeInput.removeEventListener('input', handleNomeInput);
+          }
+        };
+      }, []);
 
   return (
     <html lang="en">
@@ -38,7 +110,7 @@ const Pagamento: React.FC = () => {
               <input type="number" id="cvv" name="cvv" placeholder="***" required />
             </div>
             <input type="submit" id="pagar" value="Pagar" />
-            <button type="button" className="voltar" onClick={goBack}>
+            <button type="button" className="voltar" onClick={()=>nav(-1)}>
               Voltar
             </button>
           </form>
