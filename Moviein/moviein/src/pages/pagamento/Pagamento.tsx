@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "./pay.css"
+
 
     const Pagamento: React.FC = () => {
       const nav=useNavigate()
@@ -21,7 +21,7 @@ import "./pay.css"
         console.log('nomeInput:', nomeInput);
 
         const handlePagarClick = () => {
-          window.location.href = '../pagamento/confirma.html';
+          window.location.href = 'https://sandbox.asaas.com/c/0azwtxohcx6pi0cq';
         };
     
         const handleCVVInput = (e: Event) => {
