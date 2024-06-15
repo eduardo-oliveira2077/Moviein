@@ -3,6 +3,7 @@ import RegistrarFilmeDTO_Req from "../models/DTOs/RegistrarFilmeDTO_Req";
 import { S3 } from '@aws-sdk/client-s3';
 import { prismaClient } from "../server";
 import { MD5 } from "crypto-js";
+import Auth from "../middlewares/Auth";
 
 
 const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
@@ -26,9 +27,9 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
     // })
 
-    instance.post("RegistroConteudo", async (req, res) => {
+    instance.post("RegistroConteudo", { preHandler: Auth }, async (req, res) => {
         const { email } = req.user;
-        const { nome, descricao, classificacao, thumbnail, imageDetail } = req.body as RegistrarFilmeDTO_req;
+        const { nome, descricao, classificacao, thumbnail, imageDetail, categoria } = req.body as RegistrarFilmeDTO_req;
         const usuario = await prismaClient.usuario.findFirst({
             where: {
                 email: email
@@ -46,7 +47,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
         if (filme != null)
             return res.badRequest("filme com esse nome já existente.");
 
-
+        //Registrando o filme no banco
         var reference = MD5(usuario.nome + "|" + nome).toString();
 
         var novoFilme = await prismaClient.filme.create({
@@ -55,10 +56,11 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             },
             data: {
                 nome: nome,
-                categoria: "Terror",
+                categoria: categoria,
                 imagemThumb: thumbnail,
                 referencia: reference,
                 autorId: usuario.id,
+                classificacao: classificacao,
                 InformacaoFilme: {
                     create: {
                         descricao: descricao,
@@ -67,6 +69,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
                 }
             }
         })
+
 
 
         return res.ok("filme criado com sucesso.");

@@ -13,6 +13,7 @@ import { MdClose, MdImage } from 'react-icons/md';
 import convertToBase64 from 'helpers/convertToBase64';
 import RegistrarFilmeDTO_res from 'models/RegistrarFilmeDTO_res';
 import { useToast } from 'components/ui/use-toast';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/ui/select';
 
 type ModalRegistrarFilmeType = {
     children: React.ReactNode;
@@ -25,7 +26,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
     const { toast } = useToast();
     const ImgDetailRef = useRef<HTMLInputElement>(null);
     const [imgDetail_select, setImgDetail_select] = useState<string | null>(null);
-
+    const [ load, setLoad ] = useState<boolean>(false);
     const ThumbRef = useRef<HTMLInputElement>(null);
     const [thumb_select, setThumb_select] = useState<string | null>(null);
 
@@ -38,21 +39,28 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
 
     async function registrar(data: RegistroFilmeSchemaType) {
         //Cadastrar filme pelo banco
+        var req = {
+            nome: data.nome,
+            descricao: data.descricao,
+            classificacao: data.classificacao,
+            thumbnail: thumb_select,
+            categoria: data.categoria
+        }
+        console.log(req);
+        setLoad(true);
         await Api.Post<RegistrarFilmeDTO_res>({
-            data: {
-                nome: data.nome,
-                descricao: data.descricao,
-                classificacao: data.classificacao,
-                thumbnail: thumb_select,
-                imageDetail: imgDetail_select
-            },
+            data: req,
             errorTitle: "Falha ao registrar informações filme",
-            path: "api/Filme/RegistroConteudo",
+            path: "api/filme/RegistroConteudo",
             thenCallback(r) {
+                setLoad(false);
                 toast({
                     title: "vídeo salvo com sucesso!",
                     className: "bg-success text-dark"
                 })
+            },
+            catchCallback(){
+                setLoad(false);
             }
         })
     }
@@ -97,6 +105,30 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                 <FormControl>
                                                     <Textarea rows={6} {...field} />
                                                 </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="categoria"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Categoria</FormLabel>
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Selecione uma categoria" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        <SelectItem value="Terror">Terror</SelectItem>
+                                                        <SelectItem value="Aventura">Aventura</SelectItem>
+                                                        <SelectItem value="Curtas">Curtas</SelectItem>
+                                                        <SelectItem value="Acao">Ação</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -252,7 +284,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                 <div className='space-x-2'>
                                     {
                                         etapa > 0 && (
-                                            <Button variant="outline" onClick={() => {
+                                            <Button variant="outline" type='button' onClick={() => {
                                                 if (etapa > 0) {
                                                     setEtapa(e => e - 1)
                                                 }
@@ -263,7 +295,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                     }
 
                                     {
-                                        etapa < 2 ? (
+                                        etapa < 2 && (
                                             <Button type='button' onClick={() => {
                                                 if (etapa <= 2) {
                                                     setEtapa(e => e + 1)
@@ -271,12 +303,11 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                             }} >
                                                 Próximo
                                             </Button>
-                                        ) : (
-                                            <Button color="red" type='button' >
-                                                Registrar filme
-                                            </Button>
                                         )
                                     }
+                                    <Button disabled={etapa < 2} load={load} color="red" type='submit' >
+                                        Registrar filme
+                                    </Button>
                                 </div>
                             </div>
                         </DialogFooter>
