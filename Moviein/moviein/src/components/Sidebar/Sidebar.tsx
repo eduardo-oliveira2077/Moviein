@@ -6,9 +6,11 @@ import moviein from '../../assets/moviein.png';
 import movieinDark from '../../assets/moviein-dark.png';
 import { useTheme } from 'components/ui/theme-provider';
 import ModalDesconectar from "components/Modals/ModalThumbnail/ModalDesconectar/ModalDesconectar";
+import { Button } from "components/ui/button";
+import { MdLogout } from "react-icons/md";
 const Sidebar: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false);
-    const {nome, thumb}= useContext(UserContext)
+    const { nome, thumb } = useContext(UserContext)
     const { theme } = useTheme();
     const nav = useNavigate();
     return (
@@ -21,32 +23,37 @@ const Sidebar: React.FC = () => {
                                 setOpen(false);
                                 nav("/a/perfil/dadosPrincipais");
                             }}>
-                                <img alt="avatar" src={thumb} className="w-[60px] h-[60px] rounded-full bg-dark flex items-center ml-15 mt-5" />
-                                <p className="ml-0 mt-5 p-0 text-text text-[23px]">
+                                <img alt="avatar" src={thumb} className="w-[42px] h-[42px] rounded-full bg-dark flex items-center ml-15 mt-5" />
+                                <p className="ml-0 mt-5 p-0 text-text ">
                                     {nome}
                                 </p>
                             </div>
 
-                            <div className="flex flex-col justify-between mt-8">
-                            <ModalDesconectar/>
+                            <div className="flex flex-col justify-between mt-8" onClick={() => setOpen(false)}>
                             </div>
 
-                            <div className="flex flex-col items-center mt-auto">
-                                { 
-                                    (theme === "dark" || theme === "system") && 
-                                    <img alt='Moviein' src={movieinDark} className="w-[200px] object-contain mb-10" /> 
+                            <div className="flex flex-col mt-auto">
+                                <ModalDesconectar>
+                                    <div className="flex gap-4 items-center">
+                                        <MdLogout className="text-[26px]"/>
+                                        Deslogar da conta
+                                    </div>
+                                </ModalDesconectar>
+                                {/* {
+                                    (theme === "dark" || theme === "system") &&
+                                    <img alt='Moviein' src={movieinDark} className="w-[200px] object-contain mb-10" />
                                 }
-                                { 
-                                    theme === "light" && 
-                                    <img alt='Moviein' src={moviein} className="w-[100px] object-contain mb-10" /> 
-                                }
+                                {
+                                    theme === "light" &&
+                                    <img alt='Moviein' src={moviein} className="w-[100px] object-contain mb-10" />
+                                } */}
                             </div>
 
                         </div>
 
-                        <div className="h-screen cursor-pointer w-[32px] fixed left-[40vh] flex items-center z-50" 
-                        onMouseLeave={() => setOpen(false)}
-                        onClick={() => setOpen(false)}>
+                        <div className="h-screen cursor-pointer w-[32px] fixed left-[40vh] flex items-center z-50"
+                            onMouseLeave={() => setOpen(false)}
+                            onClick={() => setOpen(false)}>
                             <IoIosArrowBack className="text-white text-[22px]" />
                         </div>
                         <div className="fixed bg-[#00000050] w-screen h-screen z-40"></div>

@@ -103,7 +103,13 @@ const DadosPrincipais: React.FC = () => {
                             </Select>
                         </div>
                         <div>
-                            <ModalDesconectar />
+                            <ModalDesconectar>
+                                <Button
+                                    color="outline-white"
+                                    className="w-full">
+                                    Deslogar
+                                </Button>
+                            </ModalDesconectar>
                         </div>
                     </div>
 

@@ -19,7 +19,7 @@ const Etapas1_InserirVideo: React.FC<Etapa1_InserirVideoType> = (p) => {
         <div
           onClick={() => ref.current?.click()}
           className='flex flex-col cursor-pointer justify-center items-center w-[400px] rounded-lg h-[400px] border-[1px] border-sky-100'>
-          <BiSolidMoviePlay className={twMerge("text-[80px]", ref.current?.files?.length === 1 ? "text-primary" : "text-white/50")} />
+          <BiSolidMoviePlay className={twMerge("text-[80px]", ref.current?.files?.length === 1 ? "text-primary" : "dark:text-white/50 text-black/20")} />
           <p>{ref.current?.files?.length === 1 ? ref.current.files[0].name : "Arraste o seu vídeo / filmes aqui" }</p>
         </div>
       </div>

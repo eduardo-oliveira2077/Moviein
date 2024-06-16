@@ -278,7 +278,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                         </div>
 
                                         <div className='flex items-center flex-col space-y-4 cursor-pointer' onClick={() => form.setValue("classificacao", "18")}>
-                                            <div className='p-8 bg-black w-full rounded-md text-center'>
+                                            <div className='p-8 bg-black w-full rounded-md text-center text-white'>
                                                 18
                                             </div>
 

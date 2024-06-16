@@ -3,7 +3,13 @@ import { Button } from 'components/ui/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from 'components/ui/dialog';
 import React from 'react';
 
-const ModalDesconectar: React.FC = () => {
+
+type ModalDesconectarType = {
+    children: React.ReactNode
+    onClick?: () => any
+}
+
+const ModalDesconectar: React.FC<ModalDesconectarType> = (p) => {
 
     function desconectar() {
         localStorage.clear();
@@ -12,12 +18,8 @@ const ModalDesconectar: React.FC = () => {
     return (
         <>
             <Dialog>
-                <DialogTrigger asChild>
-                    <Button
-                        color="outline-white"
-                        className="w-full">
-                        Deslogar
-                    </Button>
+                <DialogTrigger asChild onClick={p.onClick} className='cursor-pointer'>
+                    {p.children}
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>

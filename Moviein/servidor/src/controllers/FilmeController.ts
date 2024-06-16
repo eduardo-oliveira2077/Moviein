@@ -174,6 +174,36 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
     })
 
+
+    instance.get("Meusvideos", {preHandler: Auth}, async(req, res) => {
+        const { email } = req.user;
+
+        const usuario = await prismaClient.usuario.findFirst({
+            where: {
+                email
+            }
+        })
+
+        if(usuario == null)
+            return res.badRequest("Usuário não encontrado.");
+
+        const filmes = await prismaClient.filme.findMany({
+            where: {
+                autorId: usuario.id
+            }
+        })
+
+        const response: MeusvideoItemDTO_Res[] = filmes.map(e => ({
+            classificacaoAssinantes: 0,
+            nome: e.nome,
+            id: e.id,
+            thumb: e.imagemThumb
+        }))
+
+        return res.ok(response);
+        
+    })
+
     done();
 };
 
