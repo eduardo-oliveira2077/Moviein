@@ -20,9 +20,16 @@ const pool = new Pool({ connectionString })
 const adapter = new PrismaPg(pool)
 export const prismaClient = new PrismaClient({ adapter })
 
-const app = fastify();
+const app = fastify({
+  bodyLimit: 10485760
+});
 app.register(cors, { origin: true });
-app.register(fastifyMultipart);
+app.register(fastifyMultipart, {
+  limits: {
+    fileSize: 52428800
+  }
+});
+
 app.addHook('onRequest', okMiddleware);
 app.addHook('onRequest', badRequestMiddleware);
 

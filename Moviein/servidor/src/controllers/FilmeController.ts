@@ -1,7 +1,8 @@
 import { FastifyPluginCallback } from "fastify";
 import RegistrarFilmeDTO_Req from "../models/DTOs/RegistrarFilmeDTO_Req";
-import { PutObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { GetObjectAclCommand, GetObjectCommand, PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import { prismaClient } from "../server";
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { MD5 } from "crypto-js";
 import Auth from "../middlewares/Auth";
 
@@ -99,16 +100,78 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             }
         });
 
-        if(filme === null)
+        if (filme === null)
             return res.badRequest("filme não encontrado.")
+
+        var caminho = `detailImage/${filme.referencia}/${file?.filename}`;
 
         await ss3.send(
             new PutObjectCommand({
-              Bucket: 'moviein-bucket',
-              Key: `detailImage/${filme.referencia}/${file?.filename}`,
-              Body: fileBuffer,
+                Bucket: 'moviein-bucket',
+                Key: caminho,
+                Body: fileBuffer,
             })
-          )
+        )
+
+        await prismaClient.informacaoFilme.update({
+            where: {
+                filmeId: parseInt(filmeId)
+            },
+            data: {
+                imagemCaminho: caminho
+            }
+        });
+    })
+
+    instance.get("VisualizarFilme", async (req, res) => {
+        const { filmeId } = req.query as { filmeId: string }
+
+        const filme = await prismaClient.filme.findFirst({
+            include: {
+                InformacaoFilme: true
+            },
+            where: {
+                id: parseInt(filmeId)
+            }
+        });
+
+        if (filme === null)
+            return res.badRequest("Não encontrado.");
+
+        var l = new GetObjectCommand({
+            Bucket: "moviein-bucket",
+            Key: filme.InformacaoFilme?.imagemCaminho
+        })
+
+        var url = await getSignedUrl(ss3, l, { expiresIn: 3000 });
+        return res.ok({
+            url: url
+        })
+    });
+
+
+    instance.post("RegistroFilme", { preHandler: Auth }, async (req, res) => {
+        const { filmeId } = req.query as { filmeId: string }
+
+        var file = await req.file();
+        var fileBuffer = await file?.toBuffer();
+
+        const filme = await prismaClient.filme.findFirst({
+            where: {
+                id: parseInt(filmeId)
+            }
+        });
+
+        console.log({"file": file});
+
+        await ss3.send(
+            new PutObjectCommand({
+                Bucket: 'moviein-bucket',
+                Key: `movie/${filme?.referencia}/${file?.filename}`,
+                Body: fileBuffer,
+            })
+        )
+
     })
 
     done();

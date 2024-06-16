@@ -15,6 +15,8 @@ import RegistrarFilmeDTO_res from 'models/RegistrarFilmeDTO_res';
 import { useToast } from 'components/ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/ui/select';
 import { Progress } from 'components/ui/progress';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+
 
 type ModalRegistrarFilmeType = {
     children: React.ReactNode;
@@ -37,7 +39,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
     );
     const ThumbRef = useRef<HTMLInputElement>(null);
     const [thumb_select, setThumb_select] = useState<string | null>(null);
-
+    const buttonCloseRef = useRef<HTMLButtonElement>(null);
     const form = useForm<RegistroFilmeSchemaType>({
         resolver: yupResolver(RegistroFilmeSchema),
         defaultValues: {
@@ -57,7 +59,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
         setLoad(true);
         setLoadcontext({
             progress: 20,
-            text: "Gerando dados do filme (0/3)"
+            text: "Gerando dados do filme (1/4)"
         });
 
         //Estágio 1: Criando filme no lado do banco.
@@ -65,24 +67,86 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
             data: req,
             errorTitle: "Falha ao registrar informações filme",
             path: "api/filme/RegistroConteudo",
-            thenCallback: async (r) => {
+            thenCallback: async (e1) => {
                 setLoadcontext({
                     progress: 40,
-                    text: "Salvando dados do filme, salvando imagens(1/3)..."
+                    text: "Salvando dados do filme, salvando imagens(2/4)..."
                 });
 
                 var formData = new FormData();
 
-                formData.append("Image", fileDetail_select!);
+                formData.append("file", fileDetail_select!);
 
-                //Estágio 2: Salvando a imagem o SS3
+                //Estágio 2: Salvando a imagem detalhe no SS3
                 await Api.Post({
                     data: formData,
                     formData: true,
-                    path: "api/filme/RegistroImagem",
+                    path: `api/filme/RegistroImagem?filmeId=${e1.filmeId}`,
                     errorTitle: "Falha ao salvar imagem detalhada.",
-                    thenCallback: (r) => {
+                    thenCallback: async () => {
+                        setLoadcontext({
+                            progress: 60,
+                            text: "Salvando filme segmentado (3/4)..."
+                        });
+                        //Estágio 3: Despembrando o vídeo e salvando ela um de cada vez.
+                        if (file !== null) {
+                            const fileArray = await file.arrayBuffer();
+                            const fileUint8Array = new Uint8Array(fileArray);
 
+                            const f = new FFmpeg();
+
+                            await f.load();
+
+                            await f.createDir("videos", {});
+                            await f.writeFile(`./videos/${file.name}`, fileUint8Array);
+                            await f.exec([
+                                '-i',
+                                `./videos/${file.name}`,
+                                '-c',
+                                'copy',
+                                '-map',
+                                '0',
+                                '-segment_time',
+                                '60', // Dividir em segmentos de 1 minuto
+                                '-f',
+                                'segment',
+                                'videos/segment-%03d.mp4' // Diretório de saída
+                            ]);
+                            const segmentFiles = await f.listDir('./videos/');
+                            const newSegmentsPromise = segmentFiles.filter((name) => name.name.startsWith('segment-')).map(async (fileName) => {
+                                const fileData = await f.readFile("videos/" + fileName.name);
+                                const blob = new Blob([fileData], { type: 'video/mp4' });
+                                return {
+                                    name: fileName,
+                                    blob,
+                                };
+                            });
+                            var newSegments = await Promise.all(newSegmentsPromise);
+                            setLoadcontext({
+                                progress: 80,
+                                text: "Enviando video segmentado (4/4)..."
+                            });
+                            console.log({newSegments})
+
+                            for (const segment of newSegments) {
+                                var fd = new FormData();
+                                fd.append("file", segment.blob, segment.name.name);
+                                console.log({"blobs": segment.blob})
+
+                                await Api.Post({
+                                    data: fd,
+                                    formData: true,
+                                    errorTitle: "Falha ao baixar filme segmentado.",
+                                    path: `api/filme/RegistroFilme?filmeId=${e1.filmeId}`
+                                })
+                            }
+                            toast({
+                                title: "Vídeo salvo com sucesso!",
+                                className: "bg-success text-black"
+                            })
+                            setLoad(false)
+                            buttonCloseRef.current?.click();
+                        }
                     }
                 })
 
@@ -236,7 +300,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                     <input type="file" className="hidden" ref={ImgDetailRef}
                                         onChange={async (f) => {
                                             const file = f.target.files?.[0];
-                                            setFileDetail_select
+                                            setFileDetail_select(file ?? null);
                                             if (file !== undefined) {
                                                 var base = await convertToBase64(file);
                                                 if (base !== null)
@@ -313,7 +377,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                         <DialogFooter className='pt-10'>
                             <div className='flex justify-between w-full'>
                                 <DialogClose asChild>
-                                    <Button variant="outline" color="outline-white">
+                                    <Button variant="outline" ref={buttonCloseRef} color="outline-white">
                                         Fechar
                                     </Button>
                                 </DialogClose>
