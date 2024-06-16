@@ -14,6 +14,7 @@ import convertToBase64 from 'helpers/convertToBase64';
 import RegistrarFilmeDTO_res from 'models/RegistrarFilmeDTO_res';
 import { useToast } from 'components/ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/ui/select';
+import { Progress } from 'components/ui/progress';
 
 type ModalRegistrarFilmeType = {
     children: React.ReactNode;
@@ -24,9 +25,16 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
     const [file, setFile] = useState<File | null>(null);
     const [etapa, setEtapa] = useState<number>(0);
     const { toast } = useToast();
+    const [fileDetail_select, setFileDetail_select] = useState<File | null>(null);
     const ImgDetailRef = useRef<HTMLInputElement>(null);
     const [imgDetail_select, setImgDetail_select] = useState<string | null>(null);
-    const [ load, setLoad ] = useState<boolean>(false);
+    const [load, setLoad] = useState<boolean>(false);
+    const [loadContext, setLoadcontext] = useState<{ text: string, progress: number }>(
+        {
+            progress: 0,
+            text: ""
+        }
+    );
     const ThumbRef = useRef<HTMLInputElement>(null);
     const [thumb_select, setThumb_select] = useState<string | null>(null);
 
@@ -46,20 +54,40 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
             thumbnail: thumb_select,
             categoria: data.categoria
         }
-        console.log(req);
         setLoad(true);
+        setLoadcontext({
+            progress: 20,
+            text: "Gerando dados do filme (0/3)"
+        });
+
+        //Estágio 1: Criando filme no lado do banco.
         await Api.Post<RegistrarFilmeDTO_res>({
             data: req,
             errorTitle: "Falha ao registrar informações filme",
             path: "api/filme/RegistroConteudo",
-            thenCallback(r) {
-                setLoad(false);
-                toast({
-                    title: "vídeo salvo com sucesso!",
-                    className: "bg-success text-dark"
+            thenCallback: async (r) => {
+                setLoadcontext({
+                    progress: 40,
+                    text: "Salvando dados do filme, salvando imagens(1/3)..."
+                });
+
+                var formData = new FormData();
+
+                formData.append("Image", fileDetail_select!);
+
+                //Estágio 2: Salvando a imagem o SS3
+                await Api.Post({
+                    data: formData,
+                    formData: true,
+                    path: "api/filme/RegistroImagem",
+                    errorTitle: "Falha ao salvar imagem detalhada.",
+                    thenCallback: (r) => {
+
+                    }
                 })
+
             },
-            catchCallback(){
+            catchCallback() {
                 setLoad(false);
             }
         })
@@ -208,6 +236,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                     <input type="file" className="hidden" ref={ImgDetailRef}
                                         onChange={async (f) => {
                                             const file = f.target.files?.[0];
+                                            setFileDetail_select
                                             if (file !== undefined) {
                                                 var base = await convertToBase64(file);
                                                 if (base !== null)
@@ -272,6 +301,14 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                             )
                         }
 
+                        {
+                            load === true && (
+                                <div className='mt-3'>
+                                    <Progress value={loadContext.progress} />
+                                    <p className='text-center'>{loadContext.text}</p>
+                                </div>
+                            )
+                        }
 
                         <DialogFooter className='pt-10'>
                             <div className='flex justify-between w-full'>

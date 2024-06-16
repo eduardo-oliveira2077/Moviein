@@ -1,10 +1,21 @@
 import { FastifyPluginCallback } from "fastify";
 import RegistrarFilmeDTO_Req from "../models/DTOs/RegistrarFilmeDTO_Req";
-import { S3 } from '@aws-sdk/client-s3';
+import { PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import { prismaClient } from "../server";
 import { MD5 } from "crypto-js";
 import Auth from "../middlewares/Auth";
 
+if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+    throw new Error('As variáveis de ambiente AWS_REGION, AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY devem estar definidas.');
+}
+
+const ss3 = new S3({
+    region: process.env.AWS_REGION,
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    }
+})
 
 const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
@@ -29,7 +40,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
     instance.post("RegistroConteudo", { preHandler: Auth }, async (req, res) => {
         const { email } = req.user;
-        const { nome, descricao, classificacao, thumbnail, imageDetail, categoria } = req.body as RegistrarFilmeDTO_req;
+        const { nome, descricao, classificacao, thumbnail, categoria } = req.body as RegistrarFilmeDTO_req;
         const usuario = await prismaClient.usuario.findFirst({
             where: {
                 email: email
@@ -70,9 +81,34 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             }
         })
 
+        return res.ok({
+            filmeId: novoFilme.id
+        });
+    })
 
 
-        return res.ok("filme criado com sucesso.");
+    instance.post("RegistroImagem", { preHandler: Auth }, async (req, res) => {
+        const { filmeId } = req.query as { filmeId: string };
+
+        var file = await req.file();
+        var fileBuffer = await file?.toBuffer();
+
+        const filme = await prismaClient.filme.findFirst({
+            where: {
+                id: parseInt(filmeId)
+            }
+        });
+
+        if(filme === null)
+            return res.badRequest("filme não encontrado.")
+
+        await ss3.send(
+            new PutObjectCommand({
+              Bucket: 'moviein-bucket',
+              Key: `detailImage/${filme.referencia}/${file?.filename}`,
+              Body: fileBuffer,
+            })
+          )
     })
 
     done();
