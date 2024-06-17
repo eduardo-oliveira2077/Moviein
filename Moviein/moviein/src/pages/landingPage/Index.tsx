@@ -241,7 +241,7 @@ const LandingPage: React.FC = () => {
 
           <Colaborador
             nome='José Augusto R. dos Santos'
-            feitos={["Infra do projeto", "Criadores", "Filmes", "Ladingpage", "Converções"]}
+            feitos={["Infra do projeto", "Criadores", "Filmes", "Ladingpage", "Conversões"]}
             imagem={jose}
           />
 
