@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => {
             {
                 open ? (
                     <>
-                        <div className="h-screen shadow-xl fixed p-4 left-0 w-[40vh] bg-white dark:bg-card z-[100] flex flex-col justify-between" onClick={() => setOpen(true)}>
+                        <div className="h-screen shadow-xl fixed p-4 left-0 w-[40vh] bg-white dark:bg-card z-[100] flex flex-col justify-between">
                             <div className="flex gap-5 items-center cursor-pointer" onClick={() => {
                                 setOpen(false);
                                 nav("/a/perfil/dadosPrincipais");
@@ -28,17 +28,22 @@ const Sidebar: React.FC = () => {
                                     {nome}
                                 </p>
                             </div>
-
-                            <div className="flex flex-col justify-between mt-8" onClick={() => setOpen(false)}>
+                            <div className="mt-3 cursor-pointer flex"
+                                onClick={() => {
+                                    nav("/a/");
+                                    setOpen(false)
+                                }}
+                            >
+                                Filmes
                             </div>
 
                             <div className="flex flex-col mt-auto">
-                                <ModalDesconectar>
-                                    <div className="flex gap-4 items-center">
-                                        <MdLogout className="text-[26px]"/>
+                                {/* <ModalDesconectar >
+                                    <div className="flex gap-4 items-center" onClick={() => setOpen(false)}>
+                                        <MdLogout className="text-[26px]" />
                                         Deslogar da conta
                                     </div>
-                                </ModalDesconectar>
+                                </ModalDesconectar> */}
                                 {/* {
                                     (theme === "dark" || theme === "system") &&
                                     <img alt='Moviein' src={movieinDark} className="w-[200px] object-contain mb-10" />

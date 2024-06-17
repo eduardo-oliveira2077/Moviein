@@ -8,6 +8,7 @@ import UserAuthorizationModel from "./models/UserAuthorizationModel";
 import { badRequestMiddleware, okMiddleware } from "./middlewares/RequestExceptions";
 import UserController from "./controllers/UserController";
 import FilmeController from "./controllers/FilmeController";
+import AssinaturaController from "./controllers/AssinaturaController";
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -36,6 +37,7 @@ app.addHook('onRequest', badRequestMiddleware);
 //controllers
 app.register(UserController, { prefix: "/api/usuario/" })
 app.register(FilmeController, { prefix: "/api/filme/" })
+app.register(AssinaturaController, { prefix: "/api/assinatura/" })
 //
 
 

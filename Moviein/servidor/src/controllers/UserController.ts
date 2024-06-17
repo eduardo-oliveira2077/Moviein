@@ -24,13 +24,13 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     var senhaEncr = MD5(senha).toString();
     if (senhaEncr !== user.senha)
       // return res.status(400).send({ mensagem: "Senha inválida." });
-    return res.badRequest("Senha inválida.");
+      return res.badRequest("Senha inválida.");
     var token = TokenService.encript(user.email, user.funcao);
 
     return res.ok({
       token: token.token,
       funcao: token.funcao,
-      expiracao: token.expiracao   
+      expiracao: token.expiracao
     })
 
   });
@@ -133,7 +133,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       }
     });
 
-    if(usuario == null)
+    if (usuario == null)
       return res.badRequest("Usuário com esse email não existe.");
 
     const randomNumber = Math.floor(10000 + Math.random() * 90000);
@@ -158,7 +158,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     });
     if (usuario === null)
       // return res.code(400).send("Usuário não encontrado.");
-    return res.badRequest("Usuário não encontrado.");
+      return res.badRequest("Usuário não encontrado.");
 
     var novaSenha = MD5(senha).toString();
 
@@ -199,6 +199,35 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     }
   })
 
+  instance.get("temAssinatura", { preHandler: Auth }, async (req, res) => {
+    const { email } = req.user;
+
+    var usuario = await prismaClient.usuario.findFirst({
+      where: {
+        email
+      }
+    })
+
+    if (usuario === null)
+      return res.badRequest("Usuário não encontrado.");
+
+    var assinatura = await prismaClient.assinatura.findFirst({
+      where: {
+        usuarioId: usuario.id
+      }
+    })
+
+    if (assinatura !== null) {
+      var resp = {
+        Assinatura: assinatura.assinatura,
+        preco: assinatura.preco,
+        periodo: assinatura.tipo
+      }
+      return res.ok(resp)
+    } else {
+      return res.ok(null)
+    }
+  })
   done();
 }
 

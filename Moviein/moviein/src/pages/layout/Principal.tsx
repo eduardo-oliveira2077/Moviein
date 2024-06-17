@@ -27,7 +27,6 @@ const Principal: React.FC = () => {
     const { theme } = useTheme();
     return (
         <main>
-
             <div className='relative h-[40vh]'>
                 <div className='bg-background absolute w-full h-full z-[1]'>
                     <img src={pandafundo} alt="filme" className='w-full opacity-70 h-full object-cover' />

@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     ApiService.toast = toast;
   }, [toast])
-  
+
 
   return (
     <>
@@ -38,12 +38,11 @@ function App() {
         <Route path="/redefinirSenha" element={<RedefinirSenha />} />
         <Route path="/doisFatores" element={<Doisfatores />} />
         <Route path="/pagamento" element={<Pagamento />} />
-        <Route path="/assinatura" element={<Assinatura />} />
         <Route path="/consulta" element={<UserConsultation />} />
-
 
         <Route path="/a/" element={<PageValidate />}>
           <Route index element={<Principal />} />
+          <Route path="/a/assinatura" element={<Assinatura />} />
           <Route path="/a/VisualFilme" element={<VisualFilme />} />
           <Route path="/a/perfil/" element={<SidebarPerfil />}>
             <Route path="dadosPrincipais" element={<DadosPrincipais />} />

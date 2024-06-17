@@ -10,13 +10,23 @@ import { Button } from "components/ui/button";
 import { Input } from "components/ui/input";
 import { Label } from "components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "components/ui/select";
+import ApiService from "api/ApiService";
 
+type AssinaturaType = {
+    Assinatura: string;
+    preco: number,
+    periodo: string
+} | null
+
+const Api = new ApiService();
 const DadosPrincipais: React.FC = () => {
     const { thumb, email, nome, auth2, setValueUser, reload } = useContext(UserContext)
     const { setTheme, theme } = useTheme();
     const [load, setLoad] = useState<boolean>(true);
+    const [assinatura, setAssinatura] = useState<AssinaturaType>(null);
     const nav = useNavigate();
     useEffect(() => {
+
         if (email === undefined) {
             setLoad(true)
         } else {
@@ -28,8 +38,22 @@ const DadosPrincipais: React.FC = () => {
         nav("/enviarCodigo");
     }
 
+    useEffect(() => {
+        async function loadAssist() {
+            Api.Get<AssinaturaType>({
+                path: `api/usuario/temAssinatura`,
+                errorTitle: "Falha ao validar assinatura do usuário",
+                thenCallback: (r) => {
+                    setAssinatura(r);
+                }
+            })
+        }
+        loadAssist();
+    }, [])
+
+
     return (
-        <>
+        <div>
             <div className="w-full grid grid-cols-2 px-8 gap-8">
                 <div>
                     <div className="mt-10 flex justify-center relative">
@@ -116,19 +140,29 @@ const DadosPrincipais: React.FC = () => {
                 </div>
                 <div>
                     <div className="mt-10 relative h-[60vh] flex items-center p-10 w-full border-[1px] dark:border-white/35 border-primary/35 rounded-[20px] overflow-hidden">
-                        <div className="absolute top-[-60px] right-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
-                        <div className="absolute bottom-[-60px] left-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
+                        {
+                            assinatura === null ? (
+                                <>
+                                    <div className="absolute top-[-60px] right-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
+                                    <div className="absolute bottom-[-60px] left-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
 
-                        <div className="flex flex-col gap-4 text-center text-text">
-                            <h3 className="text-[20px]">Atualmente você não possui nenhuma assinatura</h3>
-                            <Button color="outline-white" >
-                                Comprar uma assinatura
-                            </Button>
-                        </div>
+                                    <div className="flex flex-col gap-4 text-center text-text">
+                                        <h3 className="text-[20px]">Atualmente você não possui nenhuma assinatura</h3>
+                                        <Button color="outline-white" onClick={()=> nav("/a/Assinatura")}>
+                                            Comprar uma assinatura
+                                        </Button>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                </>
+                            )
+                        }
+
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
