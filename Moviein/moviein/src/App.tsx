@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import ApiService from "api/ApiService";
 import Doisfatores from "pages/doisfatores/Doisfatores";
 import Assinatura from "pages/Assinatura/Assinatura";
-import UserConsultation from "pages/ConsultUser/consult";
+import UserConsultation from "pages/ConsultUser/ConsultarUsuario";
 import Error404 from "pages/erro404/erro";
 
 function App() {
@@ -39,8 +39,6 @@ function App() {
         <Route path="/redefinirSenha" element={<RedefinirSenha />} />
         <Route path="/doisFatores" element={<Doisfatores />} />
         <Route path="/pagamento" element={<Pagamento />} />
-        <Route path="/consulta" element={<UserConsultation />} />
-        <Route path="/erro" element={<Error404 />} />
 
         <Route path="/a/" element={<PageValidate />}>
           <Route index element={<Principal />} />
@@ -49,6 +47,7 @@ function App() {
           <Route path="/a/perfil/" element={<SidebarPerfil />}>
             <Route path="dadosPrincipais" element={<DadosPrincipais />} />
             <Route path="meusVideos" element={<MeusVideos />} />
+            <Route path="consulta/usuarios" element={<UserConsultation />} />
           </Route>
         </Route>
       </Routes>

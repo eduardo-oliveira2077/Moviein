@@ -20,25 +20,6 @@ const ss3 = new S3({
 
 const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
-    // instance.post("RegistrarFilme", async (req, res) => {
-    //     // const { video } = req.body as RegistrarFilmeDTO_Req;
-    //     var f = await req.files();
-    //     var body = req.body;
-    //     console.log(body)
-    //     console.log({ f })
-    //     var s3 = new S3({
-    //         credentials: {
-    //             accessKeyId: process.env.asdsa!,
-    //             secretAccessKey: process.env.sssss!
-    //         },
-    //         region: process.env.sssssss,
-    //         apiVersion: "v4",
-
-    //     });
-
-
-    // })
-
     instance.post("RegistroConteudo", { preHandler: Auth }, async (req, res) => {
         const { email } = req.user;
         const { nome, descricao, classificacao, thumbnail, categoria } = req.body as RegistrarFilmeDTO_req;
@@ -73,6 +54,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
                 referencia: reference,
                 autorId: usuario.id,
                 classificacao: classificacao,
+                publicadoEm: new Date,
                 InformacaoFilme: {
                     create: {
                         descricao: descricao,
@@ -162,7 +144,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             }
         });
 
-        console.log({"file": file});
+        console.log({ "file": file });
 
         await ss3.send(
             new PutObjectCommand({
@@ -175,7 +157,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
     })
 
 
-    instance.get("Meusvideos", {preHandler: Auth}, async(req, res) => {
+    instance.get("Meusvideos", { preHandler: Auth }, async (req, res) => {
         const { email } = req.user;
 
         const usuario = await prismaClient.usuario.findFirst({
@@ -184,7 +166,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             }
         })
 
-        if(usuario == null)
+        if (usuario == null)
             return res.badRequest("Usuário não encontrado.");
 
         const filmes = await prismaClient.filme.findMany({
@@ -201,7 +183,18 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
         }))
 
         return res.ok(response);
+
+    })
+
+
+
+    instance.get("ListarFilmes", { preHandler: Auth }, async (req, res) => {
+        const { email } = req.user;
+
+        var filmes = await prismaClient.filme.findMany();
+
         
+
     })
 
     done();
