@@ -28,17 +28,20 @@ const SidebarPerfil: React.FC = () => {
                     <MenuItemPerfil
                         path="/a/perfil/dadosPrincipais"
                         titulo="Dados principais" />
-
                     {
-                        funcao === "criador" && (
+                        (funcao === "criador" || funcao === "admin") && (
                             <MenuItemPerfil
                                 path="/a/perfil/meusVideos"
                                 titulo="Meus vídeos" />
                         )
                     }
-
-
-
+                    {
+                        funcao === "admin" && (
+                            <MenuItemPerfil
+                                path="/a/perfil/consulta/usuarios"
+                                titulo="Consultar Usuarios" />
+                        )
+                    }
                 </div>
                 <div className="w-[70%] relative h[calc(100vh-60px)]">
                     <Outlet />

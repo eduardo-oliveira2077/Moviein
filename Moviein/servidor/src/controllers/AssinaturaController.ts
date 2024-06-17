@@ -4,12 +4,11 @@ import { prismaClient } from "../server";
 import RegistroAssinaturaDTO_Req from "../models/DTOs/RegistroAssinaturaDTO_Req";
 import AsaasService from "../services/AsaasService/AsaasService";
 
-
 const AssinaturaController: FastifyPluginCallback = (instance, opts, done) => {
 
     instance.post("Registrar", { preHandler: Auth }, async (req, res) => {
         const { email } = req.user;
-        const { assinatura, periodo } = req.body as RegistroAssinaturaDTO_Req;
+        const { assinatura, periodo, preco } = req.body as RegistroAssinaturaDTO_Req;
 
         const user = await prismaClient.usuario.findFirst({
             include: {
@@ -56,18 +55,16 @@ const AssinaturaController: FastifyPluginCallback = (instance, opts, done) => {
                 customer: asaasClientId!,
                 billingType: "UNDEFINED",
                 cycle: periodo,
-                value: 10,
+                value: preco,
                 nextDueDate: nextDueDate
             }
 
-
             var asaasAssinaturaId = await AsaasService.RegistrarAssinatura(data);
-
 
             //Cadastrar nova assinatura
             var novaAssinatura = await prismaClient.assinatura.create({
                 data: {
-                    preco: 10,
+                    preco: preco,
                     tipo: periodo,
                     asaasAssinaturaId: asaasAssinaturaId?.id!,
                     usuarioId: user.id,

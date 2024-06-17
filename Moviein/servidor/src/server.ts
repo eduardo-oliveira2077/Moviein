@@ -1,3 +1,6 @@
+import dotenv from 'dotenv'; // Importe o dotenv
+dotenv.config(); // Carregue as variáveis de ambiente do arquivo .env
+
 import fastify from "fastify";
 import { PrismaClient } from "@prisma/client";
 import { Pool } from 'pg'

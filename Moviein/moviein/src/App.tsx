@@ -17,8 +17,10 @@ import { useEffect } from "react";
 import ApiService from "api/ApiService";
 import Doisfatores from "pages/doisfatores/Doisfatores";
 import Assinatura from "pages/Assinatura/Assinatura";
-import UserConsultation from "pages/ConsultUser/consult";
+
 import Confirma from "pages/pagamento/confirma";
+import UserConsultation from "pages/ConsultUser/ConsultarUsuario";
+import Error404 from "pages/erro404/erro";
 
 function App() {
   const { toast } = useToast();
@@ -49,6 +51,7 @@ function App() {
           <Route path="/a/perfil/" element={<SidebarPerfil />}>
             <Route path="dadosPrincipais" element={<DadosPrincipais />} />
             <Route path="meusVideos" element={<MeusVideos />} />
+            <Route path="consulta/usuarios" element={<UserConsultation />} />
           </Route>
         </Route>
       </Routes>
