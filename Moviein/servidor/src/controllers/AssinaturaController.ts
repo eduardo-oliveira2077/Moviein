@@ -43,7 +43,8 @@ const AssinaturaController: FastifyPluginCallback = (instance, opts, done) => {
                     email: email
                 },
                 data: {
-                    asaasClienteId: asaasClientId
+                    asaasClienteId: asaasClientId,
+                    funcao: assinatura
                 }
             })
 

@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import { Button } from 'components/ui/button';
 import ApiService from 'api/ApiService';
 import { useToast } from 'components/ui/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 type tipoType = "MONTHLY" | "YEARLY" | "SEMIANNUALLY";
 type assinaturaType = "Cliente" | "Critico" | "Criador";
@@ -16,10 +17,10 @@ const Assinatura: React.FC = () => {
   const [assinatura, setAssinatura] = useState<assinaturaType>("Cliente");
   const [load, setLoad] = useState<boolean>(false);
   const { toast } = useToast();
-
+  const nav = useNavigate();
   async function AssinarPlano() {
     setLoad(true);
-    await Api.Post<null>({
+    await Api.Post<string>({
       path: "api/assinatura/Registrar",
       data: {
         periodo: tipo,
@@ -32,6 +33,8 @@ const Assinatura: React.FC = () => {
           title: "Assinatura criada com sucesso!",
           className: "bg-success text-black"
         })
+        window.open(t, "_blank");
+        nav("/a/perfil/dadosPrincipais");
       }
     })
   }
@@ -56,11 +59,6 @@ const Assinatura: React.FC = () => {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                {/* <div className='flex gap-3 items-center justify-end'>
-                  <Label htmlFor='Anual'>Mensal</Label>
-                  <Switch id="Anual" checked={anual} onCheckedChange={() => setAnual(!anual)} />
-                  <Label htmlFor='Anual'>Anual</Label>
-                </div> */}
               </div>
             </div>
             <div className='grid md:grid-cols-3 gap-[20px] mb-3'>
@@ -194,7 +192,7 @@ const Assinatura: React.FC = () => {
 
             </div>
             <div className='flex justify-end'>
-              <Button onClick={() => AssinarPlano()}>
+              <Button load={load} onClick={() => AssinarPlano()}>
                 Assinar plano
               </Button>
             </div>

@@ -141,21 +141,32 @@ const DadosPrincipais: React.FC = () => {
                 <div>
                     <div className="mt-10 relative h-[60vh] flex items-center p-10 w-full border-[1px] dark:border-white/35 border-primary/35 rounded-[20px] overflow-hidden">
                         {
-                            assinatura === null ? (
-                                <>
-                                    <div className="absolute top-[-60px] right-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
-                                    <div className="absolute bottom-[-60px] left-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
-
-                                    <div className="flex flex-col gap-4 text-center text-text">
-                                        <h3 className="text-[20px]">Atualmente você não possui nenhuma assinatura</h3>
-                                        <Button color="outline-white" onClick={()=> nav("/a/Assinatura")}>
-                                            Comprar uma assinatura
-                                        </Button>
-                                    </div>
-                                </>
+                            load ? (
+                                <Skeleton className="w-full h-full" />
                             ) : (
-                                <>
-                                </>
+                                assinatura === null ? (
+                                    <>
+                                        <div className="absolute top-[-60px] right-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
+                                        <div className="absolute bottom-[-60px] left-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
+
+                                        <div className="flex flex-col gap-4 text-center text-text">
+                                            <h3 className="text-[20px]">Atualmente você não possui nenhuma assinatura</h3>
+                                            <Button color="outline-white" onClick={() => nav("/a/Assinatura")}>
+                                                Comprar uma assinatura
+                                            </Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="absolute top-[-60px] right-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
+                                        <div className="absolute bottom-[-60px] left-[-60px] opacity-45 w-[200px] h-[200px] bg-primary dark:bg-white rounded-full blur-[100px]"></div>
+
+                                        <div className="flex flex-col gap-4 text-center w-full text-text">
+                                            <h3 className="text-[22px]">Sua assinatura atual:</h3>
+                                            <h2 className="text-[32px] font-bold">{assinatura.Assinatura}</h2>
+                                        </div>
+                                    </>
+                                )
                             )
                         }
 
