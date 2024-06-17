@@ -18,6 +18,7 @@ import ApiService from "api/ApiService";
 import Doisfatores from "pages/doisfatores/Doisfatores";
 import Assinatura from "pages/Assinatura/Assinatura";
 import UserConsultation from "pages/ConsultUser/consult";
+import Error404 from "pages/erro404/erro";
 
 function App() {
   const { toast } = useToast();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/doisFatores" element={<Doisfatores />} />
         <Route path="/pagamento" element={<Pagamento />} />
         <Route path="/consulta" element={<UserConsultation />} />
+        <Route path="/erro" element={<Error404 />} />
 
         <Route path="/a/" element={<PageValidate />}>
           <Route index element={<Principal />} />
