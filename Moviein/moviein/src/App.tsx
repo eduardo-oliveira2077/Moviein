@@ -18,6 +18,7 @@ import ApiService from "api/ApiService";
 import Doisfatores from "pages/doisfatores/Doisfatores";
 import Assinatura from "pages/Assinatura/Assinatura";
 import UserConsultation from "pages/ConsultUser/consult";
+import Confirma from "pages/pagamento/confirma";
 
 function App() {
   const { toast } = useToast();
@@ -38,6 +39,7 @@ function App() {
         <Route path="/redefinirSenha" element={<RedefinirSenha />} />
         <Route path="/doisFatores" element={<Doisfatores />} />
         <Route path="/pagamento" element={<Pagamento />} />
+        <Route path="/confirma" element={<Confirma/>} />
         <Route path="/consulta" element={<UserConsultation />} />
 
         <Route path="/a/" element={<PageValidate />}>

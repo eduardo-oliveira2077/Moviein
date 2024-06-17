@@ -99,7 +99,7 @@ const Pagamento: React.FC = () => {
                 </div>
                 <div className='flex justify-between'>
                 <button type="button" id="pagar" className="btn-submit rounded-lg border px-4 py-2 bg-purple-600">
-                  Pagar
+                  <a href='https://sandbox.asaas.com/c/0azwtxohcx6pi0cq'>Pagar</a>
                 </button>
                 <button type="button" className="btn-voltar rounded-lg border px-4 py-2 bg-black-600" onClick={()=>nav(-1)}>
                   Voltar
