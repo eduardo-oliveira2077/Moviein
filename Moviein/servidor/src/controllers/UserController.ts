@@ -208,6 +208,8 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       }
     })
 
+    
+
     if (usuario === null)
       return res.badRequest("Usuário não encontrado.");
 
@@ -228,6 +230,9 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       return res.ok(null)
     }
   })
+
+
+
   done();
 }
 

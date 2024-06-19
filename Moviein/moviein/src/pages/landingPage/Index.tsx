@@ -239,13 +239,13 @@ const LandingPage: React.FC = () => {
 
           <Colaborador
             nome='Karollyne de Oliveira Cordeiro'
-            feitos={["Infra do projeto", "Landing Page", "Documentação"]}
+            feitos={["Infra do projeto", "Ladingpage", "Documentos"]}
             imagem={karol}
           />
 
           <Colaborador
             nome='José Augusto R. dos Santos'
-            feitos={["Infra do projeto", "Página dos Filmes", "Landing Page", "Conversões"]}
+            feitos={["Infra do projeto", "Criadores", "Filmes", "Ladingpage", "Converções"]}
             imagem={jose}
           />
 

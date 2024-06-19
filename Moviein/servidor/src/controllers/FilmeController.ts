@@ -5,6 +5,9 @@ import { prismaClient } from "../server";
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { MD5 } from "crypto-js";
 import Auth from "../middlewares/Auth";
+import FilmeItemDTO_Res from "../models/DTOs/FilmeItemDTO_Res";
+import FilmeDTO_Res from "../models/DTOs/FilmeDTO_Res";
+import DetalheFilmeDTO_Res from "../models/DTOs/DetalheFilmeDTO_Res";
 
 if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
     throw new Error('As variáveis de ambiente AWS_REGION, AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY devem estar definidas.');
@@ -193,8 +196,54 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
         var filmes = await prismaClient.filme.findMany();
 
-        
+        // Extrair categorias únicas
+        const categoriasSet = new Set<string>();
+        filmes.forEach(f => categoriasSet.add(f.categoria));
 
+        const categorias = Array.from(categoriasSet);
+
+        var response: FilmeDTO_Res[] = categorias.map((c) => ({
+            categoria: c,
+            filmes: filmes.filter(f => f.categoria === c).map(f => ({
+                id: f.id,
+                thumb: f.imagemThumb
+            }))
+        }))
+
+        return res.ok(response);
+    })
+
+    instance.get("DetalheFilme", { preHandler: Auth }, async (req, res) => {
+        const { FilmeId } = req.query as { FilmeId: string };
+
+        var filme = await prismaClient.filme.findFirst({
+            include: {
+                InformacaoFilme: true
+            },
+            where: {
+                id: parseInt(FilmeId)
+            }
+        });
+
+        if (filme === null)
+            return res.badRequest("Filme não encontrado.");
+
+        var l = new GetObjectCommand({
+            Bucket: "moviein-bucket",
+            Key: filme?.InformacaoFilme?.imagemCaminho
+        })
+
+        var url = await getSignedUrl(ss3, l, { expiresIn: 3000 });
+        console.log({url})
+        var response: DetalheFilmeDTO_Res = {
+            caminhoImagem: url,
+            classificacao: filme.classificacao,
+            descricao: filme.InformacaoFilme!.descricao,
+            id: filme.id, 
+            titulo: filme.nome
+        }
+
+        return res.ok(response);
     })
 
     done();
