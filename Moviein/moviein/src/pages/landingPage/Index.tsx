@@ -1,5 +1,6 @@
 import React from 'react';
 // import Button from 'components/Button';
+import { useNavigate } from 'react-router-dom';
 import movie from '../../assets/filme.png';
 import log from '../../assets/movie.png'
 import aparelhos from '../../assets/aparelhos.png';
@@ -19,8 +20,11 @@ import { useTheme } from 'components/ui/theme-provider';
 import unisuamLight from '../../assets/Unisuam-light.png'
 import unisuam from '../../assets/Unisuam.png'
 
+
 const LandingPage: React.FC = () => {
   const { theme } = useTheme();
+  const nav = useNavigate();
+
   return (
     <main>
       <Navbar />
@@ -123,7 +127,7 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
             <p className='text-3xl font-bold mt-16 mb-12'>R$ 18,00/mês</p>
-            <Button size="lg"
+            <Button onClick={() => nav("/a/assinatura")} size="lg"
               className='w-full'>
               Comece agora
             </Button>
@@ -163,7 +167,7 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
             <p className='text-3xl font-bold mt-16 mb-12'>R$ 113,40/semestral</p>
-            <Button size="lg"
+            <Button onClick={() => nav("/a/assinatura")}  size="lg"
               className='w-full'
               variant="red">
               Comece agora
@@ -204,7 +208,7 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
             <p className='text-3xl font-bold mt-16 mb-12'>R$ 226,80/anual</p>
-            <Button size="lg"
+            <Button onClick={() => nav("/a/assinatura")}  size="lg"
               className='w-full'
               variant="redPalid">
               Comece agora
@@ -216,7 +220,7 @@ const LandingPage: React.FC = () => {
       <div className='container mb-7'>
         <div className='w-full flex items-center gap-5'>
           <hr className='w-full' />
-          <Button variant="outline" size="lg" className='p-8 rounded-full'>
+          <Button onClick={() => nav("/registro")}  variant="outline" size="lg" className='p-8 rounded-full'>
             Comece agora mesmo
           </Button>
           <hr className='w-full' />
