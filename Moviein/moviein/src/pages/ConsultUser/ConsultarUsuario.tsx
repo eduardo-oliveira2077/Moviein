@@ -103,35 +103,35 @@ const UserConsultation: React.FC = () => {
             <table className="w-full border-collapse bg-gray-800">
               <thead>
                 <tr>
-                  <th className="border-b py-2">Nome</th>
-                  <th className="border-b py-2">Nascimento</th>
-                  <th className="border-b py-2">Gênero</th>
-                  <th className="border-b py-2">Email</th>
-                  <th className="border-b py-2">CPF</th>
-                  <th className="border-b py-2">Tel</th>
-                  <th className="border-b py-2">CEP</th>
-                  <th className="border-b py-2">Ações</th>
+                  <th className="border-b py-1">Nome</th>
+                  <th className="border-b py-1">Nascimento</th>
+                  <th className="border-b py-1">Gênero</th>
+                  <th className="border-b py-1">Email</th>
+                  <th className="border-b py-1">CPF</th>
+                  <th className="border-b py-1">Tel</th>
+                  <th className="border-b py-1">CEP</th>
+                  <th className="border-b py-1">Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredContacts.map((contact, index) => (
                   <tr key={index}>
-                    <td className="border-b py-2">{contact.nome}</td>
-                    <td className="border-b py-2">{contact.nascimento}</td>
-                    <td className="border-b py-2">{contact.genero}</td>
-                    <td className="border-b py-2">{contact.email}</td>
-                    <td className="border-b py-2">{contact.cpf}</td>
-                    <td className="border-b py-2">{contact.tel}</td>
-                    <td className="border-b py-2">{contact.cep}</td>
-                    <td className="border-b py-2">
+                    <td className="border-b py-1 text-xs">{contact.nome}</td>
+                    <td className="border-b py-1 text-xs">{contact.nascimento}</td>
+                    <td className="border-b py-1 text-xs">{contact.genero}</td>
+                    <td className="border-b py-1 text-xs">{contact.email}</td>
+                    <td className="border-b py-1 text-xs">{contact.cpf}</td>
+                    <td className="border-b py-1 text-xs">{contact.tel}</td>
+                    <td className="border-b py-1 text-xs">{contact.cep}</td>
+                    <td className="border-b py-1">
                       <button
-                        className="bg-purple-600 py-1 px-4 rounded-lg mr-2"
+                        className="bg-purple-600 px-1 rounded-lg mr-2"
                         onClick={() => handleEdit(index)}
                       >
                         Editar
                       </button>
                       <button
-                        className="bg-purple-900 py-1 px-4 rounded-lg"
+                        className="bg-purple-900 px-1 rounded-lg"
                         onClick={() => handleDelete(index)}
                       >
                         Excluir
