@@ -127,7 +127,7 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
             <p className='text-3xl font-bold mt-16 mb-12'>R$ 18,00/mês</p>
-            <Button onClick={() => nav("/a/assinatura")} size="lg"
+            <Button onClick={() => nav("/registro")} size="lg"
               className='w-full'>
               Comece agora
             </Button>
@@ -167,7 +167,7 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
             <p className='text-3xl font-bold mt-16 mb-12'>R$ 113,40/semestral</p>
-            <Button onClick={() => nav("/a/assinatura")}  size="lg"
+            <Button onClick={() => nav("/registro")}  size="lg"
               className='w-full'
               variant="red">
               Comece agora
@@ -208,7 +208,7 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
             <p className='text-3xl font-bold mt-16 mb-12'>R$ 226,80/anual</p>
-            <Button onClick={() => nav("/a/assinatura")}  size="lg"
+            <Button onClick={() => nav("/registro")}  size="lg"
               className='w-full'
               variant="redPalid">
               Comece agora
