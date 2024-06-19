@@ -30,7 +30,7 @@ const app = fastify({
 app.register(cors, { origin: true });
 app.register(fastifyMultipart, {
   limits: {
-    fileSize: 52428800
+    fileSize: 52428800 //40mb
   }
 });
 

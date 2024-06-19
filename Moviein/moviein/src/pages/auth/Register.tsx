@@ -166,8 +166,8 @@ const Register: React.FC = () => {
 
   return (
     <div className='relative w-full h-screen'>
-      <img src={filmes} alt='Filmes' className='absolute w-full h-screen object-cover -z-10' />
-      <div className='container mx-auto pt-8'>
+      <img src={filmes} alt='Filmes' className='absolute w-full h-screen object-cover' />
+      <div className='container mx-auto pt-8 relative z-10'>
         <div className='bg-card p-8 rounded-lg'>
           <div className='flex justify-center mb-3'>
             <img src={logo} alt='Logo' className='w-[80px]' />

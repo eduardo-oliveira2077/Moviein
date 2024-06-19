@@ -47,7 +47,7 @@ function App() {
         <Route path="/a/" element={<PageValidate />}>
           <Route index element={<Principal />} />
           <Route path="/a/assinatura" element={<Assinatura />} />
-          <Route path="/a/VisualFilme" element={<VisualFilme />} />
+          <Route path="/a/visualFilme/:filmeId" element={<VisualFilme />} />
           <Route path="/a/perfil/" element={<SidebarPerfil />}>
             <Route path="dadosPrincipais" element={<DadosPrincipais />} />
             <Route path="meusVideos" element={<MeusVideos />} />

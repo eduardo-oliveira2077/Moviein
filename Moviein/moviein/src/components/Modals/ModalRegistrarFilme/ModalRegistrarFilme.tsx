@@ -1,7 +1,7 @@
 import { Button } from 'components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from 'components/ui/dialog';
 import React, { useRef, useState } from 'react';
-import Etapa1_InserirVideo from './Etapas/Etapa1_InserirVideo';
+import Etapa1_InserirVideo from './Etapas/Etapa1InserirVideo';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import ApiService from 'api/ApiService';
