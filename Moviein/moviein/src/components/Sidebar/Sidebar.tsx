@@ -64,7 +64,7 @@ const Sidebar: React.FC = () => {
                         <div className="fixed bg-[#00000050] w-screen h-screen z-40"></div>
                     </>
                 ) : (
-                    <div className="h-screen fixed cursor-pointer w-[32px] flex items-center z-10" onClick={() => setOpen(true)}>
+                    <div className="h-screen fixed cursor-pointer w-[32px] flex items-center z-[100]" onClick={() => setOpen(true)}>
                         <IoIosArrowForward className="text-text text-[22px]" />
                     </div>
                 )
