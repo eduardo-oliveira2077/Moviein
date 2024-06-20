@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import ApiService from "api/ApiService";
 import Doisfatores from "pages/doisfatores/Doisfatores";
 import Assinatura from "pages/Assinatura/Assinatura";
-import UserLogConsultation from "pages/Logs/Logs";
+import UserLogConsultation from "pages/telalog/TelaLogs";
 
 import Confirma from "pages/pagamento/confirma";
 import UserConsultation from "pages/ConsultUser/ConsultarUsuario";
