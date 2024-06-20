@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import ApiService from "api/ApiService";
 import Doisfatores from "pages/doisfatores/Doisfatores";
 import Assinatura from "pages/Assinatura/Assinatura";
+import UserLogConsultation from "pages/Logs/Logs";
 
 import Confirma from "pages/pagamento/confirma";
 import UserConsultation from "pages/ConsultUser/ConsultarUsuario";
@@ -43,6 +44,7 @@ function App() {
         <Route path="/pagamento" element={<Pagamento />} />
         <Route path="/confirma" element={<Confirma/>} />
         <Route path="/consulta" element={<UserConsultation />} />
+        <Route path="/Logs" element={<UserLogConsultation />} />
 
         <Route path="/a/" element={<PageValidate />}>
           <Route index element={<Principal />} />
