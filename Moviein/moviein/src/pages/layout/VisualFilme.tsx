@@ -6,8 +6,9 @@ import fundo2 from '../../assets/filmes/pandafundo2.jpg';
 import tomate from '../../assets/tomate.png';
 import pipoca from '../../assets/pipoca.png';
 import ApiService from 'api/ApiService';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Classificacao from 'components/Classificacao/Classificacao';
+import { MdArrowBack, MdPlayArrow } from 'react-icons/md';
 
 interface FilmeDetalheDTO_Res {
   caminhoImagem: string,
@@ -20,6 +21,7 @@ interface FilmeDetalheDTO_Res {
 const Api = new ApiService();
 const VisualFilme: React.FC = () => {
   const [detail, setDetail] = useState<FilmeDetalheDTO_Res | null>(null);
+  const nav = useNavigate();
   const { filmeId } = useParams<{ filmeId: string }>();
   useEffect(() => {
     async function LoadDetalhe() {
@@ -39,39 +41,46 @@ const VisualFilme: React.FC = () => {
     <>
       <img className="absolute h-screen w-full top-0 left-0 m-0 p-0 border-0 bg-cover blur-[3px]" style={{ backgroundImage: `url(${detail?.caminhoImagem})`, backdropFilter: 'blur(5px)' }} />
       <div className='relative z-10'>
-        <div className="container ml-12">
-          {/* <img className="backdrop-blur-md w-20 h-20 mt-16 ml-10" src={livre} alt="Ícone de Indicação" /> */}
-          <div className='flex flex-col justify-start'>
+        <div className="container relative">
+          <div className='flex min-h-screen flex-col justify-start pt-10'>
             <div >
               <Classificacao classificacao={detail?.classificacao ?? "l"} />
             </div>
-            <h1 className="text-white text-7xl font-semibold mt-6">{detail?.titulo}</h1>
-            <h5 className="text-2xl text-white font-normal leading-9 ml-10 mt-4 mb-16 max-w-6xl text-left">
-
+            <h1 className="text-white text-5xl font-semibold mt-8">{detail?.titulo}</h1>
+            <h5 className="text-2xl text-white font-normal leading-9 mt-4 mb-20 max-w-6xl text-left">
               {detail?.descricao}
-
             </h5>
-          </div>
-          <div className="flex mt-8 ml-10">
-            <button
-              className="w-16 h-16 mr-4 rounded-full hover:bg-purple-700 bg-purple-600 focus:outline-none flex items-center justify-center">
-              &#9654;
-            </button>
-            <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold text-lg rounded-full px-5 py-3 ">
-              Apoie o projeto!
-            </button>
-          </div>
-        </div>
 
-        <div className='flex justify-end gap-4 mr-10 bottom-0'>
-          <button className='px-7 py-5 rounded-full items-center bg-background flex gap-3'>
-            <img src={tomate} alt="tomate" className='h-[20px] object-contain' />
-            <label>30%</label>
-          </button>
-          <button className='px-7 py-5 rounded-full items-center bg-background flex gap-3'>
-            <img src={pipoca} alt="pipoca" className='h-[20px] object-contain' />
-            <label>60%</label>
-          </button>
+            <div className="flex w-full justify-between pt-8">
+              <div className='flex gap-3'>
+                <button
+                  className="w-[64px] h-[64px] bg-primary rounded-full focus:outline-none flex items-center justify-center">
+                  <MdPlayArrow />
+                </button>
+                <button className="bg-primary h-[64px] text-white font-semibold rounded-full px-8">
+                  Apoie o projeto!
+                </button>
+              </div>
+            </div>
+
+            <div className='flex gap-3 absolute bottom-[20px] right-8'>
+              <button onClick={() => nav("/a/")} className='px-7 py-5 rounded-full items-center bg-white  flex gap-3'>
+                <MdArrowBack className='text-black' />
+                <label className='text-black'>voltar</label>
+              </button>
+              <button className='px-7 py-5 rounded-full items-center bg-background flex gap-3'>
+                <img src={tomate} alt="tomate" className='h-[20px] object-contain' />
+                <label>30%</label>
+              </button>
+              <button className='px-7 py-5 rounded-full items-center bg-background flex gap-3'>
+                <img src={pipoca} alt="pipoca" className='h-[20px] object-contain' />
+                <label>60%</label>
+              </button>
+            </div>
+          </div>
+
+
+
         </div>
       </div>
     </>

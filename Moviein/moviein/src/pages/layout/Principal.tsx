@@ -3,27 +3,24 @@ import { Button } from 'components/ui/button';
 import tomate from '../../assets/tomate.png';
 import pipoca from '../../assets/pipoca.png';
 import { Carousel, CarouselContent, CarouselItem } from 'components/ui/carousel';
-import { UNSAFE_DataRouterStateContext, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import unisuamLight from '../../assets/Unisuam-light.png'
 import unisuam from '../../assets/Unisuam.png'
 import moviein from '../../assets/moviein.png';
 import movieinDark from '../../assets/moviein-dark.png';
 import { useTheme } from 'components/ui/theme-provider';
 import { Link } from 'react-router-dom';
-import kungfupandacover2 from '../../assets/filmes/kungfupanda.jpg';
-import casteloanimado from '../../assets/filmes/casteloanimado.jpg';
-import princesamononoke from '../../assets/filmes/princesamononoke.jpg';
-import moonlight from '../../assets/filmes/moonlight.jpg';
-import vidaspassadas from '../../assets/filmes/vidaspassadas.jpg';
-import zonadeinteresse from '../../assets/filmes/zonadeinteresse.jpg';
-import aranhaverso from '../../assets/filmes/aranhaverso.jpg';
-import nimona from '../../assets/filmes/nimona.jpg';
-import haikyuu from '../../assets/filmes/haikyuu.jpg';
-import tudoemtodo from '../../assets/filmes/tudoemtodo.jpg';
 import pandafundo from '../../assets/filmes/pandafundo.jpg';
 import ApiService from 'api/ApiService';
-import FilmeItemDTO_Res from 'models/FilmeItemDTO_Res';
 import FilmeDTO_Res from 'models/FilmeDTO_Res';
+import { Skeleton } from 'components/ui/skeleton';
+
+
+interface FilmeNovoDTO_Res {
+    imagem: string
+    nome: string
+    filmeId: number
+}
 
 const api = new ApiService();
 const Principal: React.FC = () => {
@@ -31,53 +28,113 @@ const Principal: React.FC = () => {
     const { theme } = useTheme();
     const [list, setList] = useState<FilmeDTO_Res[]>([]);
     const [load, setLoad] = useState<boolean>(false);
-
+    const [ filme, setFilme ] = useState<FilmeNovoDTO_Res | null>(null)
     useEffect(() => {
-        async function LoadFilme() {
+        async function LoadFilmes() {
+            setLoad(true);
+
+            await api.Get<FilmeNovoDTO_Res>({
+                errorTitle: "Falha ao exibir filme novo.",
+                path: "api/filme/NovoFilme",
+                thenCallback: (r) => {
+                    setFilme(r);
+                }
+            })
+
             await api.Get<FilmeDTO_Res[]>({
                 path: "api/filme/ListarFilmes",
                 errorTitle: "Falha ao listar os filmes",
                 thenCallback: (r) => {
                     setList(r);
+                    setLoad(false);
                 }
             })
         }
-        LoadFilme();
+        LoadFilmes();
     }, [])
 
+
+    const LoadContext: React.FC<{ children: React.ReactNode, className: string }> = (p) => {
+        return (
+            <>
+                {
+                    load ?
+                        <Skeleton className={p.className} />
+                        :
+                        p.children
+                }
+            </>
+        );
+    }
+
     return (
-        <main>
+        <main className='min-h-screen relative'>
             <div className='relative h-[40vh]'>
                 <div className='bg-background absolute w-full h-full z-[1]'>
-                    <img src={pandafundo} alt="filme" className='w-full opacity-70 h-full object-cover' />
+                    <LoadContext className='w-full h-[40vh]'>
+                        <img src={filme?.imagem} alt="filme" className='animate-in fade-in duration-1200 w-full opacity-70 h-full object-cover' />
+                    </LoadContext>
                 </div>
                 <div className='container relative z-20'>
                     <div className='grid grid-cols-2 items-end h-[25vh] pb-5'>
                         <div>
-                            <h3 className='text-[50px] text-text font-bold'>Kung fu panda 4</h3>
-                            {/* <p>Em "Kung Fu Panda 4", Po, o Grande Dragão Guerreiro, é escolhido para se tornar o Líder Espiritual do Vale da Paz, mas enfrenta desafios ao encontrar e treinar um novo Dragão Guerreiro, Zhen, uma raposa relutante. Enquanto isso, a Camaleoa tenta ressuscitar vilões derrotados por Po, colocando em risco a paz novamente.</p> */}
+                            <LoadContext className='h-[60px]'>
+                                <h3 className='text-[50px] text-text font-bold'>{filme?.nome}</h3>
+                            </LoadContext>
                         </div>
                         <div className='flex justify-end gap-4'>
-                            <button className='p-2 rounded-full items-center bg-background flex gap-3'>
-                                <img src={tomate} alt="tomate" className='h-[25px] object-contain' />
-                                <label>30%</label>
-                            </button>
-                            <button className='p-2 rounded-full items-center bg-background flex gap-3'>
-                                <img src={pipoca} alt="pipoca" className='h-[25px] object-contain' />
-                                <label>60%</label>
-                            </button>
-                            <Button onClick={() => nav("VisualFilme")} variant="red">
-                                Assistir
-                            </Button>
+                            <LoadContext className='h-[46px] w-[80px] rounded-full'>
+                                <button className='p-2 rounded-full items-center bg-background flex gap-3'>
+                                    <img src={tomate} alt="tomate" className='h-[25px] object-contain' />
+                                    <label>30%</label>
+                                </button>
+                            </LoadContext>
+                            <LoadContext className='h-[46px] w-[80px] rounded-full'>
+                                <button className='p-2 rounded-full items-center bg-background flex gap-3'>
+                                    <img src={pipoca} alt="pipoca" className='h-[25px] object-contain' />
+                                    <label>60%</label>
+                                </button>
+                            </LoadContext>
+                            <LoadContext className='h-[40px] rounded-md'>
+                                <Button onClick={() => nav(`/a/visualFilme/${filme?.filmeId}`)} variant="red">
+                                    Assistir
+                                </Button>
+                            </LoadContext>
                         </div>
                     </div>
                 </div>
                 <div className='w-full absolute z-[10] h-[60px] bottom-0 left-0 bg-gradient-to-b from-transparent to-background'></div>
             </div>
-            <section className='container mt-8'>
+            <section className='container mt-8 pb-[100px]'>
 
                 {
-                    list.map((e, i) => (
+                    load ? (
+                        <>
+                            <Skeleton className='w-[160px] h-[32px] mb-4' />
+                            <Carousel>
+                                <CarouselContent>
+                                    <CarouselItem className='basis-1/5'>
+                                        <Skeleton className='w-full h-[260px]' />
+                                    </CarouselItem>
+                                    <CarouselItem className='basis-1/5'>
+                                        <Skeleton className='w-full h-[260px]' />
+                                    </CarouselItem>
+                                    <CarouselItem className='basis-1/5'>
+                                        <Skeleton className='w-full h-[260px]' />
+                                    </CarouselItem>
+                                    <CarouselItem className='basis-1/5'>
+                                        <Skeleton className='w-full h-[260px]' />
+                                    </CarouselItem>
+                                    <CarouselItem className='basis-1/5'>
+                                        <Skeleton className='w-full h-[260px]' />
+                                    </CarouselItem>
+                                    <CarouselItem className='basis-1/5'>
+                                        <Skeleton className='w-full h-[260px]' />
+                                    </CarouselItem>
+                                </CarouselContent>
+                            </Carousel>
+                        </>
+                    ) : list.map((e, i) => (
                         <>
                             <Carousel key={i}>
                                 <h3 className='text-[25px] text-text font-bold mb-[15px] mt-[30px]'>{e.categoria}</h3>
@@ -100,11 +157,7 @@ const Principal: React.FC = () => {
                 }
 
             </section>
-
-            <section className='mb-[50px]'>
-            </section>
-
-            <footer className="dark:bg-black bg-card p-8 ">
+            <footer className="container pt-4 dark:bg-black bg-card h-[80px] absolute bottom-0 w-full">
                 <div>
                     {
                         (theme === "dark" || theme === "system") && <img alt='Moviein' src={movieinDark} className="w-[100px] object-contain -dark:hidden" />

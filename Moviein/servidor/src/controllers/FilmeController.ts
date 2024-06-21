@@ -134,6 +134,31 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
         })
     });
 
+    instance.get("NovoFilme", { preHandler: Auth }, async (req, res) => {
+
+        var filme = await prismaClient.filme.findFirst({
+            include: {
+                ClienteFilme: true,
+                InformacaoFilme: true
+            },
+            orderBy: {
+                publicadoEm: "desc"
+            }
+        });
+
+        var l = new GetObjectCommand({
+            Bucket: "moviein-bucket",
+            Key: filme?.InformacaoFilme?.imagemCaminho
+        })
+
+        var url = await getSignedUrl(ss3, l, { expiresIn: 3000 });
+
+        res.ok({
+            imagem: url,
+            nome: filme?.nome,
+            filmeId: filme?.id
+        })
+    })
 
     instance.post("RegistroFilme", { preHandler: Auth }, async (req, res) => {
         const { filmeId } = req.query as { filmeId: string }
@@ -234,12 +259,11 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
         })
 
         var url = await getSignedUrl(ss3, l, { expiresIn: 3000 });
-        console.log({url})
         var response: DetalheFilmeDTO_Res = {
             caminhoImagem: url,
             classificacao: filme.classificacao,
             descricao: filme.InformacaoFilme!.descricao,
-            id: filme.id, 
+            id: filme.id,
             titulo: filme.nome
         }
 
