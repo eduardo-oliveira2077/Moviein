@@ -50,7 +50,7 @@ model Filme {
   referencia      String
   imagemThumb     String
   classificacao   String
-  publicadoEm     DateTime @default(now())
+  publicadoEm     DateTime         @default(now())
   autor           Usuario          @relation(fields: [autorId], references: [id])
   InformacaoFilme InformacaoFilme?
   ClienteFilme    ClienteFilme[]
@@ -66,10 +66,11 @@ model InformacaoFilme {
 }
 
 model Assinatura {
-  id                Int     @id @default(autoincrement())
-  usuarioId         Int     @unique
+  id                Int      @id @default(autoincrement())
+  usuarioId         Int      @unique
   assinatura        String
   asaasAssinaturaId String
+  expiradoEm        DateTime?
   preco             Decimal
   tipo              String
 

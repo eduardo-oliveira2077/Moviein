@@ -108,13 +108,16 @@ const Assinatura: React.FC = () => {
   ];
 
   return (
-    <div className='bg-gradient-to-br flex justify-center items-center w-full h-screen from-primary to-red'>
+    <div className='bg-gradient-to-br flex justify-center items-center w-full min-h-screen from-primary to-red'>
       <div className='container'>
-        <div className='bg-background p-6 rounded-lg'>
+        <div className='bg-background p-6 rounded-lg mt-4 md:mt-0'>
           <section className='container mx-auto'>
             <div className='mb-6'>
-              <h2 className='font-bold text-2xl mt-4 mb-4'>Planos de Assinatura</h2>
-              <div className='grid grid-cols-2 gap-12 justify-between items-center w-full'>
+              <div className='flex flex-col md:flex-row md:items-center justify-between'>
+                <h2 className='font-bold text-2xl mt-4 mb-4'>Planos de Assinatura</h2>
+                <p className='mb-3'>Para poder assistir vídeos, é necessário obter um desses planos.</p>
+              </div>
+              <div className='grid md:grid-cols-2 grid-cols-1 gap-12 justify-between items-center w-full'>
                 <Select onValueChange={(d: tipoType) => setTipo(d)} defaultValue={tipo}>
                   <SelectTrigger>
                     <SelectValue />

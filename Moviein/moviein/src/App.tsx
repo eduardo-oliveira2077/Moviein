@@ -22,6 +22,7 @@ import UserLogConsultation from "pages/telalog/TelaLogs";
 import Confirma from "pages/pagamento/confirma";
 import UserConsultation from "pages/ConsultUser/ConsultarUsuario";
 import Error404 from "pages/erro404/erro";
+import AssistirVideo from "pages/layout/AssistirVideo";
 
 function App() {
   const { toast } = useToast();
@@ -54,6 +55,8 @@ function App() {
             <Route path="dadosPrincipais" element={<DadosPrincipais />} />
             <Route path="meusVideos" element={<MeusVideos />} />
             <Route path="consulta/usuarios" element={<UserConsultation />} />
+            <Route path="filme/view/:filmeCripto" element={<AssistirVideo />} />
+
           </Route>
         </Route>
       </Routes>
