@@ -1,6 +1,6 @@
 import { FastifyPluginCallback } from "fastify";
 import RegistrarFilmeDTO_Req from "../models/DTOs/RegistrarFilmeDTO_Req";
-import { GetObjectAclCommand, GetObjectCommand, PutObjectCommand, S3 } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, GetObjectAclCommand, GetObjectCommand, PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import { prismaClient } from "../server";
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { MD5 } from "crypto-js";
@@ -8,12 +8,13 @@ import Auth from "../middlewares/Auth";
 import FilmeItemDTO_Res from "../models/DTOs/FilmeItemDTO_Res";
 import FilmeDTO_Res from "../models/DTOs/FilmeDTO_Res";
 import DetalheFilmeDTO_Res from "../models/DTOs/DetalheFilmeDTO_Res";
+import EditarFilmeDTO_Req from "../models/DTOs/EditarFilmeDTO_Req";
 
 if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
     throw new Error('As variáveis de ambiente AWS_REGION, AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY devem estar definidas.');
 }
 
-const ss3 = new S3({
+const s3 = new S3({
     region: process.env.AWS_REGION,
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -90,7 +91,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
         var caminho = `detailImage/${filme.referencia}/${file?.filename}`;
 
-        await ss3.send(
+        await s3.send(
             new PutObjectCommand({
                 Bucket: 'moviein-bucket',
                 Key: caminho,
@@ -128,7 +129,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             Key: filme.InformacaoFilme?.imagemCaminho
         })
 
-        var url = await getSignedUrl(ss3, l, { expiresIn: 3000 });
+        var url = await getSignedUrl(s3, l, { expiresIn: 3000 });
         return res.ok({
             url: url
         })
@@ -151,7 +152,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             Key: filme?.InformacaoFilme?.imagemCaminho
         })
 
-        var url = await getSignedUrl(ss3, l, { expiresIn: 3000 });
+        var url = await getSignedUrl(s3, l, { expiresIn: 3000 });
 
         res.ok({
             imagem: url,
@@ -172,9 +173,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             }
         });
 
-        console.log({ "file": file });
-
-        await ss3.send(
+        await s3.send(
             new PutObjectCommand({
                 Bucket: 'moviein-bucket',
                 Key: `movie/${filme?.referencia}/${file?.filename}`,
@@ -200,6 +199,9 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
         const filmes = await prismaClient.filme.findMany({
             where: {
                 autorId: usuario.id
+            },
+            orderBy:{
+                publicadoEm: "desc"
             }
         })
 
@@ -207,7 +209,8 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             classificacaoAssinantes: 0,
             nome: e.nome,
             id: e.id,
-            thumb: e.imagemThumb
+            thumb: e.imagemThumb,
+            ere: e.publicadoEm
         }))
 
         return res.ok(response);
@@ -258,16 +261,97 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             Key: filme?.InformacaoFilme?.imagemCaminho
         })
 
-        var url = await getSignedUrl(ss3, l, { expiresIn: 3000 });
+        var url = await getSignedUrl(s3, l, { expiresIn: 3000 });
         var response: DetalheFilmeDTO_Res = {
             caminhoImagem: url,
             classificacao: filme.classificacao,
             descricao: filme.InformacaoFilme!.descricao,
             id: filme.id,
-            titulo: filme.nome
+            thumb: filme.imagemThumb,
+            categoria: filme.categoria,
+            titulo: filme.nome,
         }
 
         return res.ok(response);
+    })
+
+
+    instance.post("EditarVideo", { preHandler: Auth }, async (req, res) => {
+        const request = req.body as EditarFilmeDTO_Req;
+        //Editando dados do filme
+        await prismaClient.filme.update({
+            include: {
+                InformacaoFilme: true
+            },
+            where: {
+                id: request.filmeId
+            },
+            data: {
+                classificacao: request.classificacao,
+                nome: request.nome,
+                categoria: request.categoria,
+                InformacaoFilme: {
+                    update: {
+                        where: {
+                            filmeId: request.filmeId
+                        },
+                        data: {
+                            descricao: request.descricao
+                        }
+                    }
+                }
+            }
+        })
+
+    })
+
+
+    instance.post("EditarImagem", { preHandler: Auth }, async (req, res) => {
+        const { filmeId } = req.query as { filmeId: string };
+
+        var file = await req.file();
+
+        if (file !== null) {
+            var fileBuffer = await file?.toBuffer();
+
+            const filme = await prismaClient.filme.findFirst({
+                include: {
+                    InformacaoFilme: true
+                },
+                where: {
+                    id: parseInt(filmeId)
+                }
+            });
+
+            if (filme === null)
+                return res.badRequest("filme não encontrado.")
+
+            await s3.send(
+                new DeleteObjectCommand({
+                    Bucket: "moviein-bucket",
+                    Key: filme?.InformacaoFilme?.imagemCaminho
+                })
+            )
+
+            var caminho = `detailImage/${filme.referencia}/${file?.filename}`;
+
+            await s3.send(
+                new PutObjectCommand({
+                    Bucket: 'moviein-bucket',
+                    Key: caminho,
+                    Body: fileBuffer,
+                })
+            )
+
+            await prismaClient.informacaoFilme.update({
+                where: {
+                    filmeId: parseInt(filmeId)
+                },
+                data: {
+                    imagemCaminho: caminho
+                }
+            });
+        }
     })
 
     done();

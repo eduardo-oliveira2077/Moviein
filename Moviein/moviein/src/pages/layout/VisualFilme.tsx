@@ -39,15 +39,18 @@ const VisualFilme: React.FC = () => {
 
   return (
     <>
-      <img className="absolute h-screen w-full top-0 left-0 m-0 p-0 border-0 bg-cover blur-[3px]" style={{ backgroundImage: `url(${detail?.caminhoImagem})`, backdropFilter: 'blur(5px)' }} />
+      <img className="fixed h-screen w-full top-0 left-0 m-0 p-0 border-0 bg-cover blur-[3px]" style={{ backgroundImage: `url(${detail?.caminhoImagem})`, backdropFilter: 'blur(5px)' }} />
+      <div className='fixed bg-gradient-to-r from-background to-transparent h-screen w-[600px] top-0 left-0'>
+
+      </div>
       <div className='relative z-10'>
         <div className="container relative">
-          <div className='flex min-h-screen flex-col justify-start pt-10'>
+          <div className='flex min-h-screen flex-col justify-start pt-10 w-1/2'>
             <div >
               <Classificacao classificacao={detail?.classificacao ?? "l"} />
             </div>
             <h1 className="text-white text-5xl font-semibold mt-8">{detail?.titulo}</h1>
-            <h5 className="text-2xl text-white font-normal leading-9 mt-4 mb-20 max-w-6xl text-left">
+            <h5 className="text-1xl text-white font-normal leading-9 mt-4 mb-20 max-w-6xl text-left">
               {detail?.descricao}
             </h5>
 

@@ -28,7 +28,7 @@ const Principal: React.FC = () => {
     const { theme } = useTheme();
     const [list, setList] = useState<FilmeDTO_Res[]>([]);
     const [load, setLoad] = useState<boolean>(false);
-    const [ filme, setFilme ] = useState<FilmeNovoDTO_Res | null>(null)
+    const [filme, setFilme] = useState<FilmeNovoDTO_Res | null>(null)
     useEffect(() => {
         async function LoadFilmes() {
             setLoad(true);
@@ -76,23 +76,23 @@ const Principal: React.FC = () => {
                     </LoadContext>
                 </div>
                 <div className='container relative z-20'>
-                    <div className='grid grid-cols-2 items-end h-[25vh] pb-5'>
+                    <div className='grid md:grid-cols-2 grid-cols-1 items-end h-[25vh] pb-5'>
                         <div>
                             <LoadContext className='h-[60px]'>
-                                <h3 className='text-[50px] text-text font-bold'>{filme?.nome}</h3>
+                                <h3 className='md:text-[50px] text-[32px] text-text font-bold'>{filme?.nome}</h3>
                             </LoadContext>
                         </div>
                         <div className='flex justify-end gap-4'>
                             <LoadContext className='h-[46px] w-[80px] rounded-full'>
                                 <button className='p-2 rounded-full items-center bg-background flex gap-3'>
                                     <img src={tomate} alt="tomate" className='h-[25px] object-contain' />
-                                    <label>30%</label>
+                                    <label className='sm:text-[14px]'>30%</label>
                                 </button>
                             </LoadContext>
                             <LoadContext className='h-[46px] w-[80px] rounded-full'>
                                 <button className='p-2 rounded-full items-center bg-background flex gap-3'>
                                     <img src={pipoca} alt="pipoca" className='h-[25px] object-contain' />
-                                    <label>60%</label>
+                                    <label className='sm:text-[14px]'>60%</label>
                                 </button>
                             </LoadContext>
                             <LoadContext className='h-[40px] rounded-md'>
@@ -141,7 +141,7 @@ const Principal: React.FC = () => {
                                 <CarouselContent>
                                     {
                                         e.filmes.map((r, k) => (
-                                            <CarouselItem key={k} className='basis-1/5' onClick={() => nav(`/a/visualFilme/${r.id}`)}>
+                                            <CarouselItem key={k} className='md:basis-1/5 basis-1/2' onClick={() => nav(`/a/visualFilme/${r.id}`)}>
                                                 <div className='relative pt-[140%] border-primary border-[2px] rounded-xl hover:shadow-[0_6px_16px_0_rgba(134,93,255,0.5)]'>
                                                     <Link to="#">
                                                         <img className="absolute top-0 left-0 w-full h-full object-cover rounded-lg" src={r.thumb} alt="" />

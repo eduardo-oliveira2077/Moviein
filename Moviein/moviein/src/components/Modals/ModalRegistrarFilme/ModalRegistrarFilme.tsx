@@ -77,7 +77,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
 
                 formData.append("file", fileDetail_select!);
 
-                //Estágio 2: Salvando a imagem detalhe no SS3
+                //Estágio 2: Salvando a imagem detalhe no S3
                 await Api.Post({
                     data: formData,
                     formData: true,
@@ -159,7 +159,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
 
     return (
         <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
                 {p.children}
             </DialogTrigger>
             <DialogContent className='min-w-[80%] min-h-[50%]'>

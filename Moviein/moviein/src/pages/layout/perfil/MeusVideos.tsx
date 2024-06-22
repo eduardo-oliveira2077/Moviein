@@ -3,23 +3,16 @@ import ModalRegistrarFilme from 'components/Modals/ModalRegistrarFilme/ModalRegi
 import { Button } from 'components/ui/button';
 import React, { useEffect, useState } from 'react';
 import { MdMovie } from 'react-icons/md';
-import pipoca from '../../../assets/pipoca.png';
-import tomate from '../../../assets/tomate.png';
 import { Skeleton } from 'components/ui/skeleton';
-
-type FilmeItem = {
-    nome: string,
-    id: number,
-    thumb: string
-    classificacaoAssinantes: number
-}
+import FilmeItem from 'models/FilmeItemModel';
+import MeusVideoItem from 'components/Items/MeusVideoItem/MeusVideoItem';
 
 const Api = new ApiService();
 const MeusVideos: React.FC = () => {
     const [videos, setVideos] = useState<FilmeItem[]>([]);
     const [load, setLoad] = useState<boolean>(true);
-
     async function LoadVideos() {
+        setLoad(true)
         await Api.Get<FilmeItem[]>({
             path: "api/filme/Meusvideos",
             errorTitle: "Falha ao listar os vídeos",
@@ -60,22 +53,11 @@ const MeusVideos: React.FC = () => {
                             <>
                                 {
                                     videos.map((e, i) => (
-                                        <div key={i}>
-                                            <img src={e.thumb} className='mb-3 h-[200px] w-full object-cover rounded-xl' />
-                                            <h4 className='font-bold text-2xl'>{e.nome}</h4>
-                                            <div className='flex mt-3 jsutify-between'>
-                                                <div className='flex gap-5'>
-                                                    <div className='flex items-center gap-1'>
-                                                        <img src={pipoca} className='h-[20px]' />
-                                                        <b>50%</b>
-                                                    </div>
-                                                    <div className='flex items-center gap-1'>
-                                                        <img src={tomate} className='h-[20px]' />
-                                                        <b>50%</b>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <MeusVideoItem
+                                            key={i}
+                                            {...e}
+                                            updateChange={() => LoadVideos()}
+                                        />
                                     ))
                                 }
                             </>

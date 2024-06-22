@@ -58,7 +58,7 @@ model Filme {
 
 model InformacaoFilme {
   id            Int    @id @default(autoincrement())
-  descricao     String @db.VarChar(180)
+  descricao     String @db.VarChar(800)
   imagemCaminho String
 
   filmeId Int   @unique
