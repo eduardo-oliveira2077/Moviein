@@ -32,7 +32,7 @@ const MeusVideos: React.FC = () => {
         <div className='px-8 mt-8'>
             <div className='w-full mb-4 flex justify-between'>
                 <h3 className='text-3xl'>Meus vídeos</h3>
-                <ModalRegistrarFilme>
+                <ModalRegistrarFilme onUpdated={LoadVideos}>
                     <Button variant="outline" className='gap-3'>
                         Registrar novo vídeo
                         <MdMovie />

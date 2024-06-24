@@ -20,6 +20,7 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 
 type ModalRegistrarFilmeType = {
     children: React.ReactNode;
+    onUpdated: () => any
 }
 
 const Api = new ApiService();
@@ -55,7 +56,8 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
             descricao: data.descricao,
             classificacao: data.classificacao,
             thumbnail: thumb_select,
-            categoria: data.categoria
+            categoria: data.categoria,
+            duracao: duration
         }
         setLoad(true);
         setLoadcontext({
@@ -127,12 +129,12 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                 progress: 80,
                                 text: "Enviando video segmentado (4/4)..."
                             });
-                            console.log({newSegments})
+                            console.log({ newSegments })
 
                             for (const segment of newSegments) {
                                 var fd = new FormData();
                                 fd.append("file", segment.blob, segment.name.name);
-                                console.log({"blobs": segment.blob})
+                                console.log({ "blobs": segment.blob })
 
                                 await Api.Post({
                                     data: fd,
@@ -146,6 +148,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                 className: "bg-success text-black"
                             })
                             setLoad(false)
+                            p.onUpdated();
                             buttonCloseRef.current?.click();
                         }
                     }
@@ -298,7 +301,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                         {
                             etapa === 2 && (
                                 <>
-                                    <input type="file" className="hidden" ref={ImgDetailRef}
+                                    <input type="file" accept="image/*"  className="hidden" ref={ImgDetailRef}
                                         onChange={async (f) => {
                                             const file = f.target.files?.[0];
                                             setFileDetail_select(file ?? null);
@@ -308,7 +311,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                     setImgDetail_select(base.toString());
                                             }
                                         }} />
-                                    <input type="file" className="hidden" ref={ThumbRef}
+                                    <input type="file" accept="image/*"  className="hidden" ref={ThumbRef}
                                         onChange={async (f) => {
                                             const file = f.target.files?.[0];
                                             if (file !== undefined) {
@@ -322,14 +325,18 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                         <div
                                             onClick={() => ImgDetailRef.current?.click()}
                                             className='flex cursor-pointer flex-col justify-center items-center col-span-2 h-[400px] w-full border-[1px] rounded-lg'>
-                                            <MdImage className='text-4xl' />
                                             {
                                                 imgDetail_select !== null && (
                                                     <img src={imgDetail_select} className='h-full w-full object-cover rounded-lg' />
                                                 )
                                             }
                                             {
-                                                imgDetail_select === null && <p>Foto detalhada do filme</p>
+                                                imgDetail_select === null && (
+                                                    <>
+                                                        <MdImage className='text-4xl' />
+                                                        <p>Foto detalhada do filme</p>
+                                                    </>
+                                                )
                                             }
                                         </div>
                                         <div
