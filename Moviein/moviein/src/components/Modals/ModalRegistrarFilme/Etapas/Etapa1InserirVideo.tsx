@@ -28,7 +28,7 @@ const Etapas1_InserirVideo: React.FC<Etapa1_InserirVideoType> = (p) => {
           className='flex flex-col cursor-pointer justify-center items-center w-[400px] rounded-lg h-[400px] border-[1px] border-sky-100'>
           <BiSolidMoviePlay className={twMerge("text-[80px]", p.file !== null ? "text-primary" : "dark:text-white/50 text-black/20")} />
           <p>{p.file !== null ? p.file?.name : "Arraste o seu vídeo / filmes aqui"}</p>
-          <small>Atualmente é permitido vídeos de até 20 minutos.</small>
+          <small>Atualmente é permitido vídeos com resolução de 360p.</small>
         </div>
       </div>
     </>

@@ -389,6 +389,14 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                         Fechar
                                     </Button>
                                 </DialogClose>
+                                {
+                                    form.formState.errors.categoria?.message ||
+                                    form.formState.errors.classificacao?.message ||
+                                    form.formState.errors.descricao?.message ||
+                                    form.formState.errors.nome?.message
+                                }
+{/* 
+                                <div>{form.formState.errors.categoria?.message}</div> */}
 
                                 <div className='space-x-2'>
                                     {
