@@ -24,6 +24,8 @@ const Login: React.FC = () => {
     funcao: string
     exp: number
     expiracao: Date
+    autenticacao2fatores: boolean
+    code?: string
   }
 
   async function LoginEntrar(data: LoginSchreemaType) {
@@ -36,8 +38,12 @@ const Login: React.FC = () => {
         window.localStorage.setItem("token", d.token);
         window.localStorage.setItem("funcao", d.funcao);
         window.localStorage.setItem("exp", d.expiracao.toString());
+        if(d.autenticacao2fatores) {
+          nav("/doisfatores", { state: { code: d.code } })
+        } else {
+          nav("/a/")
+        }
         setLoad(false);
-        nav("/a/")
       },
       catchCallback: () =>{
         setLoad(false);

@@ -27,10 +27,25 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       return res.badRequest("Senha inválida.");
     var token = TokenService.encript(user.email, user.funcao);
 
+
+    let code;
+    if (user.Auth2) {
+      const randomNumber = Math.floor(10000 + Math.random() * 90000);
+
+      await SendEMailService.Enviar({
+        conteudo: `Seu código de autenticação de 2 fatores é: <b>${randomNumber}</b>`,
+        email: email,
+        titulo: "Moviein: Código de 2 fatores."
+      });
+      code = randomNumber;
+    }
+
     return res.ok({
       token: token.token,
       funcao: token.funcao,
-      expiracao: token.expiracao
+      expiracao: token.expiracao,
+      autenticacao2fatores: user.Auth2,
+      code: code
     })
 
   });
@@ -208,7 +223,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       }
     })
 
-    
+
 
     if (usuario === null)
       return res.badRequest("Usuário não encontrado.");

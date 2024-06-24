@@ -27,8 +27,8 @@ type RedefinirSenhaType = yup.InferType<typeof RedefinirSenhaSchreema>;
 
 const RedefinirSenha: React.FC = () => {
     const { state } = useLocation();
-    const [load, setLoad] = useState<boolean>(false);
     const { code, email } = state as redefine;
+    const [load, setLoad] = useState<boolean>(false);
     const { toast } = useToast();
     const nav = useNavigate();
     const form = useForm({
