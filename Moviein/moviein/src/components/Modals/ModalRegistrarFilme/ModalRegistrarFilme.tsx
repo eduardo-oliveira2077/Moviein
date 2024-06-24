@@ -59,6 +59,34 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
             categoria: data.categoria,
             duracao: duration
         }
+
+        if (fileDetail_select === null) {
+            toast({
+                title: "Falha ao registrar filme",
+                description: "Insira uma imagem detalhada do filme.",
+                className: "bg-red text-white"
+            })
+            return;
+        }
+
+        if (thumb_select === null) {
+            toast({
+                title: "Falha ao registrar filme",
+                description: "Insira uma imagem de thumbnail do filme.",
+                className: "bg-red text-white"
+            })
+            return;
+        }
+
+        if (file === null) {
+            toast({
+                title: "Falha ao registrar filme",
+                description: "Faça um upload de algum vídeo na etapa 1.",
+                className: "bg-red text-white"
+            })
+            return;
+        }
+
         setLoad(true);
         setLoadcontext({
             progress: 20,
@@ -169,7 +197,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
             <DialogContent className='min-w-[80%] min-h-[50%]'>
 
                 <DialogHeader>
-                    <DialogTitle>Upload do vídeo</DialogTitle>
+                    <DialogTitle>Upload do vídeo (etapa {etapa + 1})</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(registrar)}>
@@ -301,7 +329,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                         {
                             etapa === 2 && (
                                 <>
-                                    <input type="file" accept="image/*"  className="hidden" ref={ImgDetailRef}
+                                    <input type="file" accept="image/*" className="hidden" ref={ImgDetailRef}
                                         onChange={async (f) => {
                                             const file = f.target.files?.[0];
                                             setFileDetail_select(file ?? null);
@@ -311,7 +339,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                     setImgDetail_select(base.toString());
                                             }
                                         }} />
-                                    <input type="file" accept="image/*"  className="hidden" ref={ThumbRef}
+                                    <input type="file" accept="image/*" className="hidden" ref={ThumbRef}
                                         onChange={async (f) => {
                                             const file = f.target.files?.[0];
                                             if (file !== undefined) {
@@ -384,19 +412,21 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
 
                         <DialogFooter className='pt-10'>
                             <div className='flex justify-between w-full'>
-                                <DialogClose asChild>
-                                    <Button variant="outline" ref={buttonCloseRef} color="outline-white">
-                                        Fechar
-                                    </Button>
-                                </DialogClose>
-                                {
-                                    form.formState.errors.categoria?.message ||
-                                    form.formState.errors.classificacao?.message ||
-                                    form.formState.errors.descricao?.message ||
-                                    form.formState.errors.nome?.message
-                                }
-{/* 
-                                <div>{form.formState.errors.categoria?.message}</div> */}
+                                <div className='flex gap-3 items-center'>
+                                    <DialogClose asChild>
+                                        <Button variant="outline" ref={buttonCloseRef} color="outline-white">
+                                            Fechar
+                                        </Button>
+                                    </DialogClose>
+                                    <div className='text-red'>
+                                        {
+                                            form.formState.errors.categoria?.message ||
+                                            form.formState.errors.classificacao?.message ||
+                                            form.formState.errors.descricao?.message ||
+                                            form.formState.errors.nome?.message
+                                        }
+                                    </div>
+                                </div>
 
                                 <div className='space-x-2'>
                                     {
