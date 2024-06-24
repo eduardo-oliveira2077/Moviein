@@ -22,7 +22,7 @@ import UserLogConsultation from "pages/telalog/TelaLogs";
 import Confirma from "pages/pagamento/confirma";
 import UserConsultation from "pages/ConsultUser/ConsultarUsuario";
 import Error404 from "pages/erro404/erro";
-import AssistirVideo from "pages/layout/AssistirVideo";
+import AssistirVideo from "pages/layout/AssistirVideo/AssistirVideo";
 
 function App() {
   const { toast } = useToast();
@@ -43,7 +43,7 @@ function App() {
         <Route path="/redefinirSenha" element={<RedefinirSenha />} />
         <Route path="/doisFatores" element={<Doisfatores />} />
         <Route path="/pagamento" element={<Pagamento />} />
-        <Route path="/confirma" element={<Confirma/>} />
+        <Route path="/confirma" element={<Confirma />} />
         <Route path="/consulta" element={<UserConsultation />} />
         <Route path="/Logs" element={<UserLogConsultation />} />
 
@@ -51,11 +51,11 @@ function App() {
           <Route index element={<Principal />} />
           <Route path="/a/assinatura" element={<Assinatura />} />
           <Route path="/a/visualFilme/:filmeId" element={<VisualFilme />} />
+          <Route path="/a/filme/view/:filmeCripto" element={<AssistirVideo />} />
           <Route path="/a/perfil/" element={<SidebarPerfil />}>
             <Route path="dadosPrincipais" element={<DadosPrincipais />} />
             <Route path="meusVideos" element={<MeusVideos />} />
             <Route path="consulta/usuarios" element={<UserConsultation />} />
-            <Route path="filme/view/:filmeCripto" element={<AssistirVideo />} />
 
           </Route>
         </Route>

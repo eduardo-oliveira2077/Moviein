@@ -3,9 +3,9 @@ import React, { useRef, useState } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import { MdImage } from 'react-icons/md';
 import Api from '../../../api/api';
-import { toast } from 'react-toastify';
 import Resizer from "react-image-file-resizer";
 import { Button } from 'components/ui/button';
+import { useToast } from 'components/ui/use-toast';
 
 
 type ModalThumbnailType = {
@@ -21,7 +21,7 @@ const ModalThumbnail: React.FC<ModalThumbnailType> = (p) => {
     const ImageRef = useRef<HTMLInputElement>(null);
     const [imageBlob, setImageBlob] = useState<Blob | null>(null);
     const [imageView, setImageView] = useState<string | null>(null);
-
+    const {toast} = useToast();
     const convertToBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -70,7 +70,10 @@ const ModalThumbnail: React.FC<ModalThumbnailType> = (p) => {
                     setOpen(false);
                     setLoad(false);
                     p.reloadPerfil();
-                    toast.success("imagem salva com sucesso!");
+                    toast({
+                        title: "imagem salva com sucesso!",
+                        className: "bg-success text-black"
+                    });
                 }
 
             } catch (error) {

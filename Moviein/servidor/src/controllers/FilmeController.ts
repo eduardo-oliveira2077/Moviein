@@ -9,6 +9,7 @@ import FilmeItemDTO_Res from "../models/DTOs/FilmeItemDTO_Res";
 import FilmeDTO_Res from "../models/DTOs/FilmeDTO_Res";
 import DetalheFilmeDTO_Res from "../models/DTOs/DetalheFilmeDTO_Res";
 import EditarFilmeDTO_Req from "../models/DTOs/EditarFilmeDTO_Req";
+import jwt from 'jsonwebtoken';
 
 if (!process.env.AWS_REGION || !process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
     throw new Error('As variáveis de ambiente AWS_REGION, AWS_ACCESS_KEY_ID e AWS_SECRET_ACCESS_KEY devem estar definidas.');
@@ -26,7 +27,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
 
     instance.post("RegistroConteudo", { preHandler: Auth }, async (req, res) => {
         const { email } = req.user;
-        const { nome, descricao, classificacao, thumbnail, categoria } = req.body as RegistrarFilmeDTO_req;
+        const { nome, descricao, classificacao, thumbnail, categoria , duracao} = req.body as RegistrarFilmeDTO_req;
         const usuario = await prismaClient.usuario.findFirst({
             where: {
                 email: email
@@ -57,6 +58,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
                 imagemThumb: thumbnail,
                 referencia: reference,
                 autorId: usuario.id,
+                duracao: duracao,
                 classificacao: classificacao,
                 publicadoEm: new Date,
                 InformacaoFilme: {
@@ -200,7 +202,7 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             where: {
                 autorId: usuario.id
             },
-            orderBy:{
+            orderBy: {
                 publicadoEm: "desc"
             }
         })
@@ -352,6 +354,59 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
                 }
             });
         }
+    })
+
+    instance.get("segmento", { preHandler: Auth }, async (req, res) => {
+        const { filme, segment } = req.query as { filme: string, segment: string };
+
+
+        var decoded = jwt.verify(filme, "crypto");
+        var decodedResponse = decoded as { filmeId: string };
+        const filmeFind = await prismaClient.filme.findFirst({
+            where: {
+                id: parseInt(decodedResponse.filmeId)
+            }
+        });
+
+
+        if (filmeFind === null)
+            return res.badRequest("Filme não encontrado.");
+
+        const segmentFileName = `segment-${String(segment).padStart(3, '0')}.mp4`;
+
+        const path = `movie/${filmeFind.referencia}/${segmentFileName}`;
+
+        var filmeSegmentado = await s3.getObject({
+            Bucket: "moviein-bucket",
+            Key: `movie/${filmeFind.referencia}/${segmentFileName}`
+        })
+
+        var Data = await filmeSegmentado.Body?.transformToByteArray();
+        res
+            .header('Content-Length', Data?.length)
+            .header('Content-Type', 'video/mp4')
+            .send(Data);
+    })
+
+    instance.get("Metadata", { preHandler: Auth }, async (req, res) => {
+    const { filmeCrypto } = req.query as { filmeCrypto: string }
+
+        var decoded = jwt.verify(filmeCrypto, "crypto");
+        var decodedResponse = decoded as { filmeId: string };
+        
+        var filme = await prismaClient.filme.findFirst({
+            where: {
+                id: parseInt(decodedResponse.filmeId)
+            }
+        })
+
+        if (filme === null)
+            return res.badRequest("Filme não encontrado.");
+
+        return res.ok({
+            duration: filme.duracao
+        })
+
     })
 
     done();

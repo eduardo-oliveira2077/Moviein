@@ -4,4 +4,5 @@ interface RegistrarFilmeDTO_req {
     classificacao: string,
     thumbnail: string,
     categoria: string
+    duracao: number
 }

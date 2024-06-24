@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import RegistroUsuarioScheema, { RegistroUsuario } from './RegisterScheema';
 import { useNavigate } from 'react-router-dom';
 import Api from '../../api/api';
-import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import EnderecoCEPModel from '../../models/EnderecoCEPModel';
 import { Button } from 'components/ui/button';
@@ -16,11 +15,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from 'components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/ui/select';
 import { MdSearch } from 'react-icons/md';
+import { useToast } from 'components/ui/use-toast';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const [load, setLoad] = useState<boolean>(false);
   const [loadCEP, setLoadCEP] = useState<boolean>(false);
+  const { toast } = useToast();
   const form = useForm<RegistroUsuario>({
     resolver: yupResolver(RegistroUsuarioScheema),
     defaultValues: {
@@ -73,15 +74,22 @@ const Register: React.FC = () => {
         enderecos.data?.localidade === undefined &&
         enderecos.data?.logradouro === undefined
       ) {
-        toast.warning("Endereço do CEP não encontrado.", {
-          position: "bottom-center",
-          autoClose: 2000
+
+        // "Endereço do CEP não encontrado.", {
+        //   position: "bottom-center",
+        //   autoClose: 2000
+        // }
+        toast({
+          title: "Endereço do CEP não encontrado.",
+          duration: 2000,
+          className: "bg-red"
         })
       }
     } catch (err) {
       setLoadCEP(false);
-      toast.error("CEP inválido", {
-        position: "bottom-center"
+      toast({
+        title: "CEP inválido",
+        className: "bg-danger "
       })
     }
   }
@@ -145,16 +153,18 @@ const Register: React.FC = () => {
           var res = await Api.post("/api/usuario/registro", iss)
           setLoad(false);
           if (res.status === 200 || res.status === 201) {
-            toast.success("Usuário criado com sucesso!", {
-              position: "bottom-center"
+            toast({
+              title: "Usuário criado com sucesso!",
+              className: "bg-success text-black"
             })
             navigate("/login");
           }
         } catch (error) {
           const d = error as AxiosError<{ message: string }>;
-          toast.error(d.response?.data.message, {
-            position: "bottom-center",
-            autoClose: 10000
+          toast({
+            title: d.response?.data.message,
+            duration: 10000,
+            className: "bg-red text-text"
           })
           setLoad(false)
         }

@@ -5,6 +5,7 @@ import RegistroAssinaturaDTO_Req from "../models/DTOs/RegistroAssinaturaDTO_Req"
 import AsaasService from "../services/AsaasService/AsaasService";
 import { MD5 } from "crypto-js";
 import AsaasWebHookPayment from '../models/AsaasWebHookPayment'
+import jwt from 'jsonwebtoken';
 
 const AssinaturaController: FastifyPluginCallback = (instance, opts, done) => {
 
@@ -113,9 +114,14 @@ const AssinaturaController: FastifyPluginCallback = (instance, opts, done) => {
 
         if (assinatura !== null) {
             if (assinatura?.expiradoEm === null || assinatura?.expiradoEm === undefined || (assinatura?.expiradoEm && new Date(assinatura.expiradoEm) < seteDiasADiante)) {
+
+                var filmeCrypto = jwt.sign({
+                    filmeId: filmeId
+                }, "crypto", {expiresIn: "30d"});
+                
                 return res.ok({
                     validado: true,
-                    filmeCripto: MD5(filmeId).toString()
+                    filmeCripto: filmeCrypto
                 })
             } else {
                 return res.ok(

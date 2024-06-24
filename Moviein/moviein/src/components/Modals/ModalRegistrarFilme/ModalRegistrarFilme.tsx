@@ -31,6 +31,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
     const ImgDetailRef = useRef<HTMLInputElement>(null);
     const [imgDetail_select, setImgDetail_select] = useState<string | null>(null);
     const [load, setLoad] = useState<boolean>(false);
+    const [duration, setDuration] = useState<number | null>(null);
     const [loadContext, setLoadcontext] = useState<{ text: string, progress: number }>(
         {
             progress: 0,
@@ -170,7 +171,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(registrar)}>
                         {
-                            etapa === 0 && <Etapa1_InserirVideo onchange={setFile} />
+                            etapa === 0 && <Etapa1_InserirVideo file={file} onDuration={setDuration} onchange={setFile} />
                         }
                         {
                             etapa === 1 && (

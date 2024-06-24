@@ -33,7 +33,6 @@ const PageValidate: React.FC = () => {
   async function loadPerfil() {
     try {
       var user = await Api.get<UseContextType>("api/usuario/get");
-      console.log(user.data);
       setValue("nome", user.data.nome)
       setValue("email", user.data.email)
       setValue("thumb", user.data.thumb);
@@ -49,7 +48,6 @@ const PageValidate: React.FC = () => {
       try {
         var user = await Api.get<UseContextType>("api/usuario/get");
         if (user.status === 200 || user.status === 204) {
-      console.log(user.data);
           setValue("nome", user.data.nome)
           setValue("email", user.data.email)
           setValue("thumb", user.data.thumb)

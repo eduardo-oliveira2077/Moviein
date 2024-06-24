@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Classificacao from 'components/Classificacao/Classificacao';
 import { MdArrowBack, MdPlayArrow } from 'react-icons/md';
 import { IoReloadSharp } from "react-icons/io5";
-
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface FilmeDetalheDTO_Res {
   caminhoImagem: string,
   descricao: string,
@@ -43,7 +43,7 @@ const VisualFilme: React.FC = () => {
       errorTitle: "Falha ao validar permissão",
       thenCallback: (r) => {
         if (r.validado === true) {
-          nav(`/filme/view/${r.filmeCripto}`)
+          nav(`/a/filme/view/${r.filmeCripto}`)
         } else {
           nav("/a/Assinatura")
         }
@@ -54,7 +54,7 @@ const VisualFilme: React.FC = () => {
 
   return (
     <>
-      <img className="fixed h-screen w-full top-0 left-0 m-0 p-0 border-0 bg-cover blur-[3px]" style={{ backgroundImage: `url(${detail?.caminhoImagem})`, backdropFilter: 'blur(5px)' }} />
+      <img loading='lazy' className="fixed h-screen w-full top-0 left-0 m-0 p-0 border-0 bg-cover blur-[3px]" style={{ backgroundImage: `url(${detail?.caminhoImagem})`, backdropFilter: 'blur(5px)' }} />
       <div className='fixed bg-gradient-to-r from-background to-transparent h-screen w-[600px] top-0 left-0'></div>
       <div className='relative z-10'>
         <div className="container relative">
