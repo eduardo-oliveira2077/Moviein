@@ -27,7 +27,6 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       return res.badRequest("Senha inválida.");
     var token = TokenService.encript(user.email, user.funcao);
 
-
     let code;
     if (user.Auth2) {
       const randomNumber = Math.floor(10000 + Math.random() * 90000);
@@ -38,17 +37,49 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         titulo: "Moviein: Código de 2 fatores."
       });
       code = randomNumber;
+
+      return res.ok({
+        token: null,
+        funcao: null,
+        expiracao: null,
+        autenticacao2fatores: user.Auth2,
+        code: code
+      })
+    } else {
+      return res.ok({
+        token: token.token,
+        funcao: token.funcao,
+        expiracao: token.expiracao,
+        autenticacao2fatores: user.Auth2,
+        code: null
+      })
     }
+  });
+
+  instance.post("DoisFatoresValidado", async (req, res) => {
+    const { email } = req.body as LoginDTO_Req
+
+    var user = await prismaClient.usuario.findUnique({
+      where: {
+        email: email
+      }
+    });
+
+    if (user === null)
+      return res.badRequest("Usuário com esse email não encontrado.")
+
+
+    var token = TokenService.encript(user.email, user.funcao);
 
     return res.ok({
       token: token.token,
       funcao: token.funcao,
       expiracao: token.expiracao,
       autenticacao2fatores: user.Auth2,
-      code: code
+      code: null
     })
-
   });
+
 
   instance.get("listar", async (req, res) => {
     const users = await prismaClient.usuario.findMany();

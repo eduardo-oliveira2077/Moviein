@@ -10,6 +10,7 @@ import { Button } from 'components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form';
 import { Input } from 'components/ui/input';
 import ApiService from 'api/ApiService';
+import LoginDTO_Res from 'models/LoginDTO_Res';
 
 var Api = new ApiService();
 const Login: React.FC = () => {
@@ -19,14 +20,7 @@ const Login: React.FC = () => {
     resolver: yupResolver(LoginSchreema)
   })
 
-  type LoginDTO_Res = {
-    token: string,
-    funcao: string
-    exp: number
-    expiracao: Date
-    autenticacao2fatores: boolean
-    code?: string
-  }
+  
 
   async function LoginEntrar(data: LoginSchreemaType) {
     setLoad(true);
@@ -35,11 +29,12 @@ const Login: React.FC = () => {
       data: data,
       path: "/api/usuario/login",
       thenCallback: (d) => {
-        window.localStorage.setItem("token", d.token);
-        window.localStorage.setItem("funcao", d.funcao);
-        window.localStorage.setItem("exp", d.expiracao.toString());
+        if(d.token) window.localStorage.setItem("token", d.token);
+        if(d.funcao) window.localStorage.setItem("funcao", d.funcao);
+        if(d.expiracao) window.localStorage.setItem("exp", d.expiracao.toString());
+        
         if(d.autenticacao2fatores) {
-          nav("/doisfatores", { state: { code: d.code } })
+          nav("/doisfatores", { state: { code: d.code, email: form.getValues("email") } })
         } else {
           nav("/a/")
         }

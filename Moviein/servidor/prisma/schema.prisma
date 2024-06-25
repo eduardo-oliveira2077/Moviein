@@ -50,7 +50,7 @@ model Filme {
   referencia      String
   imagemThumb     String
   classificacao   String
-  duracao         Float              @default(0)
+  duracao         Float            @default(0)
   publicadoEm     DateTime         @default(now())
   autor           Usuario          @relation(fields: [autorId], references: [id])
   InformacaoFilme InformacaoFilme?
@@ -87,4 +87,11 @@ model ClienteFilme {
   filme     Filme    @relation(fields: [filmeId], references: [id])
   Usuario   Usuario? @relation(fields: [usuarioId], references: [id])
   usuarioId Int?
+}
+
+model Log {
+  id       Int      @id @default(autoincrement())
+  mensagem String
+  email    String
+  criadoEm DateTime
 }
