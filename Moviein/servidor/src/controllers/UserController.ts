@@ -288,8 +288,13 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
   instance.get("ConsultarUsuarios", { preHandler: Auth }, async (req, res) => {
     const { email, nome } = req.query as { email: string, nome: string };
 
-    var usuarios= await prismaClient.usuario.findMany()
+    if(email){
+      var user = await prismaClient.usuario.findUnique({where: {email}});
+    } else if(nome){ 
+     /*  var user = await prismaClient.usuario.findUnique({where: {nome}}); */
+    }
 
+   
     return res.ok
   })
 
