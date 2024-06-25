@@ -168,14 +168,37 @@ const AssistirVideo: React.FC = () => {
             max={duration}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
-            disabled
             onChange={handleInputChange}
             className='w-full'
           />
           <div className='flex justify-center items-center gap-4'>
-            <button className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'>
+            {/* <button className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'
+              onClick={() => {
+                if (videoRef.current) {
+                  videoRef.current.pause();
+                  console.log(videoRef.current.currentTime)
+                  if ((videoRef.current.currentTime - 1000) > 0) {
+                    videoRef.current.currentTime = videoRef.current.currentTime - 1000;
+                  } else {
+                    if (segment === 0) {
+                      videoRef.current.currentTime = 0;
+                    } else {
+                      setSegment(segment - 1);
+                      const segmentData = videoSegments.find(v => v.segment === segment - 1);
+                      console.log({ segmentData })
+                      if (segmentData !== undefined) {
+                        videoRef.current.pause();
+                        videoRef.current.src = segmentData.url;
+                      }
+                      // alert("!")
+                      // videoRef.current.currentTime = videoRef.current.currentTime - 1000;
+                    }
+                  }
+                }
+              }}
+            >
               <MdKeyboardDoubleArrowLeft />
-            </button>
+            </button> */}
             {
               <button
                 className='w-[64px] h-[64px] bg-primary rounded-full flex justify-center items-center'
@@ -190,14 +213,15 @@ const AssistirVideo: React.FC = () => {
                 }
               </button>
             }
-            <button
+            {/* <button
               onClick={() => {
-                if (videoRef.current)
-                  videoRef.current.currentTime = videoRef.current.currentTime;
+                if (videoRef.current) {
+                  videoRef.current.currentTime = videoRef.current.currentTime + 1000;
+                }
               }}
               className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'>
               <MdKeyboardDoubleArrowRight />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -70,6 +70,15 @@ const FilmeController: FastifyPluginCallback = (instance, opts, done) => {
             }
         })
 
+        await prismaClient.log.create({
+            data: {
+              criadoEm: new Date,
+              email: usuario.email,
+              mensagem: `Cadastrou um novo filme`,
+              nome: usuario.nome ?? "" 
+            }
+          })
+
         return res.ok({
             filmeId: novoFilme.id
         });

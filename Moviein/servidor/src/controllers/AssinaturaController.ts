@@ -79,6 +79,15 @@ const AssinaturaController: FastifyPluginCallback = (instance, opts, done) => {
                 subscription: asaasAssinaturaId?.id!
             });
 
+            await prismaClient.log.create({
+                data: {
+                  criadoEm: new Date,
+                  email: user.email,
+                  mensagem: `Usuário selecionou um plano de assinatura`,
+                  nome: user.nome ?? "" 
+                }
+              })
+
             return res.ok(payments?.data[0].invoiceUrl);
 
         } catch (error) {
@@ -89,8 +98,6 @@ const AssinaturaController: FastifyPluginCallback = (instance, opts, done) => {
 
     instance.post("WebhookAsaas", async (req, res) => {
         const asaas = req.body as AsaasWebHookPayment;
-
-        
 
     })
 

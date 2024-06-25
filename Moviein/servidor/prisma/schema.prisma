@@ -92,6 +92,7 @@ model ClienteFilme {
 model Log {
   id       Int      @id @default(autoincrement())
   mensagem String
+  nome     String
   email    String
   criadoEm DateTime
 }

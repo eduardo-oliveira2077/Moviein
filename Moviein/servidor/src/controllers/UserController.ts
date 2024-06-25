@@ -33,7 +33,8 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       data: {
         criadoEm: new Date,
         email: user.email,
-        mensagem: "Usuário logou no sistema."
+        mensagem: "Usuário logou no sistema",
+        nome: user.nome ?? ""
       }
     })
 
@@ -101,7 +102,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     var senhaEncr = MD5(data.senha).toString();
 
     try {
-      await prismaClient.usuario.create({
+      const newUser = await prismaClient.usuario.create({
         data: {
           email: data.email,
           senha: senhaEncr,
@@ -125,6 +126,16 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
           }
         }
       })
+
+      await prismaClient.log.create({
+        data: {
+          criadoEm: new Date,
+          email: newUser.email,
+          mensagem: `Novo usuário cadastrado no sistema! ${newUser.email}`,
+          nome: newUser.nome ?? "" 
+        }
+      })
+
       return res.ok(null);
 
     } catch (error) {
@@ -218,7 +229,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     var novaSenha = MD5(senha).toString();
 
     try {
-      await prismaClient.usuario.update({
+     var user =  await prismaClient.usuario.update({
         where: {
           email: email
         },
@@ -226,6 +237,15 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
           senha: novaSenha
         }
       });
+
+      await prismaClient.log.create({
+        data: {
+          criadoEm: new Date,
+          email: user.email,
+          mensagem: `Usuário redefiniu a senha`,
+          nome: user.nome ?? "" 
+        }
+      })
       return res.ok(null, "Senha redefinida com sucesso!")
     } catch (error) {
       var errormessage = error as string;
