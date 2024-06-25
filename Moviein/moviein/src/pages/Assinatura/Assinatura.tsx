@@ -8,7 +8,7 @@ import { useToast } from 'components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
 
 type tipoType = "MONTHLY" | "YEARLY" | "SEMIANNUALLY";
-type assinaturaType = "cliente" | "critico" | "criador";
+type assinaturaType = "cliente" | "criador";
 
 
 type tableType = {
@@ -68,7 +68,7 @@ const Assinatura: React.FC = () => {
     },
 
 
-    {
+    /*{
       preco: 24.70,
       precoString: "R$ 24,70",
       assinatura: "critico",
@@ -80,12 +80,12 @@ const Assinatura: React.FC = () => {
       assinatura: "critico",
       tipo: "SEMIANNUALLY"
     },
-    {
+   {
       preco: 100,
       precoString: "R$ 100,00",
       assinatura: "critico",
       tipo: "YEARLY"
-    },
+    },*/
 
     {
       preco: 50.00,
@@ -132,7 +132,7 @@ const Assinatura: React.FC = () => {
                 </Select>
               </div>
             </div>
-            <div className='grid md:grid-cols-3 gap-[20px] mb-3'>
+            <div className='grid md:grid-cols-2 gap-[20px] mb-3'>
 
               {/* ASSINATURAS */}
               <div onClick={() => setAssinatura("cliente")}
@@ -176,7 +176,7 @@ const Assinatura: React.FC = () => {
 
 
 
-              {/* CRÍTICO */}
+              {/* CRÍTICO 
               <div onClick={() => setAssinatura("critico")}
                 className={twMerge("relative p-6 rounded-xl border-red border-[1px] text-text overflow-hidden cursor-pointer", assinatura !== "critico" && "opacity-50")}>
                 <div className="w-[180px] h-[180px] absolute -right-12 -top-12 rounded-full blur-[50px] bg-red"></div>
@@ -215,7 +215,7 @@ const Assinatura: React.FC = () => {
                   <p className='text-2xl font-bold mt-8 mb-6'>{tabelas.find(d => d.assinatura === "critico" && d.tipo === tipo)?.precoString}</p>
 
                 </div>
-              </div>
+              </div>*/}
 
 
 

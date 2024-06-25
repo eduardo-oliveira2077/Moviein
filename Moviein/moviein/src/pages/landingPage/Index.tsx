@@ -91,13 +91,13 @@ const LandingPage: React.FC = () => {
           <h2 className='font-bold text-3xl mb-4'>Assinatura</h2>
           <p></p>
         </div>
-        <div className='grid md:grid-cols-3 gap-[20px]'>
+        <div className='grid md:grid-cols-2 gap-[20px]'>
           {/* ASSINATURAS */}
           <div className='relative p-6 py-10 rounded-xl border-primary border-[1px] text-text overflow-hidden'>
             <div className="w-[180px] h-[180px] absolute right-0 top-0 rounded-full blur-[50px] -z-10 bg-primary"></div>
             <div className="w-[180px] h-[180px] absolute -left-5 bottom-[-60px] rounded-full blur-[50px] -z-10 bg-primary"></div>
             <div className='mb-8'>
-              <h4 className='text-[28px]'>Mensal</h4>
+              <h4 className='text-[28px]'>Cliente</h4>
               <small className='text-md'>Casual</small>
             </div>
             <div className='border-l-2 border-l-white/45 p-4 flex flex-col gap-8'>
@@ -126,18 +126,18 @@ const LandingPage: React.FC = () => {
                 <p className='text-[14px] text-text'>Enviar novo vídeo ou filme</p>
               </div>
             </div>
-            <p className='text-3xl font-bold mt-16 mb-12'>R$ 18,00/mês</p>
+            {/*<p className='text-3xl font-bold mt-16 mb-12'>R$ 18,00/mês</p>*/}
             <Button onClick={() => nav("/registro")} size="lg"
-              className='w-full'>
+              className='w-full mt-16 mb-12'>
               Comece agora
             </Button>
           </div>
-
+{/*  
           <div className='relative p-6 py-10 rounded-xl border-red border-[1px] text-text overflow-hidden'>
             <div className="w-[180px] h-[180px] absolute right-0 top-0 rounded-full blur-[50px] -z-10 bg-red"></div>
             <div className="w-[180px] h-[180px] absolute -left-5 bottom-[-60px] rounded-full blur-[50px] -z-10 bg-red"></div>
             <div className='mb-8'>
-              <h4 className='text-[28px]'>Semestral</h4>
+              <h4 className='text-[28px]'>Critico</h4>
               <small className='text-md'>Diferente</small>
             </div>
             <div className='border-l-2 border-l-white/45 p-4 flex flex-col gap-8'>
@@ -173,12 +173,12 @@ const LandingPage: React.FC = () => {
               Comece agora
             </Button>
           </div>
-
+*/}
           <div className='relative p-6 py-10 rounded-xl border-redPalid border-[1px] text-text overflow-hidden'>
             <div className="w-[180px] h-[180px] absolute right-0 top-0 rounded-full blur-[50px] -z-10 bg-redPalid"></div>
             <div className="w-[180px] h-[180px] absolute -left-5 bottom-[-60px] rounded-full blur-[50px] -z-10 bg-redPalid"></div>
             <div className='mb-8'>
-              <h4 className='text-[28px]'>Anual</h4>
+              <h4 className='text-[28px]'>Criador</h4>
               <small className='text-md'>Único</small>
             </div>
             <div className='border-l-2 border-l-white/45 p-4 flex flex-col gap-8'>
@@ -207,9 +207,9 @@ const LandingPage: React.FC = () => {
                 <p className='text-[14px] text-text'>Enviar novo vídeo ou filme</p>
               </div>
             </div>
-            <p className='text-3xl font-bold mt-16 mb-12'>R$ 226,80/anual</p>
+            {/*<p className='text-3xl font-bold mt-16 mb-12'>R$ 226,80/anual</p>*/}
             <Button onClick={() => nav("/registro")}  size="lg"
-              className='w-full'
+              className='w-full mt-16 mb-12'
               variant="redPalid">
               Comece agora
             </Button>
