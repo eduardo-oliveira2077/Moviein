@@ -16,6 +16,7 @@ import { useToast } from 'components/ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'components/ui/select';
 import { Progress } from 'components/ui/progress';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile } from '@ffmpeg/util'
 
 
 type ModalRegistrarFilmeType = {
@@ -121,15 +122,15 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                         });
                         //Estágio 3: Despembrando o vídeo e salvando ela um de cada vez.
                         if (file !== null) {
-                            const fileArray = await file.arrayBuffer();
-                            const fileUint8Array = new Uint8Array(fileArray);
-
                             const f = new FFmpeg();
 
                             await f.load();
 
                             await f.createDir("videos", {});
-                            await f.writeFile(`./videos/${file.name}`, fileUint8Array);
+
+                            var pathFile = await fetchFile(file);
+                           
+                            await f.writeFile(`./videos/${file.name}`, pathFile);
                             await f.exec([
                                 '-i',
                                 `./videos/${file.name}`,

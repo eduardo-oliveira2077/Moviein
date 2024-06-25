@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import { useParams } from 'react-router-dom';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaPause, FaPlay } from 'react-icons/fa6';
+import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
 const Apiservice = new ApiService();
 const AssistirVideo: React.FC = () => {
@@ -46,7 +47,6 @@ const AssistirVideo: React.FC = () => {
       const videoBlob = res.data;
       const videoUrl = URL.createObjectURL(videoBlob);
       setVideoSegments(prev => [...prev, { segment, url: videoUrl }]);
-      setLoadingVideo(false);
       return videoUrl;
 
     } catch (err) {
@@ -104,6 +104,7 @@ const AssistirVideo: React.FC = () => {
     loadSegment();
   }, [segment, loadVideo, videoSegments, loadingVideo]);
 
+
   const handleMouseDown = () => {
     videoRef.current?.pause();
     setIsDragging(true);
@@ -111,14 +112,14 @@ const AssistirVideo: React.FC = () => {
 
   const handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
     setIsDragging(false);
-    // const videoElement = videoRef.current;
-    // const progressElement = progressRef.current;
-    // if (videoElement && progressElement) {
-    //   const newTime = parseFloat(progressElement.value);
-    //   const newSegment = Math.floor(newTime / 60);
-    //   videoElement.currentTime = newTime;
-    //   setSegment(newSegment);
-    // }
+    const videoElement = videoRef.current;
+    const progressElement = progressRef.current;
+    if (videoElement && progressElement) {
+      const newTime = parseFloat(progressElement.value);
+      const newSegment = Math.floor(newTime / 60);
+      videoElement.currentTime = newTime;
+      setSegment(newSegment);
+    }
     videoRef.current?.play();
     setPlay(true);
   };
@@ -167,10 +168,14 @@ const AssistirVideo: React.FC = () => {
             max={duration}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
+            disabled
             onChange={handleInputChange}
             className='w-full'
           />
-          <div className='flex justify-center'>
+          <div className='flex justify-center items-center gap-4'>
+            <button className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'>
+              <MdKeyboardDoubleArrowLeft />
+            </button>
             {
               <button
                 className='w-[64px] h-[64px] bg-primary rounded-full flex justify-center items-center'
@@ -185,7 +190,14 @@ const AssistirVideo: React.FC = () => {
                 }
               </button>
             }
-
+            <button
+              onClick={() => {
+                if (videoRef.current)
+                  videoRef.current.currentTime = videoRef.current.currentTime + 30;
+              }}
+              className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'>
+              <MdKeyboardDoubleArrowRight />
+            </button>
           </div>
         </div>
       </div>
