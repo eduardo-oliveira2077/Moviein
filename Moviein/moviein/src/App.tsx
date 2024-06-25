@@ -46,6 +46,7 @@ function App() {
         <Route path="/confirma" element={<Confirma />} />
         <Route path="/consulta" element={<UserConsultation />} />
         <Route path="/Logs" element={<UserLogConsultation />} />
+        <Route path="*" element={<Error404 />} />
 
         <Route path="/a/" element={<PageValidate />}>
           <Route index element={<Principal />} />
