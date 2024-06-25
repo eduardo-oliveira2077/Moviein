@@ -42,6 +42,13 @@ const SidebarPerfil: React.FC = () => {
                                 titulo="Consultar Usuarios" />
                         )
                     }
+                    {
+                        funcao === "admin" && (
+                            <MenuItemPerfil
+                                path="/a/perfil/consulta/logs"
+                                titulo="Logs" />
+                        )
+                    }
                 </div>
                 <div className="w-[70%] relative h[calc(100vh-60px)]">
                     <Outlet />

@@ -45,7 +45,6 @@ function App() {
         <Route path="/pagamento" element={<Pagamento />} />
         <Route path="/confirma" element={<Confirma />} />
         <Route path="/consulta" element={<UserConsultation />} />
-        <Route path="/Logs" element={<UserLogConsultation />} />
         <Route path="*" element={<Error404 />} />
 
         <Route path="/a/" element={<PageValidate />}>
@@ -57,7 +56,7 @@ function App() {
             <Route path="dadosPrincipais" element={<DadosPrincipais />} />
             <Route path="meusVideos" element={<MeusVideos />} />
             <Route path="consulta/usuarios" element={<UserConsultation />} />
-
+            <Route path="consulta/logs" element={<UserLogConsultation />} />
           </Route>
         </Route>
       </Routes>
