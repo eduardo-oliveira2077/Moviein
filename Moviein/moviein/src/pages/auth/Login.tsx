@@ -44,7 +44,6 @@ const Login: React.FC = () => {
     })
   }
 
-
   return (
     <div className='relative w-full h-screen'>
       <img src={filmes} alt='Filmes' className='absolute w-full h-screen object-cover' />
@@ -104,7 +103,6 @@ const Login: React.FC = () => {
                   <p className='text-text'>Esqueceu sua senha?</p>
                   <p className='text-primary cursor-pointer underline decoration-slice' onClick={() => nav("/enviarCodigo")}>Redefine aqui</p>
                 </div>
-
                 <div className='mt-6'>
                   <p className='text-white cursor-pointer underline decoration-slice absolute bottom-4 right-4'>Termos de uso</p>
                 </div>

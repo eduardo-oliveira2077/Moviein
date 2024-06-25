@@ -1,8 +1,9 @@
+import ApiService from 'api/ApiService';
 import { Button } from 'components/ui/button';
 import { FormLabel } from 'components/ui/form';
 import { Input } from 'components/ui/input';
 import { Label } from 'components/ui/label';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 interface Contact {
   nome: string;
   nascimento: string;
@@ -43,6 +44,7 @@ interface Contact {
 //   }
 // ];
 
+const Api = new ApiService();
 const UserConsultation: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
@@ -75,6 +77,12 @@ const UserConsultation: React.FC = () => {
     alert(`Editar contato: ${contact.nome} - ${contact.email}`);
   };
 
+  useEffect(() => {
+    async function Load() {
+      
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-background text-white p-10">
       <div className="dark:bg-black/30 bg-slate-400/20 p-8 rounded-lg">
@@ -82,17 +90,6 @@ const UserConsultation: React.FC = () => {
         <p className='mb-4 opacity-50'>Consulte pelo nome e/ou por email.</p>
         <form onSubmit={handleSearch} className="mb-6">
           <div className='flex gap-4'>
-            {/* <div className="mb-4 w-full">
-              <label htmlFor="nome" className="block text-sm mb-2">Nome</label>
-              <input
-                type="text"
-                id="nome"
-                className="w-full p-2 rounded-lg bg-gray-700 border border-gray-600"
-                value={searchTerm.nome}
-                onChange={e => setSearchTerm({ ...searchTerm, nome: e.target.value })}
-                placeholder="..."
-              />
-            </div> */}
             <div className='w-full mb-3'>
               <Label htmlFor="email">Email</Label>
               <Input id='email'
@@ -107,18 +104,7 @@ const UserConsultation: React.FC = () => {
                 onChange={(d) => setNomeFilter(d.target.value)}
                 value={nomeFilter} />
             </div>
-
-            {/* <label htmlFor="email" className="block text-sm mb-2">Email</label>
-              <input
-                type="text"
-                id="email"
-                className="w-full p-2 rounded-lg bg-gray-700 border border-gray-600"
-                value={searchTerm.email}
-                onChange={e => setSearchTerm({ ...searchTerm, email: e.target.value })}
-                placeholder="..."
-              /> */}
           </div>
-          {/* <button type="submit" className="bg-purple-600 py-2 px-4 rounded-lg">Buscar</button> */}
           <Button className='w-full'>
             Buscar
           </Button>

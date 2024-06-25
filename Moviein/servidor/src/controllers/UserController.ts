@@ -254,8 +254,6 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       }
     })
 
-
-
     if (usuario === null)
       return res.badRequest("Usuário não encontrado.");
 
@@ -278,6 +276,9 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
   })
 
 
+  instance.get("ConsultarUsuarios", { preHandler: Auth }, async (req, res) => {
+    const {  } = req.query as { email: string, nome: string };
+  })
 
   done();
 }
