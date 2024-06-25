@@ -229,7 +229,7 @@ const LandingPage: React.FC = () => {
 
       <section>
         <div className='grid md:grid-cols-3 gap-[32px]'>
-
+          
           <Colaborador
             nome='Eduardo Lima de Oliveira'
             feitos={["Infra do projeto", "Autenticação", "Redefinição de senha", "Cadastro", "Login", "Perfil do usuário", "Pagamento e confirmação", "streamming"]}
