@@ -232,7 +232,7 @@ const LandingPage: React.FC = () => {
 
           <Colaborador
             nome='Eduardo Lima de Oliveira'
-            feitos={["Infra do projeto", "Autenticação", "Redefinição de senha", "Cadastro", "Login", "Perfil do usuário"]}
+            feitos={["Infra do projeto", "Autenticação", "Redefinição de senha", "Cadastro", "Login", "Perfil do usuário", "Pagamento e confirmação", "streamming"]}
             imagem={eduardo}
             
           />
@@ -245,19 +245,19 @@ const LandingPage: React.FC = () => {
 
           <Colaborador
             nome='José Augusto R. dos Santos'
-            feitos={["Infra do projeto", "Criadores", "Filmes", "Ladingpage", "Converções"]}
+            feitos={["Infra do projeto", "Criadores", "Filmes", "Ladingpage", "Conversões"]}
             imagem={jose}
           />
 
           <Colaborador
             nome='Brenda Rodrigues de Oliveira'
-            feitos={["Infra do projeto", "Inicio", "2FA", "Erro 404", "Consulta de usuário"]}
+            feitos={["Infra do projeto", "Inicio", "2FA", "Erro 404", "Consulta de usuário", "Logs"]}
             imagem={brenda}
           />
 
           <Colaborador
             nome='Gabriel Tavares Pessanha'
-            feitos={["Infra do projeto", "Pagamento", "Confirmação de pagamento"]}
+            feitos={["Infra do projeto", "Modificações e atualizações"]}
             imagem={gabriel}
           />
 
