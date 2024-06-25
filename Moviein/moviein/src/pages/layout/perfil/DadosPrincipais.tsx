@@ -97,7 +97,7 @@ const DadosPrincipais: React.FC = () => {
                                         <Input value={nome} id="nome" disabled />
                                     </div>
                                     <div className="mt-6">
-                                        <Label htmlFor="email" className="opacity-50">Sena</Label>
+                                        <Label htmlFor="email" className="opacity-50">Email</Label>
                                         <Input value={email} id="email" disabled />
                                     </div>
 

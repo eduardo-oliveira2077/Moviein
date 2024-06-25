@@ -20,8 +20,6 @@ const Login: React.FC = () => {
     resolver: yupResolver(LoginSchreema)
   })
 
-  
-
   async function LoginEntrar(data: LoginSchreemaType) {
     setLoad(true);
     await Api.Post<LoginDTO_Res>({
@@ -73,7 +71,7 @@ const Login: React.FC = () => {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel >Email</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>

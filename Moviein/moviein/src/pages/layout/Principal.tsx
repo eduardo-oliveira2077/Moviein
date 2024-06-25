@@ -83,7 +83,7 @@ const Principal: React.FC = () => {
                             </LoadContext>
                         </div>
                         <div className='flex justify-end gap-4'>
-                            <LoadContext className='h-[46px] w-[80px] rounded-full'>
+                            {/* <LoadContext className='h-[46px] w-[80px] rounded-full'>
                                 <button className='p-2 rounded-full items-center bg-background flex gap-3'>
                                     <img src={tomate} alt="tomate" className='h-[25px] object-contain' />
                                     <label className='sm:text-[14px]'>30%</label>
@@ -94,7 +94,7 @@ const Principal: React.FC = () => {
                                     <img src={pipoca} alt="pipoca" className='h-[25px] object-contain' />
                                     <label className='sm:text-[14px]'>60%</label>
                                 </button>
-                            </LoadContext>
+                            </LoadContext> */}
                             <LoadContext className='h-[40px] rounded-md'>
                                 <Button onClick={() => nav(`/a/visualFilme/${filme?.filmeId}`)} variant="red">
                                     Assistir

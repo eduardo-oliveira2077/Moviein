@@ -62,8 +62,8 @@ const VisualFilme: React.FC = () => {
             <div >
               <Classificacao classificacao={detail?.classificacao ?? "l"} />
             </div>
-            <h1 className="text-white text-5xl font-semibold mt-8">{detail?.titulo}</h1>
-            <h5 className="text-1xl text-white font-normal leading-9 mt-4 mb-20 max-w-6xl text-left">
+            <h1 className="text-text text-5xl font-semibold mt-8">{detail?.titulo}</h1>
+            <h5 className="text-1xl text-text font-normal leading-9 mt-4 mb-20 max-w-6xl text-left">
               {detail?.descricao}
             </h5>
 
@@ -86,18 +86,16 @@ const VisualFilme: React.FC = () => {
                 <MdArrowBack className='text-black' />
                 <label className='text-black'>voltar</label>
               </button>
-              <button className='px-7 py-5 rounded-full items-center bg-background flex gap-3'>
+              {/* <button className='px-7 py-5 rounded-full items-center bg-background flex gap-3'>
                 <img src={tomate} alt="tomate" className='h-[20px] object-contain' />
                 <label>30%</label>
               </button>
               <button className='px-7 py-5 rounded-full items-center bg-background flex gap-3'>
                 <img src={pipoca} alt="pipoca" className='h-[20px] object-contain' />
                 <label>60%</label>
-              </button>
+              </button> */}
             </div>
           </div>
-
-
 
         </div>
       </div>

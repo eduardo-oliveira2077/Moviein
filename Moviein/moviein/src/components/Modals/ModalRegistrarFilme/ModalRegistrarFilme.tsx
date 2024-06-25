@@ -265,7 +265,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                 L
                                             </div>
 
-                                            <div className='border-[1px] border-white rounded-full w-[24px] h-[24px] p-1'>
+                                            <div className='border-[1px] border-black dark:border-white rounded-full w-[24px] h-[24px] p-1'>
                                                 {form.watch("classificacao") === "L" && <div className='bg-primary rounded-full w-full h-full'></div>}
                                             </div>
                                         </div>
@@ -275,7 +275,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                 10
                                             </div>
 
-                                            <div className='border-[1px] border-white rounded-full w-[24px] h-[24px] p-1'>
+                                            <div className='border-[1px] border-black dark:border-white rounded-full w-[24px] h-[24px] p-1'>
                                                 {form.watch("classificacao") === "10" && <div className='bg-primary rounded-full w-full h-full'></div>}
                                             </div>
                                         </div>
@@ -285,7 +285,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                 12
                                             </div>
 
-                                            <div className='border-[1px] border-white rounded-full w-[24px] h-[24px] p-1'>
+                                            <div className='border-[1px] border-black dark:border-white rounded-full w-[24px] h-[24px] p-1'>
                                                 {form.watch("classificacao") === "12" && <div className='bg-primary rounded-full w-full h-full'></div>}
                                             </div>
                                         </div>
@@ -295,7 +295,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                 14
                                             </div>
 
-                                            <div className='border-[1px] border-white rounded-full w-[24px] h-[24px] p-1'>
+                                            <div className='border-[1px] border-black dark:border-white rounded-full w-[24px] h-[24px] p-1'>
                                                 {form.watch("classificacao") === "14" && <div className='bg-primary rounded-full w-full h-full'></div>}
                                             </div>
                                         </div>
@@ -305,7 +305,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                 16
                                             </div>
 
-                                            <div className='border-[1px] border-white rounded-full w-[24px] h-[24px] p-1'>
+                                            <div className='border-[1px] border-black dark:border-white rounded-full w-[24px] h-[24px] p-1'>
                                                 {form.watch("classificacao") === "16" && <div className='bg-primary rounded-full w-full h-full'></div>}
                                             </div>
                                         </div>
@@ -315,7 +315,7 @@ const ModalRegistrarFilme: React.FC<ModalRegistrarFilmeType> = (p) => {
                                                 18
                                             </div>
 
-                                            <div className='border-[1px] border-white rounded-full w-[24px] h-[24px] p-1'>
+                                            <div className='border-[1px] border-black dark:border-white rounded-full w-[24px] h-[24px] p-1'>
                                                 {form.watch("classificacao") === "18" && <div className='bg-primary rounded-full w-full h-full'></div>}
                                             </div>
                                         </div>

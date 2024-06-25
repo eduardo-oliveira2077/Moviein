@@ -15,31 +15,33 @@ const MeusVideoItem: React.FC<FilmeItem> = (e) => {
         <div>
             <div >
                 <img src={e.thumb} className='mb-3 h-[200px] w-full object-cover rounded-xl' />
-                <h4 className='font-bold text-2xl'>{e.nome}</h4>
-                <div className='flex mt-3 justify-between'>
-                    <div className='flex gap-5'>
+                <div className='flex items-start justify-between'>
+                    <h5 className='font-bold text-1xl'>{e.nome}</h5>
+                    <div className='flex justify-between'>
+                        {/* <div className='flex gap-5'>
                         <div className='flex items-center gap-1'>
-                            <img src={pipoca} className='h-[20px]' />
-                            <b>50%</b>
+                        <img src={pipoca} className='h-[20px]' />
+                        <b>50%</b>
                         </div>
                         <div className='flex items-center gap-1'>
-                            <img src={tomate} className='h-[20px]' />
-                            <b>50%</b>
+                        <img src={tomate} className='h-[20px]' />
+                        <b>50%</b>
                         </div>
-                    </div>
-                    <div className=''>
-                        <Menubar>
-                            <MenubarMenu>
-                                <MenubarTrigger className='cursor-pointer'>
-                                    <SlOptionsVertical />
-                                </MenubarTrigger>
-                                <MenubarContent>
-                                    <MenubarItem onClick={() => setOpenEdit(true)} className='cursor-pointer'>
-                                        Editar vídeo
-                                    </MenubarItem>
-                                </MenubarContent>
-                            </MenubarMenu>
-                        </Menubar>
+                        </div> */}
+                        <div className=''>
+                            <Menubar>
+                                <MenubarMenu>
+                                    <MenubarTrigger className='cursor-pointer'>
+                                        <SlOptionsVertical />
+                                    </MenubarTrigger>
+                                    <MenubarContent>
+                                        <MenubarItem onClick={() => setOpenEdit(true)} className='cursor-pointer'>
+                                            Editar vídeo
+                                        </MenubarItem>
+                                    </MenubarContent>
+                                </MenubarMenu>
+                            </Menubar>
+                        </div>
                     </div>
                 </div>
             </div>
