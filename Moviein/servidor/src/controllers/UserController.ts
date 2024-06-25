@@ -28,6 +28,15 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     var token = TokenService.encript(user.email, user.funcao);
 
     let code;
+
+    await prismaClient.log.create({
+      data: {
+        criadoEm: new Date,
+        email: user.email,
+        mensagem: "Usuário logou no sistema."
+      }
+    })
+
     if (user.Auth2) {
       const randomNumber = Math.floor(10000 + Math.random() * 90000);
 
