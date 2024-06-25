@@ -1,49 +1,61 @@
-import React, { useState } from 'react';
-
+import ApiService from 'api/ApiService';
+import { Input } from 'components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableRow } from 'components/ui/table';
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import { MdOutlineCleaningServices } from 'react-icons/md';
 interface LogEntry {
   nome: string;
   email: string;
-  dataHora: string;
-  acao: string;
+  dataHora: Date;
   descricao: string;
-  complemento: string;
 }
 
+const api = new ApiService();
 const UserLogConsultation: React.FC = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
-  const [data, setData] = useState('');
+  const [data, setData] = useState<string>("");
   const [results, setResults] = useState<LogEntry[]>([]);
   const [found, setFound] = useState(false);
 
-  const searchContact = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const nomeInput = nome.toLowerCase();
-    const emailInput = email.toLowerCase();
-    const newResults = logEntries.filter((entry) =>
-      (nomeInput && entry.nome.toLowerCase().includes(nomeInput)) ||
-      (emailInput && entry.email.toLowerCase().includes(emailInput))
-    );
-    setResults(newResults);
-    setFound(newResults.length > 0);
-  };
+  // const searchContact = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-  const logEntries: LogEntry[] = [
-    {
-      nome: 'João Silva',
-      email: 'joao.silva@gmail.com',
-      dataHora: '21/02/2024 15:48:59',
-      acao: 'Postagem vídeo',
-      descricao: '.....',
-      complemento: '......'
-    },
-  ];
+
+
+  // };
+
+  async function Logs(e?: React.FormEvent<HTMLFormElement>) {
+    e?.preventDefault();
+    await api.Get<LogEntry[]>({
+      errorTitle: "Falha ao consultar logs no sistema.",
+      path: `api/log/Consultar?nome=${nome}&email=${email}&data=${data}`,
+      thenCallback: (r) => {
+        setFound(true);
+        setResults(r);
+      }
+    })
+  }
+
+  useEffect(() => {
+    Logs();
+  }, [])
+
+  // const logEntries: LogEntry[] = [
+  //   {
+  //     nome: 'João Silva',
+  //     email: 'joao.silva@gmail.com',
+  //     dataHora: '21/02/2024 15:48:59',
+  //     descricao: '.....',
+  //   },
+  // ];
 
   return (
     <div className="bg-purple-900 min-h-screen flex items-center justify-center">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-4xl">
         <h1 className="text-2xl font-bold text-white mb-4">Consulta Log do Sistema</h1>
-        <form className="mb-4" onSubmit={searchContact}>
+        <form className="mb-4" onSubmit={Logs}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-white" htmlFor="nome">Usuário</label>
@@ -69,14 +81,12 @@ const UserLogConsultation: React.FC = () => {
             </div>
             <div>
               <label className="block text-white" htmlFor="date">Data</label>
-              <input
-                type="date"
-                id="dataInput"
-                className="w-full p-2 border-2 border-white rounded bg-gray-700 text-white"
-                value={data}
-                onChange={(e) => setData(e.target.value)}
-                placeholder="..."
+              <Input type='date'
+                onChange={(r) => setData(r.target.value)}
               />
+            </div>
+            <div>
+              <MdOutlineCleaningServices />
             </div>
           </div>
           <button
@@ -86,35 +96,27 @@ const UserLogConsultation: React.FC = () => {
             Buscar
           </button>
         </form>
-        {found && (
-          <div>
-            <h2 className="text-xl font-bold text-white mb-4">Resultados</h2>
-            <table className="w-full border-collapse text-left text-sm">
-              <thead>
-                <tr>
-                  <th className="border-b p-2 bg-gray-800 text-white">Usuário</th>
-                  <th className="border-b p-2 bg-gray-800 text-white">Email</th>
-                  <th className="border-b p-2 bg-gray-800 text-white">Data Hora</th>
-                  <th className="border-b p-2 bg-gray-800 text-white">Ação</th>
-                  <th className="border-b p-2 bg-gray-800 text-white">Descrição</th>
-                  <th className="border-b p-2 bg-gray-800 text-white">Complemento</th>
-                </tr>
-              </thead>
-              <tbody>
-                {results.map((entry, index) => (
-                  <tr key={index}>
-                    <td className="border-b p-2">{entry.nome}</td>
-                    <td className="border-b p-2">{entry.email}</td>
-                    <td className="border-b p-2">{entry.dataHora}</td>
-                    <td className="border-b p-2">{entry.acao}</td>
-                    <td className="border-b p-2">{entry.descricao}</td>
-                    <td className="border-b p-2">{entry.complemento}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <hr></hr>
+
+        <Table>
+          <TableRow>
+            <TableHead>Email</TableHead>
+            <TableHead>Mensagem</TableHead>
+            <TableHead>Data</TableHead>
+          </TableRow>
+          <TableBody>
+            {
+              results.map((d, i) => (
+                <TableRow key={i}>
+                  <TableCell>{d.email}</TableCell>
+                  <TableCell>{d.descricao}</TableCell>
+                  <TableCell>{moment(d.dataHora).format("DD/MM/yyyy HH:mm")}</TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+
       </div>
     </div>
   );

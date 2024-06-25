@@ -12,6 +12,7 @@ import { badRequestMiddleware, okMiddleware } from "./middlewares/RequestExcepti
 import UserController from "./controllers/UserController";
 import FilmeController from "./controllers/FilmeController";
 import AssinaturaController from "./controllers/AssinaturaController";
+import LogController from './controllers/LogController';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -41,6 +42,7 @@ app.addHook('onRequest', badRequestMiddleware);
 app.register(UserController, { prefix: "/api/usuario/" })
 app.register(FilmeController, { prefix: "/api/filme/" })
 app.register(AssinaturaController, { prefix: "/api/assinatura/" })
+app.register(LogController, { prefix: "/api/log/" })
 //
 
 

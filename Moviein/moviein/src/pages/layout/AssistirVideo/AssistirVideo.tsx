@@ -193,7 +193,7 @@ const AssistirVideo: React.FC = () => {
             <button
               onClick={() => {
                 if (videoRef.current)
-                  videoRef.current.currentTime = videoRef.current.currentTime + 30;
+                  videoRef.current.currentTime = videoRef.current.currentTime;
               }}
               className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'>
               <MdKeyboardDoubleArrowRight />
