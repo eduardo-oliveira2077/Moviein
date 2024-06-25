@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.10",
+    "@ffmpeg/util": "^0.12.1",
     "@hookform/resolvers": "^3.4.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -51,7 +52,7 @@
     "start:client": "react-scripts start",
     "build:server": "cd ../servidor && npm run build",
     "build:client": "react-scripts build",
-    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start": "react-scripts start",
     "build": "concurrently \"npm run build:server\" \"npm run build:client\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

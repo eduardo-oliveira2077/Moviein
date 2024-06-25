@@ -18,7 +18,6 @@ const VerificacaoDoisFatores: React.FC = () => {
         <form>
           <div className="grupoInputs flex justify-center mb-6 text-gray-800">
             {}
-
             <InputOTP onChange={setDigitos} maxLength={5} containerClassName={"opacity-100 border-1"}>
               <InputOTPGroup>
                 <InputOTPSlot index={0} />
@@ -30,7 +29,6 @@ const VerificacaoDoisFatores: React.FC = () => {
 
           </div>
           {}
-
           <button className={`w-3/4 py-3 text-lg font-medium rounded-lg bg-purple-700 text-white ${digitos.length !== 0 ? 'opacity-100 cursor-pointer hover:bg-purple-600' : 'opacity-50 cursor-not-allowed'}`} disabled={digitos.length !== 0}>
             Verificar
           </button>
