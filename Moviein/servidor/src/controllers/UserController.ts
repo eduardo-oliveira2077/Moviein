@@ -277,7 +277,11 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
 
 
   instance.get("ConsultarUsuarios", { preHandler: Auth }, async (req, res) => {
-    const {  } = req.query as { email: string, nome: string };
+    const { email, nome } = req.query as { email: string, nome: string };
+
+    var usuarios= await prismaClient.usuario.findMany()
+
+    return res.ok
   })
 
   done();
