@@ -86,7 +86,7 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      <section className='container mx-auto mb-[120px]'>
+      <section className='pr-60 pl-60 container mx-auto mb-[120px]'>
         <div className='col-span-3 text-center'>
           <h2 className='font-bold text-3xl mb-4'>Assinatura</h2>
           <p></p>
