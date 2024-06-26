@@ -21,6 +21,9 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     if (user === null)
       return res.badRequest("Usuário com esse email não encontrado.")
 
+    if (user.deletadoEm !== null)
+      return res.badRequest("Usuário removido do sistema.");
+
     var senhaEncr = MD5(senha).toString();
     if (senhaEncr !== user.senha)
       // return res.status(400).send({ mensagem: "Senha inválida." });
@@ -342,14 +345,14 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
 
   instance.post("RemoverUsuario", { preHandler: Auth }, async (req, res) => {
     const { usuarioId } = req.body as { usuarioId: string }
-    
+
     const usuario = await prismaClient.usuario.findFirst({
       where: {
         id: parseInt(usuarioId)
       }
     })
 
-    if(usuario!.funcao === "admin")
+    if (usuario!.funcao === "admin")
       return res.badRequest("Não é permitido um admin remover outro admin.")
 
     await prismaClient.usuario.update({

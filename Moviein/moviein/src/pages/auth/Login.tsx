@@ -104,7 +104,7 @@ const Login: React.FC = () => {
                   <p className='text-primary cursor-pointer underline decoration-slice' onClick={() => nav("/enviarCodigo")}>Redefine aqui</p>
                 </div>
                 <div className='mt-6'>
-                  <p className='text-white cursor-pointer underline decoration-slice absolute bottom-4 right-4'>Termos de uso</p>
+                  {/* <p className='text-white cursor-pointer underline decoration-slice absolute bottom-4 right-4'>Termos de uso</p> */}
                 </div>
               </div>
             </div>

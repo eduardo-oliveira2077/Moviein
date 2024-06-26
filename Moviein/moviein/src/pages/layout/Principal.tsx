@@ -157,7 +157,9 @@ const Principal: React.FC = () => {
                 }
 
             </section>
-            <footer className="container pt-4 dark:bg-black bg-card h-[80px] absolute bottom-0 w-full">
+            <footer className="pt-4 dark:bg-black bg-card h-[80px] absolute bottom-0 w-full">
+                <div className='container'>
+                    
                 <div>
                     {
                         (theme === "dark" || theme === "system") && <img alt='Moviein' src={movieinDark} className="w-[100px] object-contain -dark:hidden" />
@@ -174,6 +176,7 @@ const Principal: React.FC = () => {
                     {
                         theme === "light" && <img alt='Moviein' src={unisuam} className="w-[100px] object-contain -dark:hidden" />
                     }
+                </div>
                 </div>
             </footer>
         </main>

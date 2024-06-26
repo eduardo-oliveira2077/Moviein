@@ -258,9 +258,9 @@ const Register: React.FC = () => {
                         name="telefone"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Telefone</FormLabel>
+                            <FormLabel>Telefone (DDD)</FormLabel>
                             <FormControl>
-                              <Input {...field} type='tel' />
+                              <Input {...field} type='tel' maxLength={11} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
