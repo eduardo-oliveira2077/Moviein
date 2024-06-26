@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 // import Button from 'components/Button';
-import tomate from '../../assets/tomate.png';
-import pipoca from '../../assets/pipoca.png';
 import ApiService from 'api/ApiService';
 import { useNavigate, useParams } from 'react-router-dom';
 import Classificacao from 'components/Classificacao/Classificacao';
 import { MdArrowBack, MdPlayArrow } from 'react-icons/md';
 import { IoReloadSharp } from "react-icons/io5";
-import { LazyLoadImage } from 'react-lazy-load-image-component'
 interface FilmeDetalheDTO_Res {
   caminhoImagem: string,
   descricao: string,
@@ -74,9 +71,6 @@ const VisualFilme: React.FC = () => {
                   {
                     load ? <IoReloadSharp className='animate-spin' /> : <MdPlayArrow />
                   }
-                </button>
-                <button className="bg-primary h-[64px] text-white font-semibold rounded-full px-8">
-                  Apoie o projeto!
                 </button>
               </div>
             </div>

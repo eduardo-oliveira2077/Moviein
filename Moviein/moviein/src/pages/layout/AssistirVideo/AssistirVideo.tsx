@@ -1,11 +1,9 @@
 import ApiService from 'api/ApiService';
 import Api from 'api/api';
+import { Slider } from 'components/ui/slider';
 import { useToast } from 'components/ui/use-toast';
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { FaPause, FaPlay } from 'react-icons/fa6';
-import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from 'react-icons/md';
 
 const Apiservice = new ApiService();
 const AssistirVideo: React.FC = () => {
@@ -19,9 +17,9 @@ const AssistirVideo: React.FC = () => {
   const [loadingVideo, setLoadingVideo] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
   const { toast } = useToast();
-  const [play, setPlay] = useState<boolean>(false);
 
-  useLayoutEffect(() => {
+
+  useEffect(() => {
     async function Load() {
       await Apiservice.Get<{ duration: number }>({
         path: `api/filme/Metadata?filmeCrypto=${filmeCripto}`,
@@ -40,6 +38,7 @@ const AssistirVideo: React.FC = () => {
       return; // Já carregado anteriormente, não precisamos chamar novamente
     }
     try {
+      setLoadingVideo(true);
       const res = await Api.get(`api/filme/segmento?filme=${filmeCripto}&segment=${segment}`, {
         responseType: "blob"
       })
@@ -47,6 +46,7 @@ const AssistirVideo: React.FC = () => {
       const videoBlob = res.data;
       const videoUrl = URL.createObjectURL(videoBlob);
       setVideoSegments(prev => [...prev, { segment, url: videoUrl }]);
+      setLoadingVideo(false);
       return videoUrl;
 
     } catch (err) {
@@ -82,62 +82,58 @@ const AssistirVideo: React.FC = () => {
 
   useEffect(() => {
     const loadSegment = async () => {
-      if (videoSegments.length > 0) {
-        const segmentData = videoSegments.find(v => v.segment === segment);
-        if (!segmentData && !loadingVideo) {
-          setPlay(false)
-          videoRef.current?.pause();
-          await loadVideo(segment);
-          await loadVideo(segment + 1);
-        } else if (videoRef.current && segmentData) {
-          const currentTime = videoRef.current.currentTime;
-          videoRef.current.src = segmentData.url;
-          videoRef.current.currentTime = currentTime;
-          videoRef.current.play();
-          setPlay(true);
-        }
-      } else {
-        await loadVideo(0);
-        await loadVideo(1);
+      const segmentData = videoSegments.find(v => v.segment === segment);
+      if (!segmentData && !loadingVideo) {
+        await loadVideo(segment);
+      } else if (videoRef.current && segmentData) {
+        const currentTime = videoRef.current.currentTime;
+        videoRef.current.src = segmentData.url;
+        videoRef.current.currentTime = currentTime;
       }
     };
     loadSegment();
   }, [segment, loadVideo, videoSegments, loadingVideo]);
-
 
   const handleMouseDown = () => {
     videoRef.current?.pause();
     setIsDragging(true);
   };
 
-  const handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
+  const handleMouseUp = () => {
     setIsDragging(false);
+    videoRef.current?.play();
     const videoElement = videoRef.current;
     const progressElement = progressRef.current;
     if (videoElement && progressElement) {
       const newTime = parseFloat(progressElement.value);
       const newSegment = Math.floor(newTime / 60);
+      console.log({
+        "newTime": newTime,
+        "newSegment": newSegment
+      });
       videoElement.currentTime = newTime;
       setSegment(newSegment);
     }
-    videoRef.current?.play();
-    setPlay(true);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = parseFloat(event.target.value);
+    const currentVideoTime = videoRef.current?.currentTime || 0;
+    // if (newTime >= currentVideoTime) {
+    // Só atualiza o tempo se estiver à frente do tempo atual do vídeo
     if (videoRef.current) {
+
       videoRef.current.currentTime = newTime;
       const newSegment = Math.floor(newTime / 60);
       setSegment(newSegment);
     }
+    // }
   };
 
   const handlePlay = () => {
     const videoElement = videoRef.current;
     if (videoElement && !loadingVideo) {
       videoElement.play();
-      setPlay(true)
     }
   };
 
@@ -145,24 +141,21 @@ const AssistirVideo: React.FC = () => {
     const videoElement = videoRef.current;
     if (videoElement) {
       videoElement.pause();
-      setPlay(false)
     }
   };
 
   return (
-    <div className='w-screen h-screen bg-background'>
-      {loadingVideo && (
-        <div className='w-full h-screen absolute top-0 left-0 bg-background/55 z-[99] flex justify-center items-center'>
-          <AiOutlineLoading3Quarters className='animate-spin text-[48px]' />
-        </div>
-      )}
-      <video muted ref={videoRef} className='w-screen h-[100vh] object-cover'>
+    <div className='w-screen h-screen bg-slate-400'>
+      <video muted ref={videoRef} className='w-[560px]'>
         Seu navegador não suporta a reprodução de vídeo.
       </video>
 
+      {loadingVideo && (
+        <span>Loading...</span>
+      )}
 
       <div className='absolute bottom-8 left-1/2 -translate-x-1/2'>
-        <div className='w-[90vw]'>
+        <div className='w-[560px]'>
           <input type='range'
             ref={progressRef}
             max={duration}
@@ -171,58 +164,12 @@ const AssistirVideo: React.FC = () => {
             onChange={handleInputChange}
             className='w-full'
           />
-          <div className='flex justify-center items-center gap-4'>
-            {/* <button className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'
-              onClick={() => {
-                if (videoRef.current) {
-                  videoRef.current.pause();
-                  console.log(videoRef.current.currentTime)
-                  if ((videoRef.current.currentTime - 1000) > 0) {
-                    videoRef.current.currentTime = videoRef.current.currentTime - 1000;
-                  } else {
-                    if (segment === 0) {
-                      videoRef.current.currentTime = 0;
-                    } else {
-                      setSegment(segment - 1);
-                      const segmentData = videoSegments.find(v => v.segment === segment - 1);
-                      console.log({ segmentData })
-                      if (segmentData !== undefined) {
-                        videoRef.current.pause();
-                        videoRef.current.src = segmentData.url;
-                      }
-                      // alert("!")
-                      // videoRef.current.currentTime = videoRef.current.currentTime - 1000;
-                    }
-                  }
-                }
-              }}
-            >
-              <MdKeyboardDoubleArrowLeft />
-            </button> */}
-            {
-              <button
-                className='w-[64px] h-[64px] bg-primary rounded-full flex justify-center items-center'
-                onClick={() => {
-                  if (play)
-                    handlePause()
-                  else
-                    handlePlay()
-                }}>
-                {
-                  play ? <FaPause /> : <FaPlay />
-                }
-              </button>
-            }
-            {/* <button
-              onClick={() => {
-                if (videoRef.current) {
-                  videoRef.current.currentTime = videoRef.current.currentTime + 1000;
-                }
-              }}
-              className='w-[48px] h-[48px] bg-primary rounded-full flex justify-center items-center'>
-              <MdKeyboardDoubleArrowRight />
-            </button> */}
+          <div className='flex'>
+            <button onClick={handlePlay}>Play</button>
+            <button onClick={handlePause}>Pause</button>
+            <div>{videoRef.current?.currentTime.toFixed(2)}</div>
           </div>
+
         </div>
       </div>
 

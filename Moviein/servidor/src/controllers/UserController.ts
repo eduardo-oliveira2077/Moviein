@@ -32,6 +32,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     await prismaClient.log.create({
       data: {
         criadoEm: new Date,
+        nome: user.nome ?? "",
         email: user.email,
         mensagem: "Usuário logou no sistema",
         /* nome: user.nome ?? "" */
@@ -130,6 +131,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       await prismaClient.log.create({
         data: {
           criadoEm: new Date,
+          nome: newUser.nome ?? "",
           email: newUser.email,
           mensagem: `Novo usuário cadastrado no sistema! ${newUser.email}`,
           /* nome: newUser.nome ?? ""  */
@@ -229,7 +231,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     var novaSenha = MD5(senha).toString();
 
     try {
-     var user =  await prismaClient.usuario.update({
+      var user = await prismaClient.usuario.update({
         where: {
           email: email
         },
@@ -242,6 +244,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         data: {
           criadoEm: new Date,
           email: user.email,
+          nome: user.nome ?? "",
           mensagem: 'Usuário redefiniu a senha',
           /* nome: user.nome ?? null  */
         }
@@ -308,25 +311,29 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
   instance.get("ConsultarUsuarios", { preHandler: Auth }, async (req, res) => {
     const { email, nome } = req.query as { email: string, nome: string };
     console.log(email, nome)
-    var user;
-    
-    if(email){
-      user = await prismaClient.usuario.findUnique({where: {email}});
-    }
 
-    console.log(user)
+    const user = await prismaClient.usuario.findMany({
+      include:
+      {
+        usuarioInformacao: true
+      }
+    });
 
-    var resp = {
-      id: user?.id,
-      nome: user?.nome,
-      email: user?.email,
-      funcao: user?.funcao,
-      thumb: user?.thumb,
-      auth: user?.Auth2
-    }
+    const userFilter = user.filter(d =>
+      (email !== "" && email !== undefined) ? d.email === email : true &&
+        (nome !== "" && nome !== undefined) ? d.nome === nome : true
+    );
 
+  var resp = userFilter?.map(d => ({
+      id: d?.id,
+      nome: d?.nome,
+      email: d?.email,
+      cpf: d?.usuarioInformacao?.cpf,
+      funcao: d?.funcao,
+      thumb: d?.thumb,
+      auth: d?.Auth2
+    }))
 
-   
     return res.ok(resp);
   })
 

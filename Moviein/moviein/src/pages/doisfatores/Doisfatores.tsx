@@ -19,7 +19,8 @@ const VerificacaoDoisFatores: React.FC = () => {
     if (code.toString() !== digitos.toString()) {
       toast({
         title: "Falha na verificação",
-        description: "Código de verificação inválido."
+        description: "Código de verificação inválido.",
+        className: "bg-red"
       })
       setLoad(false);
       return;
