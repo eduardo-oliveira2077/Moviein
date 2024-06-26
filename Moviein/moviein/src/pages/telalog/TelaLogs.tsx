@@ -44,7 +44,7 @@ const UserLogConsultation: React.FC = () => {
     <div className="bg-background min-h-screen pt-10">
       <div className='container'>
         <div className="dark:bg-black/30 bg-slate-400/20 p-8 rounded-lg shadow-lg w-full max-w-4xl">
-          <h1 className="text-2xl font-bold text-white mb-4">Consulta Log do Sistema</h1>
+          <h1 className="text-2xl font-bold text-text mb-4">Consulta Log do Sistema</h1>
           <form className="mb-4" onSubmit={Logs}>
             <div className="flex flex-col md:flex-row gap-2 items-end">
               <div className='w-full'>
@@ -60,7 +60,7 @@ const UserLogConsultation: React.FC = () => {
               </Button>
             </div>
             <div className='md:w-auto w-full'>
-              <label className="block text-white" htmlFor="date">Data</label>
+              <label className="block text-text" htmlFor="date">Data</label>
               <Input type='date'
                 onChange={(r) => setData(r.target.value)}
               />
@@ -72,9 +72,9 @@ const UserLogConsultation: React.FC = () => {
           <hr></hr>
           <Table>
             <TableRow>
-              <TableHead>Email</TableHead>
-              <TableHead>Mensagem</TableHead>
-              <TableHead>Data</TableHead>
+              <TableHead className='text-text'>Email</TableHead>
+              <TableHead className='text-text'>Mensagem</TableHead>
+              <TableHead className='text-text'>Data</TableHead>
             </TableRow>
             <TableBody>
               {

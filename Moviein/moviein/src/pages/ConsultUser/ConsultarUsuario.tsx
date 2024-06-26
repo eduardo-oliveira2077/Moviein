@@ -94,12 +94,12 @@ const UserConsultation: React.FC = () => {
           <h2 className="text-xl mb-4">Resultados da Consulta</h2>
           <Table>
             <TableRow>
-              <TableHead>Thumb</TableHead>
-              <TableHead>Nome</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>CPF</TableHead>
-              <TableHead>Função</TableHead>
-              <TableHead>Ações</TableHead>
+              <TableHead className='text-text'>Thumb</TableHead>
+              <TableHead className='text-text'>Nome</TableHead>
+              <TableHead className='text-text'>Email</TableHead>
+              <TableHead className='text-text'>CPF</TableHead>
+              <TableHead className='text-text'>Função</TableHead>
+              <TableHead className='text-text'>Ações</TableHead>
             </TableRow>
             <TableBody>
               {
@@ -108,11 +108,11 @@ const UserConsultation: React.FC = () => {
                     <TableCell className='text-[12px]'>
                       <img src={d.thumb} className='w-[42px] h-[42px] object-cover rounded-full' />
                     </TableCell>
-                    <TableCell className='text-[12px]'>{d.nome}</TableCell>
-                    <TableCell className='text-[12px]'>{d.email}</TableCell>
-                    <TableCell className='text-[12px]'>{d.cpf}</TableCell>
-                    <TableCell className='text-[12px]'>{d.funcao}</TableCell>
-                    <TableCell className='text-[12px]'>
+                    <TableCell className='text-[12px] text-text'>{d.nome}</TableCell>
+                    <TableCell className='text-[12px] text-text'>{d.email}</TableCell>
+                    <TableCell className='text-[12px] text-text'>{d.cpf}</TableCell>
+                    <TableCell className='text-[12px] text-text'>{d.funcao}</TableCell>
+                    <TableCell className='text-[12px] text-text'>
                       <Button onClick={() => setConfirmRemove({ open: true, usuarioId: d.id })}>
                         Deletar
                       </Button>

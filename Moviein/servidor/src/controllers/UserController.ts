@@ -182,7 +182,6 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         email: req.user.email,
       }
     });
-    console.log(usuario, thumb);
     if (usuario == undefined)
       return res.badRequest("Usuário não encontrado.");
 
@@ -313,7 +312,6 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
 
   instance.get("ConsultarUsuarios", { preHandler: Auth }, async (req, res) => {
     const { email, nome } = req.query as { email: string, nome: string };
-    console.log(email, nome)
 
     const user = await prismaClient.usuario.findMany({
       include:
