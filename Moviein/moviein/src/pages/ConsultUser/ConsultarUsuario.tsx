@@ -4,6 +4,7 @@ import { FormLabel } from 'components/ui/form';
 import { Input } from 'components/ui/input';
 import { Label } from 'components/ui/label';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 interface Contact {
   nome: string;
   nascimento: string;
@@ -46,22 +47,53 @@ interface Contact {
 
 const Api = new ApiService();
 const UserConsultation: React.FC = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [filteredContacts, setFilteredContacts] = useState<Contact[]>([]);
+  const [contacts, setContacts] = useState<any[]>([]);
+  const [filteredContacts, setFilteredContacts] = useState<any[] | null>(null);
   const [searchTerm, setSearchTerm] = useState({ nome: '', email: '' });
   const [load, setLoad] = useState<boolean>(false);
   const [emailFilter, setEmailFilter] = useState<string>('');
   const [nomeFilter, setNomeFilter] = useState<string>('');
+  const nav = useNavigate();
 
-  const handleSearch = (e: React.FormEvent) => {
+  useEffect(() => {
+    setSearchTerm({ nome: nomeFilter, email: emailFilter });
+  }, [emailFilter, nomeFilter]);
+
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const { nome, email } = searchTerm;
-    const filtered = contacts.filter(contact =>
-      contact.nome.toLowerCase().includes(nome.toLowerCase()) ||
-      contact.email.toLowerCase().includes(email.toLowerCase())
-    );
-    setFilteredContacts(filtered);
+    console.log(nome, email);
+
+    try {
+      setLoad(true);
+      const response = await Api.Get<Contact[]>({
+        path: `api/usuario/ConsultarUsuarios?nome=${nome}&email=${email}`,
+        errorTitle: "Falha ao buscar contatos",
+        thenCallback: (r) => {
+          setFilteredContacts(r);
+          setLoad(false);
+        }
+      });
+
+      console.log(filteredContacts);
+
+
+      if (!response) {
+        setFilteredContacts(null);
+      }
+    } catch (error: any) {
+      console.error('Erro ao buscar os dados:', error);
+      setLoad(false);
+      setFilteredContacts(null);
+    }
   };
+
+
+  /*     const filtered = contacts.filter(contact =>
+        contact.nome.toLowerCase().includes(nome.toLowerCase()) ||
+        contact.email.toLowerCase().includes(email.toLowerCase())
+      );
+      setFilteredContacts(filtered); */
 
   const handleDelete = (index: number) => {
     if (window.confirm("Tem certeza que deseja excluir este contato?")) {
@@ -79,7 +111,7 @@ const UserConsultation: React.FC = () => {
 
   useEffect(() => {
     async function Load() {
-      
+
     }
   }, [])
 
@@ -110,7 +142,7 @@ const UserConsultation: React.FC = () => {
           </Button>
         </form>
         <hr />
-        {filteredContacts.length > 0 && (
+        {filteredContacts !== null && filteredContacts.length > 0 && (
           <div>
             <h2 className="text-xl mb-4">Resultados da Consulta</h2>
             <table className="w-full border-collapse bg-gray-800">
@@ -127,8 +159,9 @@ const UserConsultation: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
+
                 {filteredContacts.map((contact, index) => (
-                  <tr key={index}>
+                   <tr key={index}>
                     <td className="border-b py-1 text-xs  text-center">{contact.nome}</td>
                     <td className="border-b py-1 text-xs  text-center">{contact.nascimento}</td>
                     <td className="border-b py-1 text-xs text-center">{contact.genero}</td>
@@ -156,6 +189,7 @@ const UserConsultation: React.FC = () => {
             </table>
           </div>
         )}
+
       </div>
     </div>
   );

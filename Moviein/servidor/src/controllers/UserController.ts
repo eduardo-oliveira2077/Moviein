@@ -34,7 +34,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         criadoEm: new Date,
         email: user.email,
         mensagem: "Usuário logou no sistema",
-        nome: user.nome ?? ""
+        /* nome: user.nome ?? "" */
       }
     })
 
@@ -132,7 +132,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
           criadoEm: new Date,
           email: newUser.email,
           mensagem: `Novo usuário cadastrado no sistema! ${newUser.email}`,
-          nome: newUser.nome ?? "" 
+          /* nome: newUser.nome ?? ""  */
         }
       })
 
@@ -242,8 +242,8 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         data: {
           criadoEm: new Date,
           email: user.email,
-          mensagem: `Usuário redefiniu a senha`,
-          nome: user.nome ?? "" 
+          mensagem: 'Usuário redefiniu a senha',
+          /* nome: user.nome ?? null  */
         }
       })
       return res.ok(null, "Senha redefinida com sucesso!")
@@ -307,15 +307,27 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
 
   instance.get("ConsultarUsuarios", { preHandler: Auth }, async (req, res) => {
     const { email, nome } = req.query as { email: string, nome: string };
-
+    console.log(email, nome)
+    var user;
+    
     if(email){
-      var user = await prismaClient.usuario.findUnique({where: {email}});
-    } else if(nome){ 
-     /*  var user = await prismaClient.usuario.findUnique({where: {nome}}); */
+      user = await prismaClient.usuario.findUnique({where: {email}});
     }
 
+    console.log(user)
+
+    var resp = {
+      id: user?.id,
+      nome: user?.nome,
+      email: user?.email,
+      funcao: user?.funcao,
+      thumb: user?.thumb,
+      auth: user?.Auth2
+    }
+
+
    
-    return res.ok
+    return res.ok(resp);
   })
 
   done();
