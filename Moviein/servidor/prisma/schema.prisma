@@ -18,6 +18,7 @@ model Usuario {
   thumb             String?
   Auth2             Boolean?
   asaasClienteId    String?
+  deletadoEm        DateTime?
   usuarioInformacao UsuarioInformacao?
   assinatura        Assinatura?
   Filme             Filme[]

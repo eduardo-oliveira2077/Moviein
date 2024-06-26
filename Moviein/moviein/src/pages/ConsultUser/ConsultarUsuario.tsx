@@ -67,7 +67,7 @@ const UserConsultation: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-white p-10">
-      <div className="dark:bg-black/30 bg-slate-400/20 p-8 rounded-lg">
+      <div className="dark:bg-black/30 bg-slate-400/20 p-6 rounded-lg">
         <h1 className="text-2xl mb-0 text-text">Consulta de Usuário</h1>
         <p className='mb-4 opacity-50'>Consulte pelo nome e/ou por email.</p>
         <div className='flex gap-4'>
@@ -94,9 +94,11 @@ const UserConsultation: React.FC = () => {
           <h2 className="text-xl mb-4">Resultados da Consulta</h2>
           <Table>
             <TableRow>
+              <TableHead>Thumb</TableHead>
               <TableHead>Nome</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>CPF</TableHead>
+              <TableHead>Função</TableHead>
               <TableHead>Ações</TableHead>
             </TableRow>
             <TableBody>
@@ -109,6 +111,7 @@ const UserConsultation: React.FC = () => {
                     <TableCell className='text-[12px]'>{d.nome}</TableCell>
                     <TableCell className='text-[12px]'>{d.email}</TableCell>
                     <TableCell className='text-[12px]'>{d.cpf}</TableCell>
+                    <TableCell className='text-[12px]'>{d.funcao}</TableCell>
                     <TableCell className='text-[12px]'>
                       <Button onClick={() => setConfirmRemove({ open: true, usuarioId: d.id })}>
                         Deletar
@@ -122,8 +125,9 @@ const UserConsultation: React.FC = () => {
         </div>
         <ModalConfirmarRemocaoUsuario
           open={confirmRemove?.open ?? false}
-          usuarioId={confirmRemove!.usuarioId!}
+          usuarioId={confirmRemove?.usuarioId}
           setClose={() => setConfirmRemove(null)}
+          onChange={handleSearch}
         />
       </div>
     </div>

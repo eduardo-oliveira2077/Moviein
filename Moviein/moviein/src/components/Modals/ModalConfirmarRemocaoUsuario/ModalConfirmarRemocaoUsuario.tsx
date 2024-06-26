@@ -1,31 +1,44 @@
 import { DialogTitle } from '@radix-ui/react-dialog';
 import ApiService from 'api/ApiService';
 import { Button } from 'components/ui/button';
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from 'components/ui/dialog';
-import React from 'react';
-import { MdCircle, MdImage } from 'react-icons/md';
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader } from 'components/ui/dialog';
+import { useToast } from 'components/ui/use-toast';
+import React, { useState } from 'react';
+import { MdCircle } from 'react-icons/md';
 
 type ModalConfirmarRemocaoUsuarioType = {
     open: boolean
-    usuarioId: number
+    usuarioId?: number
     setClose: () => any
+    onChange: () => any
 }
 
 const api = new ApiService();
 const ModalConfirmarRemocaoUsuario: React.FC<ModalConfirmarRemocaoUsuarioType> = (p) => {
-
-
-   async function Remove() {
-    
+    const { toast } = useToast();
+    const [load, setLoad] = useState<boolean>(false);
+    async function Remove() {
+        setLoad(true);
+        await api.Post<null>({
+            path: "api/usuario/RemoverUsuario",
+            data: {
+                usuarioId: p.usuarioId
+            },
+            errorTitle: "Falha ao remover usuário",
+            thenCallback: (r) => {
+                p.setClose();
+                toast({
+                    title: "Removido com sucesso!",
+                    className: "bg-success text-dark"
+                })
+                p.onChange();
+            }
+        })
+        setLoad(false);
     }
 
     return (
         <Dialog modal open={p.open} onOpenChange={p.setClose}>
-            <DialogTrigger asChild >
-                <button className="w-[42px] flex justify-center items-center h-[42px] rounded-full bg-primary">
-                    <MdImage />
-                </button>
-            </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Remover usuário</DialogTitle>
@@ -41,7 +54,7 @@ const ModalConfirmarRemocaoUsuario: React.FC<ModalConfirmarRemocaoUsuarioType> =
                             Cancelar
                         </Button>
                     </DialogClose>
-                    <Button variant="red" load>
+                    <Button variant="red" onClick={() => Remove()} load={load}>
                         Sim, remover usuário
                     </Button>
                 </DialogFooter>

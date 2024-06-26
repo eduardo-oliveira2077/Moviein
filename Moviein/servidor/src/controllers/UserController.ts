@@ -316,6 +316,9 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
       include:
       {
         usuarioInformacao: true
+      },
+      where: {
+        deletadoEm: null
       }
     });
 
@@ -324,7 +327,7 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
         (nome !== "" && nome !== undefined) ? d.nome === nome : true
     );
 
-  var resp = userFilter?.map(d => ({
+    var resp = userFilter?.map(d => ({
       id: d?.id,
       nome: d?.nome,
       email: d?.email,
@@ -335,6 +338,30 @@ const UserController: FastifyPluginCallback = (instance, opts, done) => {
     }))
 
     return res.ok(resp);
+  })
+
+  instance.post("RemoverUsuario", { preHandler: Auth }, async (req, res) => {
+    const { usuarioId } = req.body as { usuarioId: string }
+    
+    const usuario = await prismaClient.usuario.findFirst({
+      where: {
+        id: parseInt(usuarioId)
+      }
+    })
+
+    if(usuario!.funcao === "admin")
+      return res.badRequest("Não é permitido um admin remover outro admin.")
+
+    await prismaClient.usuario.update({
+      where: {
+        id: parseInt(usuarioId),
+      },
+      data: {
+        deletadoEm: new Date()
+      }
+    })
+
+    return res.ok("");
   })
 
   done();
