@@ -3,6 +3,8 @@ import Api from 'api/api';
 import { Slider } from 'components/ui/slider';
 import { useToast } from 'components/ui/use-toast';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FaPause, FaPlay } from 'react-icons/fa6';
+import { IoReloadOutline } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 
 const Apiservice = new ApiService();
@@ -17,6 +19,7 @@ const AssistirVideo: React.FC = () => {
   const [loadingVideo, setLoadingVideo] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
   const { toast } = useToast();
+  const [isplay, setisplay] = useState<boolean>(false)
 
 
   useEffect(() => {
@@ -134,6 +137,7 @@ const AssistirVideo: React.FC = () => {
     const videoElement = videoRef.current;
     if (videoElement && !loadingVideo) {
       videoElement.play();
+      setisplay(true)
     }
   };
 
@@ -141,21 +145,28 @@ const AssistirVideo: React.FC = () => {
     const videoElement = videoRef.current;
     if (videoElement) {
       videoElement.pause();
+      setisplay(false)
     }
   };
 
   return (
-    <div className='w-screen h-screen bg-slate-400'>
-      <video muted ref={videoRef} className='w-[560px]'>
+    <div className='w-screen h-screen bg-background'>
+      <video muted ref={videoRef} className='w-full h-screen object-cover'>
         Seu navegador não suporta a reprodução de vídeo.
       </video>
 
       {loadingVideo && (
-        <span>Loading...</span>
+        <div className='absolute top-0 left-0 w-full h-screen bg-dark/40 flex justify-center items-center'>
+          <IoReloadOutline className='animate-spin text-[56px]' />
+        </div>
       )}
 
+      <div className='absolute bottom-0 right-0 p-3 bg-red'>
+        Expimental
+      </div>
+
       <div className='absolute bottom-8 left-1/2 -translate-x-1/2'>
-        <div className='w-[560px]'>
+        <div className='w-[560px] flex flex-col items-center'>
           <input type='range'
             ref={progressRef}
             max={duration}
@@ -165,9 +176,18 @@ const AssistirVideo: React.FC = () => {
             className='w-full'
           />
           <div className='flex'>
-            <button onClick={handlePlay}>Play</button>
-            <button onClick={handlePause}>Pause</button>
-            <div>{videoRef.current?.currentTime.toFixed(2)}</div>
+            {
+              isplay ? (
+                <button className='w-[48px] h-[48px] flex justify-center items-center rounded-full p-2 bg-primary' onClick={handlePause}>
+                  <FaPause />
+                </button>
+              ) : (
+                <button className='w-[48px] h-[48px] flex justify-center items-center rounded-full p-2 bg-primary'
+                  onClick={handlePlay}>
+                  <FaPlay />
+                </button>
+              )
+            }
           </div>
 
         </div>
